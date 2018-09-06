@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../static/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <div class='content'>
+        <div><img src="../static/tigerobo_logo@3x.png"></div>
+            <div class="left box">
+                <div class="button_content">
+                    <div class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
+                    <div class='status-bar' id="en-in" onclick="active_en_in()">英语</div>
+                    <div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>
+                    <div class='button' onclick="detect_it()">检测语言</div>
+                </div>
+                <textarea id="input" class='textarea' ></textarea>
+            </div>
+            <div class="right box">
+                <div class="button_content">
+                    <div class='status-bar' id="zh-out" onclick="active_zh_out()">中文</div>
+                    <div class='status-bar' id="en-out" onclick="active_en_out()">英语</div>
+                    <div class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>
+                    <button class='button' onclick="translate_it()">翻译</button>
+                </div>
+                <div id="output" class='textarea' ></div>
+            </div>
+    </div>
+    
+</body>
+<script type="text/javascript">
+    var select_input_language = 'zh';
+    var select_output_language = 'en';
+
+    function translate_it() {
+
+        var input= $("#input").val();
+        alert("input = "+input+"\ninput-language = "+select_input_language+"\noutput-language = "+select_output_language );
+        $.post("/",
+            {"input":input,"input-language":select_input_language,"output-language":select_output_language},
+            function (result) {
+            $("#output").text(result);
+        });
+
+    }
+
+    function active_zh_in() {
+        $("#zh-in").addClass("active");
+        $("#tr-in").removeClass("active");
+        $("#en-in").removeClass("active");
+        select_input_language="zh";
+    }
+
+    function active_tr_in() {
+        $("#zh-in").removeClass("active");
+        $("#tr-in").addClass("active");
+        $("#en-in").removeClass("active");
+        select_input_language="tr";
+    }
+
+    function active_en_in() {
+        $("#zh-in").removeClass("active");
+        $("#tr-in").removeClass("active");
+        $("#en-in").addClass("active");
+        select_input_language="en";
+    }
+
+     function active_zh_out() {
+        $("#zh-out").addClass("active");
+        $("#tr-out").removeClass("active");
+        $("#en-out").removeClass("active");
+        select_output_language="zh";
+    }
+
+    function active_tr_out() {
+        $("#zh-out").removeClass("active");
+        $("#tr-out").addClass("active");
+        $("#en-out").removeClass("active");
+        select_output_language="tr";
+    }
+
+    function active_en_out() {
+        $("#zh-out").removeClass("active");
+        $("#tr-out").removeClass("active");
+        $("#en-out").addClass("active");
+        select_output_language="en";
+    }
+
+    function detect_it() {
+        alert("hello detect !");
+    }
+
+
+</script>
+
+</html>
+
+<style>
+    .active{
+        background-color: #eee;
+        color:red;
+    }
+
+
+    .button_content{
+        display: flex;
+        flex-direction: row;
+        width:10px;
+    }
+
+
+    .content{
+        width: 100%;
+        height: 100%;
+
+        position: absolute
+    }
+    .left{
+        width: 30%;
+        height: 50%;
+        float: left;
+        /* background-color: aquamarine */
+    }
+    .right{
+        width: 30%;
+        height: 50%;
+        float: left;
+        /* background-color: #128 */
+    }
+    .box{
+        padding: 1%;
+    }
+    .textarea{
+        width: 80%;
+        height: 200px;
+        margin-top: 20px;
+        background-color: rgba(0,0,0,.2);
+        padding: 2px;
+        border-width: 1px;
+        border-style: hidden;
+    }
+    .button{
+        color: #ffffff;
+        padding: 0 10px 0 10px ;
+        background-color: #4d90fe;
+        border-radius: 2px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+        float: right;
+        margin-right: 5px;
+        margin-left:5px;
+        /* margin-top: 2px; */
+        height: 26px;
+        line-height: 26px;
+    }
+
+    .status-bar{
+        border:1px solid rgba(0,0,0,0.1);
+        background-color: #f8f8f8;
+        padding: 0 10px 0 10px ;
+        border-radius: 2px;
+        cursor: default;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+        float: right;
+        margin-right: 5px;
+        margin-left:5px;
+        /* margin-top: 2px; */
+        height: 26px;
+        line-height: 26px;
+    }
+
+</style>
