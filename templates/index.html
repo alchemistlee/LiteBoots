@@ -42,8 +42,9 @@
         $.post("/",
             {"input":input,"input-language":select_input_language,"output-language":select_output_language},
             function (result) {
-                out_res = result["output"];
-                score = result["score"];
+                res = JSON.parse(result)
+                out_res = res["output"];
+                score = res["score"];
                 info = out_res+"  ("+score+")";
                 $("#output").text(info);
         });

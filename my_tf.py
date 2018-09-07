@@ -118,7 +118,7 @@ def index():
           'input':input,
           'score':1.0
         }
-    return res
+    return str(res)
   return render_template('index.html')
 
 if __name__ == '__main__':
