@@ -118,6 +118,7 @@ def index():
           "input":input,
           "score":1.0
         }
+    print(str(res))
     return str(res)
   return render_template('index.html')
 
