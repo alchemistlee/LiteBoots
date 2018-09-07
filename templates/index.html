@@ -14,7 +14,7 @@
                 <div class="button_content">
                     <div class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
                     <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
-                    <div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>
+                    <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
                     <div class='button' onclick="detect_it()">检测语言</div>
                 </div>
                 <textarea id="input" class='textarea' ></textarea>
@@ -60,12 +60,12 @@
         select_input_language="zh";
     }
 
-    function active_tr_in() {
-        $("#zh-in").removeClass("active");
-        $("#tr-in").addClass("active");
-        $("#en-in").removeClass("active");
-        select_input_language="tr";
-    }
+    // function active_tr_in() {
+    //     $("#zh-in").removeClass("active");
+    //     $("#tr-in").addClass("active");
+    //     $("#en-in").removeClass("active");
+    //     select_input_language="tr";
+    // }
 
     function active_en_in() {
         $("#zh-in").removeClass("active");
@@ -96,7 +96,17 @@
     }
 
     function detect_it() {
-        alert("hello detect !");
+        var pattern_cn = "[\u4e00-\u9fa50-9\\s]+";
+        var input= $("#input").val();
+        if(input!=""){
+            var matchResult = input.match(pattern_cn);
+            if(matchResult != null) {
+                active_zh_in();
+            }
+            else{
+                active_en_in();
+            }
+        }
     }
 
 
@@ -147,6 +157,7 @@
         padding: 2px;
         border-width: 1px;
         border-style: hidden;
+        font-size: 18px;
     }
     .button{
         color: #ffffff;

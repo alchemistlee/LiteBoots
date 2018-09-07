@@ -83,7 +83,8 @@ def index():
 
     if in_language == 'zh':
       if out_language == 'en':
-        res = trans_zh2en(input)
+        tmp_input = trans_tr2zh(input)
+        res = trans_zh2en(tmp_input)
       elif out_language == 'tr':
         res = trans_zh2tr(input)
       else:
@@ -92,7 +93,9 @@ def index():
           "input":input,
           "score":1.0
         }
-    elif in_language == 'en':
+    else:
+      # in_language = en
+
       if out_language == 'zh':
         res = trans_en2zh(input)
       elif out_language == 'tr':
@@ -105,19 +108,20 @@ def index():
           "input":input,
           "score":1.0
         }
-    else:
-      if out_language == 'zh':
-        res = trans_tr2zh(input)
-      elif out_language == 'en':
-        res = trans_tr2zh(input)
-        tr2zh_out = res['ouptput']
-        res = trans_zh2en(tr2zh_out)
-      else:
-        res = {
-          "output":input,
-          "input":input,
-          "score":1.0
-        }
+    # else:
+    #   if out_language == 'zh':
+    #     res = trans_tr2zh(input)
+    #   elif out_language == 'en':
+    #     res = trans_tr2zh(input)
+    #     tr2zh_out = res['ouptput']
+    #     res = trans_zh2en(tr2zh_out)
+    #   else:
+    #     res = {
+    #       "output":input,
+    #       "input":input,
+    #       "score":1.0
+    #     }
+
     app.logger.info(str(res))
     return str(res)
   return render_template('index.html')
