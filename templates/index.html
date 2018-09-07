@@ -43,9 +43,10 @@
             {"input":input,"input-language":select_input_language,"output-language":select_output_language},
             function (result) {
                 alert(result)
-                res = JSON.parse(result)
-                out_res = res["output"];
-                score = res["score"];
+                // res = JSON.parse(result)
+                res = result;
+                out_res = res.output;
+                score = res.score;
                 info = out_res+"  ("+score+")";
                 $("#output").text(info);
         });
