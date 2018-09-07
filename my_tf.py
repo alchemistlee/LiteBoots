@@ -18,7 +18,7 @@ from langconv import *
 from flask import Flask
 from flask import request
 from flask import render_template
-
+import logging
 
 app = Flask(__name__)
 
@@ -118,9 +118,13 @@ def index():
           "input":input,
           "score":1.0
         }
-    print(str(res))
+    app.logger.info(str(res))
     return str(res)
   return render_template('index.html')
 
 if __name__ == '__main__':
+  handler = logging.FileHandler("/home/yifan/anywhere/logs/my-tf-flask.log",encoding="UTF-8")
+  logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+  handler.setFormatter(logging_format)
+  app.logger.addHandler(handler)
   app.run(host='0.0.0.0')

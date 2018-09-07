@@ -13,7 +13,7 @@
             <div class="left box">
                 <div class="button_content">
                     <div class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
-                    <div class='status-bar' id="en-in" onclick="active_en_in()">英语</div>
+                    <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
                     <div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>
                     <div class='button' onclick="detect_it()">检测语言</div>
                 </div>
@@ -21,7 +21,7 @@
             </div>
             <div class="right box">
                 <div class="button_content">
-                    <div class='status-bar' id="zh-out" onclick="active_zh_out()">中文</div>
+                    <div class='status-bar active' id="zh-out" onclick="active_zh_out()">中文</div>
                     <div class='status-bar' id="en-out" onclick="active_en_out()">英语</div>
                     <div class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>
                     <button class='button' onclick="translate_it()">翻译</button>
@@ -32,13 +32,13 @@
     
 </body>
 <script type="text/javascript">
-    var select_input_language = 'zh';
-    var select_output_language = 'en';
+    var select_input_language = 'en';
+    var select_output_language = 'zh';
 
     function translate_it() {
 
         var input= $("#input").val();
-        alert("input = "+input+"\ninput-language = "+select_input_language+"\noutput-language = "+select_output_language );
+        // alert("input = "+input+"\ninput-language = "+select_input_language+"\noutput-language = "+select_output_language );
         $.post("/",
             {"input":input,"input-language":select_input_language,"output-language":select_output_language},
             function (result) {
