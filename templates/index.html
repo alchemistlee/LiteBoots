@@ -55,7 +55,7 @@
 
     function active_zh_in() {
         $("#zh-in").addClass("active");
-        $("#tr-in").removeClass("active");
+        // $("#tr-in").removeClass("active");
         $("#en-in").removeClass("active");
         select_input_language="zh";
     }
@@ -69,7 +69,7 @@
 
     function active_en_in() {
         $("#zh-in").removeClass("active");
-        $("#tr-in").removeClass("active");
+        // $("#tr-in").removeClass("active");
         $("#en-in").addClass("active");
         select_input_language="en";
     }
@@ -96,7 +96,7 @@
     }
 
     function detect_it() {
-        var pattern_cn = "[\u4e00-\u9fa50-9\\s]+";
+        var pattern_cn = "[\u4e00-\u9fa5]+";
         var input= $("#input").val();
         if(input!=""){
             var matchResult = input.match(pattern_cn);
