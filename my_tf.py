@@ -53,7 +53,12 @@ def trans_tr2zh_interface():
 
 def trans_tr2zh(inputs):
   sentence = Converter('zh-hans').convert(inputs)
-  return sentence
+  res = {
+          'output':sentence,
+          'input':inputs,
+          'score':1.0
+        }
+  return res
 
 @app.route("/translate/zh2tr/")
 def trans_zh2tr_interface():
@@ -62,7 +67,12 @@ def trans_zh2tr_interface():
 
 def trans_zh2tr(inputs):
   sentence = Converter('zh-hant').convert(inputs)
-  return sentence
+  res = {
+    'output':sentence,
+    'input':inputs,
+    'score':1.0
+  }
+  return res
 
 @app.route("/",methods=['GET','POST'])
 def index():
@@ -71,32 +81,43 @@ def index():
     in_language = request.form['input-language']
     out_language = request.form['output-language']
 
-
-
     if in_language == 'zh':
       if out_language == 'en':
         res = trans_zh2en(input)
       elif out_language == 'tr':
         res = trans_zh2tr(input)
       else:
-        res = input
+        res = {
+          'output':input,
+          'input':input,
+          'score':1.0
+        }
     elif in_language == 'en':
       if out_language == 'zh':
         res = trans_en2zh(input)
       elif out_language == 'tr':
         res = trans_en2zh(input)
-        res = trans_zh2tr(res)
+        en2zh_out = res['output']
+        res = trans_zh2tr(en2zh_out)
       else:
-        res = input
+        res = {
+          'output':input,
+          'input':input,
+          'score':1.0
+        }
     else:
       if out_language == 'zh':
         res = trans_tr2zh(input)
       elif out_language == 'en':
         res = trans_tr2zh(input)
-        res = trans_zh2en(res)
+        tr2zh_out = res['ouptput']
+        res = trans_zh2en(tr2zh_out)
       else:
-        res = input
-
+        res = {
+          'output':input,
+          'input':input,
+          'score':1.0
+        }
     return res
   return render_template('index.html')
 

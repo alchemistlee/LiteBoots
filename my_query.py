@@ -116,8 +116,13 @@ def entry(inputs,input_data_dir,input_problem,input_serable_name,input_server):
   res_content = only_one[0]
   res_score = only_one[1]
 
-  res= "input = %s <br/> output = %s  ( score : %s )" % (inputs,res_content,res_score)
-  print(res)
+  info = "input = %s , output = %s  ( score : %s )" % (inputs,res_content,res_score)
+  print(info)
+  res = {
+      'output':res_content,
+      'input':inputs,
+      'score':res_score
+         }
   return res
 
 
