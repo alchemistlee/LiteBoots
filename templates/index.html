@@ -7,9 +7,9 @@
     <title>Document</title>
     <script src="../static/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+<body style="margin: 0px;">
     <div class='content'>
-        <div><img src="../static/tigerobo_logo@3x.png"></div>
+        <div class="logo"><img  class="logo_image"src="../static/tigerobo_logo@3x.png"></div>
             <div class="left box">
                 <div class="button_content">
                     <div class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
@@ -117,13 +117,14 @@
 <style>
     .active{
         background-color: #eee;
-        color:red;
+        color:cornflowerblue;
     }
 
 
     .button_content{
         display: flex;
         flex-direction: row;
+        background-color: #f8f8f8; 
         width:10px;
     }
 
@@ -137,12 +138,14 @@
     .left{
         width: 30%;
         height: 50%;
+        min-width: 420px;
         float: left;
         /* background-color: aquamarine */
     }
     .right{
         width: 30%;
         height: 50%;
+        min-width: 420px; 
         float: left;
         /* background-color: #128 */
     }
@@ -152,47 +155,54 @@
     .textarea{
         width: 80%;
         height: 200px;
+        min-width: 400px;
         margin-top: 20px;
-        background-color: rgba(0,0,0,.2);
+        background-color: white;
+        border: 1px solid #eee;
         padding: 2px;
-        border-width: 1px;
-        border-style: hidden;
         font-size: 18px;
     }
     .button{
         color: #ffffff;
         padding: 0 10px 0 10px ;
         background-color: #4d90fe;
-        border-radius: 2px;
         cursor: pointer;
         font-size: 11px;
         font-weight: bold;
         text-align: center;
         white-space: nowrap;
         float: right;
-        margin-right: 5px;
-        margin-left:5px;
         /* margin-top: 2px; */
-        height: 26px;
-        line-height: 26px;
+        height: 28px;
+        line-height: 28px;
     }
 
     .status-bar{
-        border:1px solid rgba(0,0,0,0.1);
-        background-color: #f8f8f8;
+        border:1px solid #eee;
+
         padding: 0 10px 0 10px ;
-        border-radius: 2px;
         cursor: default;
         font-size: 11px;
         font-weight: bold;
         text-align: center;
         white-space: nowrap;
         float: right;
-        margin-right: 5px;
-        margin-left:5px;
         /* margin-top: 2px; */
         height: 26px;
         line-height: 26px;
+    }
+
+    .logo{
+        background: #eee;
+        padding: 20px;
+        height: 30px;
+        padding-bottom: 15px;
+
+    }
+
+    .logo_image{
+        height: 30px;
+        margin-top: 0px;
     }
 
 </style>
