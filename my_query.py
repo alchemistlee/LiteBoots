@@ -119,9 +119,9 @@ def entry(inputs,input_data_dir,input_problem,input_serable_name,input_server):
   info = "input = %s , output = %s  ( score : %s )" % (inputs,res_content,res_score)
   print(info)
   res = {
-      'output':res_content,
-      'input':inputs,
-      'score':res_score
+      "output":res_content,
+      "input":inputs,
+      "score":res_score
          }
   return res
 

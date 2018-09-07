@@ -88,9 +88,9 @@ def index():
         res = trans_zh2tr(input)
       else:
         res = {
-          'output':input,
-          'input':input,
-          'score':1.0
+          "output":input,
+          "input":input,
+          "score":1.0
         }
     elif in_language == 'en':
       if out_language == 'zh':
@@ -101,9 +101,9 @@ def index():
         res = trans_zh2tr(en2zh_out)
       else:
         res = {
-          'output':input,
-          'input':input,
-          'score':1.0
+          "output":input,
+          "input":input,
+          "score":1.0
         }
     else:
       if out_language == 'zh':
@@ -114,9 +114,9 @@ def index():
         res = trans_zh2en(tr2zh_out)
       else:
         res = {
-          'output':input,
-          'input':input,
-          'score':1.0
+          "output":input,
+          "input":input,
+          "score":1.0
         }
     return str(res)
   return render_template('index.html')
