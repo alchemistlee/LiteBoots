@@ -84,7 +84,8 @@ def index():
     if in_language == 'zh':
       if out_language == 'en':
         tmp_input = trans_tr2zh(input)
-        res = trans_zh2en(tmp_input)
+        tr2zh_out = tmp_input['output']
+        res = trans_zh2en(tr2zh_out)
       elif out_language == 'tr':
         res = trans_zh2tr(input)
       else:
