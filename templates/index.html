@@ -19,7 +19,7 @@
                     <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
                     <div class='button' onclick="detect_it()">检测语言</div>
                 </div>
-                <textarea id="input" class='textarea' ></textarea>
+                <textarea id="input" onkeyup="detect_it()" class='textarea' ></textarea>
             </div>
             <div style="margin-top: 1%" class="translation">
                 <img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">
@@ -34,11 +34,12 @@
                 <div id="output" class='textarea' ></div>
             </div>
     </div>
-    
+
 </body>
 <script type="text/javascript">
     var select_input_language = 'en';
     var select_output_language = 'zh';
+
 
     function translate_it() {
 
@@ -131,7 +132,7 @@
     .button_content{
         display: flex;
         flex-direction: row;
-        background-color: #f8f8f8; 
+        background-color: #f8f8f8;
         width:10px;
     }
     .title{
@@ -158,7 +159,7 @@
     .right{
         width: 12%;
         height: 47%;
-        min-width: 420px; 
+        min-width: 420px;
         float: left;
         /* background-color: #128 */
     }
