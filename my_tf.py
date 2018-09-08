@@ -23,7 +23,7 @@ import logging
 app = Flask(__name__)
 
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
-t2t_data_dir = '/home/root/t2t_dta'
+t2t_data_dir = '/home/root/t2t_data'
 
 
 @app.route('/translate/zh2en/',methods=['GET'])
