@@ -28,7 +28,7 @@ def tran_zh2en_interface():
   return trans_zh2en(inputs)
 
 def trans_zh2en(inputs):
-  server='222.73.24.8:9080'
+  server='127.0.0.1:9080'
   servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir='/mnt/disk1/yifan.li/t2t_data'
@@ -40,7 +40,7 @@ def trans_en2zh_interface():
   return trans_en2zh(inputs)
 
 def trans_en2zh(inputs):
-  server='222.73.24.8:9081'
+  server='127.0.0.1:9081'
   servable_name='transformer'
   problem='translate_enzh_wmt32k'
   data_dir='/mnt/disk1/yifan.li/t2t_data'
