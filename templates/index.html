@@ -17,9 +17,10 @@
                     <div class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
                     <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
                     <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
-                    <div class='button' onclick="detect_it()">检测语言</div>
+                    <div class='button' onclick="detect_it(input)">检测语言</div>
                 </div>
-                <textarea id="input" onkeyup="detect_it()" class='textarea' ></textarea>
+                <textarea maxlength="5000" id="input" onkeyup="detect_it(input)" class='textarea' ></textarea>
+                <div class="weui_textarea_counter"><span id="num">0</span>/5000</div>
             </div>
             <div style="margin-top: 1%" class="translation">
                 <img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">
@@ -31,7 +32,7 @@
                     <div class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>
                     <button class='button' onclick="translate_it()">翻译</button>
                 </div>
-                <div id="output" class='textarea' ></div>
+                <div id="output" class='textarea noChange' ></div>
             </div>
     </div>
 
@@ -101,7 +102,8 @@
         select_output_language="en";
     }
 
-    function detect_it() {
+    function detect_it(input) {
+        wordStatic(input)
         var pattern_cn = "[\u4e00-\u9fa5]+";
         var input= $("#input").val();
         if(input!=""){
@@ -113,8 +115,23 @@
                 active_en_in();
             }
         }
+
+
     }
 
+    function wordStatic(input) {
+        // 获取要显示已经输入字数文本框对象
+        var content = document.getElementById('num');
+        if (content && input) {
+            // 获取输入框输入内容长度并更新到界面
+            var value = input.value;
+            // 将换行符不计算为单词数
+            value = value.replace(/\n|\r/gi,"");
+            // 更新计数
+            content .innerText = value.length;
+        }
+    }
+    
 
 </script>
 
@@ -168,7 +185,7 @@
     }
     .textarea{
         width: 80%;
-        height: 200px;
+        min-height: 200px;
         min-width: 400px;
         margin-top: 20px;
         background-color: white;
@@ -217,6 +234,16 @@
     .logo_image{
         height: 30px;
         margin-top: 0px;
+    }
+    .noChange{
+        background-color:rgba(0,0,0,.1)
+    }
+    .weui_textarea_counter{
+        font-size: 10px;
+        color: #888;
+        margin-right: 31px;
+        float: right;
+
     }
 
 </style>
