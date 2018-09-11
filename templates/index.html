@@ -18,13 +18,13 @@
                     <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
                     <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
                     <div style='border-radius: 0 2px 2px 0' class='button' id='detection' onclick="switch_detect()">检测语言</div>
-                    <div style="margin-top: 0.3%;position: absolute; left: 46%;" class="translation">
+                    <div style="margin-top: 0.3%;float: right;" class="translation">
                         <img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">
                     </div>
                 </div>
                 <div class='inputBox'>
-                    <textarea maxlength="5000" id="input" onkeyup="detect_it(input)"  class='textarea' style="" ></textarea>
-                    <div style="height:17px">
+                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' on id="input" onkeyup="detect_it(input)"  class='textarea' style="" ></textarea>
+                    <div style="height:20px;line-height:17px">
                         <div class="weui_textarea_counter"><span id="num">0</span>/5000</div>
                     </div>
                     
@@ -41,7 +41,7 @@
                 </div>
                 <div style="border:none" class='inputBox noChange'>
                     <div id="output" class='textarea noChange' ></div>
-                    <div style="height:25px"></div>
+                    <div style="height:29px"></div>
                 </div>
             </div>
     </div>
@@ -52,7 +52,12 @@
     var select_output_language = 'zh';
     var switch_of_detect = true;
 
-
+    function onFocus(){
+        $('.inputBox').addClass('fouce')
+    }
+    function onBlur(){
+        $('.inputBox').removeClass('fouce')
+    }
     function translate_it() {
 
         var input= $("#input").val();
@@ -174,11 +179,13 @@
     }
 
     .button_content{
-        display: flex;
-        flex-direction: row;
+        /* display: flex;
+        flex-direction: row; */
+        width: 100%;
         background-color: #f8f8f8;
-        width:10px;
-        border-radius: 2px
+        /* width:10px; */
+        border-radius: 2px;
+        margin-bottom: 45px
     }
     .title{
         border-bottom:1px solid #EAEAEA ;
@@ -199,6 +206,7 @@
         width: 47%;
         height: 47%;
         min-width: 375px;
+        max-width: 630px;
         float: left;
         /* background-color: aquamarine */
     }
@@ -206,16 +214,18 @@
         width: 47%;
         height: 47%;
         min-width: 375px;
+        max-width: 630px;
         float: left;
         /* background-color: #128 */
     }
     .box{
-        padding: 1%;
+        margin: 1%;
     }
     .textarea{
-        width: 97%;
+        width: 96%;
         min-height: 200px;
         min-width: 375px;
+        
         /* margin-top: 20px; */
         background-color: white;
         border: 1px solid #ccc;
@@ -224,6 +234,7 @@
         outline:none;
         border:none;
         resize:none;
+        margin  : 2px;
     }
     .button{
         color: #ffffff;
@@ -234,7 +245,7 @@
         font-weight: bold;
         text-align: center;
         white-space: nowrap;
-        float: right;
+        float: left;
         /* margin-top: 2px; */
         height: 28px;
         line-height: 28px;
@@ -242,14 +253,14 @@
 
     .status-bar{
         border:1px solid #eee;
-
+        /* float: left; */
         padding: 0 10px 0 10px ;
         cursor: default;
         font-size: 11px;
         font-weight: bold;
         text-align: center;
         white-space: nowrap;
-        float: right;
+        float: left;
         /* margin-top: 2px; */
         height: 26px;
         line-height: 26px;
@@ -290,5 +301,10 @@
         color: #4d90fe;
          /* google蓝 */
     }
-
+    .fouce{
+        border: 1px solid #4d90fe
+    }
+    .inputBox:hover{
+        box-shadow: 2px 2px 2px 2px #eee;
+    }
 </style>
