@@ -17,7 +17,7 @@
                     <div style='border-radius: 2px 0 0 2px' class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
                     <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
                     <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
-                    <div style='border-radius: 0 2px 2px 0' class='button' id='detection' onclick="detect_it(input)">检测语言</div>
+                    <div style='border-radius: 0 2px 2px 0' class='button' id='detection' onclick="switch_detect()">检测语言</div>
                     <div style="margin-top: 0.3%;position: absolute; left: 46%;" class="translation">
                         <img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">
                     </div>
@@ -37,7 +37,7 @@
                     <div style='border-radius: 2px 0 0 2px' class='status-bar active' id="zh-out" onclick="active_zh_out()">中文</div>
                     <div class='status-bar' id="en-out" onclick="active_en_out()">英语</div>
                     <div style='border-radius: 0 2px 2px 0' class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>
-                    <button class='button' style="margin-left: 20px; border-radius: 2px;" onclick="translate_it()">翻译</button>
+                    <button class='button' style="margin-left: 20px; border-radius: 2px;" onclick="translate_it()">Translate</button>
                 </div>
                 <div style="border:none" class='inputBox noChange'>
                     <div id="output" class='textarea noChange' ></div>
@@ -50,6 +50,7 @@
 <script type="text/javascript">
     var select_input_language = 'en';
     var select_output_language = 'zh';
+    var switch_of_detect = true;
 
 
     function translate_it() {
@@ -113,27 +114,35 @@
     }
 
     function detect_it(input) {
-        wordStatic(input)
-        changeClass()
-        var pattern_cn = "[\u4e00-\u9fa5]+";
-        var input= $("#input").val();
-        if(input!=""){
-            var matchResult = input.match(pattern_cn);
-            if(matchResult != null) {
-                active_zh_in();
-            }
-            else{
-                active_en_in();
+        wordStatic(input);
+        if(switch_of_detect) {
+            var pattern_cn = "[\u4e00-\u9fa5]+";
+            var input = $("#input").val();
+            if (input != "") {
+                var matchResult = input.match(pattern_cn);
+                if (matchResult != null) {
+                    active_zh_in();
+                }
+                else {
+                    active_en_in();
+                }
             }
         }
 
-
     }
+
+    function switch_detect() {
+        changeClass();
+    }
+
+
     function changeClass(){
         if(document.getElementById('detection').className.indexOf('clicked')>0){
             document.getElementById('detection').classList.remove('clicked')
+            switch_of_detect = true;
         }else{
             document.getElementById('detection').classList.add('clicked')
+            switch_of_detect =false;
         }
        
     }
@@ -175,7 +184,8 @@
         border-bottom:1px solid #EAEAEA ;
         height: 50px;
         font-size: 17px;
-        color: #333;
+        /*color: #333;*/
+        color: dodgerblue;
         line-height: 50px;
         padding-left: 20px;
     }
