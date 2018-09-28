@@ -12,39 +12,38 @@
 
     <div class='content'>
         <div class="logo"><img  class="logo_image"src="../static/tigerobo_log_sentiment.svg"></div>
-         <div class="title" style="display: none">翻译 Translate</div>
             <div class="left box">
                 <div class="button_content">
-                    <!--<div style='border-radius: 2px 0 0 2px;display: none;' class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>-->
-                    <!--<div style="display: none;" class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>-->
-                    <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
-                    <div style='border-radius: 0 2px 2px 0' class='button' id='detection' onclick="sentiment_it()">Sentiment</div>
                     <!--<div style="margin-top: 0.3%;float: right;display: none;" class="translation">-->
                         <!--<img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">-->
                     <!--</div>-->
                 </div>
-                <div class='inputBox'>
-                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' on id="input" onkeyup="detect_it(input)"  class='textarea' style="" ></textarea>
+                <div class='inputBox dislike'>
+                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' on id="input" onkeyup="enter(input)"  class='textarea' style="" ></textarea>
                     <div style="height:20px;line-height:17px">
                         <div class="weui_textarea_counter"><span id="num">0</span>/5000</div>
                     </div>
                 </div>
-                <div id="output" class='textarea noChange' ></div>
+                <div class="button-box">
+                    <div style='border-radius:2px;text-align: center' class='button' id='detection' onclick="sentiment_it()">Sentiment</div>
+                </div>
+                <div id='ENG' class="result-box">
+                    <image class="resul-img" src="../static/dislike.png"> 
+                        <span>
+                                ENG
+                        </span>
+                        
+                </div>
+                <div id='POS' class="result-box">
+                     <image class="resul-img" src="../static/like.png"> 
+                        <span>
+                                POS
+                        </span>
+                </div>
 
             </div>
 
-            <!--<div class="right box" style="display: none">-->
-                <!--<div class="button_content">-->
-                    <!--<div style='border-radius: 2px 0 0 2px' class='status-bar active' id="zh-out" onclick="active_zh_out()">中文</div>-->
-                    <!--<div class='status-bar' id="en-out" onclick="active_en_out()">英语</div>-->
-                    <!--<div style='border-radius: 0 2px 2px 0' class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>-->
-                    <!--<button class='button' style="margin-left: 20px; border-radius: 3px;" onclick="translate_it()">Sentiment</button>-->
-                <!--</div>-->
-                <!--<div style="border:none" class='inputBox noChange'>-->
-                    <!--<div id="output" class='textarea noChange' ></div>-->
-                    <!--<div style="height:29px"></div>-->
-                <!--</div>-->
-            <!--</div>-->
+    
     </div>
 
 </body>
@@ -165,6 +164,12 @@
     //         content .innerText = value.length;
     //     }
     // }
+    function enter(e){
+          
+        if(event.keyCode == 13)     alert('回车');  
+         
+
+    }
 
 
 </script>
@@ -210,7 +215,6 @@
         min-width: 375px;
         max-width: 630px;
         float: left;
-        /* background-color: aquamarine */
     }
     .right{
         width: 47%;
@@ -243,14 +247,12 @@
         padding: 0 10px 0 10px ;
         background-color: #4d90fe;
         cursor: pointer;
-        font-size: 11px;
-        font-weight: bold;
+        font-size: 13px;
         text-align: center;
         white-space: nowrap;
         float: left;
-        /* margin-top: 2px; */
-        height: 28px;
-        line-height: 28px;
+        height: 40px;
+        line-height: 40px;
     }
 
     .status-bar{
@@ -294,7 +296,8 @@
     }
     .inputBox{
         border: 1px solid #ccc;
-        margin-top: 20px
+        margin-top: 20px;
+        border-radius: 2px;
     }
     .clicked{
         background: #eee;
@@ -308,5 +311,26 @@
     }
     body{
         font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+    }
+    .button-box{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-top: 20px
+    }
+    .result-box{
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px
+
+    }
+    .resul-img{
+        width: 30px;
+        height: 30px;
+    }
+    .dislike{
+        border: 1px solid #FF5F5F
     }
 </style>
