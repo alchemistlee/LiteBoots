@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tigerobo Translation</title>
+    <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+    <script src="../static/jquery-3.3.1.min.js"></script>
+</head>
+<body style="margin: 0px;">
+
+    <div class='content'>
+        <div class="logo"><img  class="logo_image"src="../static/tigerobo-translate-2-logo.svg"></div>
+         <div class="title" style="display: none">翻译 Translate</div>
+            <div class="left box">
+                <div class="button_content">
+                    <div style='border-radius: 2px 0 0 2px' class='status-bar' id="zh-in" onclick="active_zh_in()">中文</div>
+                    <div class='status-bar active' id="en-in" onclick="active_en_in()">英语</div>
+                    <!--<div class='status-bar' id="tr-in" onclick="active_tr_in()">繁体</div>-->
+                    <div style='border-radius: 0 2px 2px 0' class='button' id='detection' onclick="switch_detect()">检测语言</div>
+                    <div style="margin-top: 0.3%;float: right;" class="translation">
+                        <img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">
+                    </div>
+                </div>
+                <div class='inputBox'>
+                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' on id="input" onkeyup="detect_it(input)"  class='textarea' style="" ></textarea>
+                    <div style="height:20px;line-height:17px">
+                        <div class="weui_textarea_counter"><span id="num">0</span>/5000</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="right box">
+                <div class="button_content">
+                    <div style='border-radius: 2px 0 0 2px' class='status-bar active' id="zh-out" onclick="active_zh_out()">中文</div>
+                    <div class='status-bar' id="en-out" onclick="active_en_out()">英语</div>
+                    <div style='border-radius: 0 2px 2px 0' class='status-bar' id="tr-out" onclick="active_tr_out()">繁体</div>
+                    <button class='button' style="margin-left: 20px; border-radius: 3px;" onclick="translate_it()">Translate</button>
+                </div>
+                <div style="border:none" class='inputBox noChange'>
+                    <div id="output" class='textarea noChange' ></div>
+                    <div style="height:29px"></div>
+                </div>
+            </div>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var select_input_language = 'en';
+    var select_output_language = 'zh';
+    var switch_of_detect = true;
+
+    function onFocus(){
+        $('.inputBox').addClass('fouce')
+    }
+    function onBlur(){
+        $('.inputBox').removeClass('fouce')
+    }
+    function translate_it() {
+
+        var input= $("#input").val();
+        // alert("input = "+input+"\ninput-language = "+select_input_language+"\noutput-language = "+select_output_language );
+        $.post("/",
+            {"input":input,"input-language":select_input_language,"output-language":select_output_language},
+            function (result) {
+                // alert(result)
+                // res = JSON.parse(result)
+                res =eval('(' + result + ')');;
+                out_res = res.output;
+                score = res.score;
+                info = out_res;
+                $("#output").text(info);
+        });
+
+    }
+
+    function active_zh_in() {
+        $("#zh-in").addClass("active");
+        // $("#tr-in").removeClass("active");
+        $("#en-in").removeClass("active");
+        select_input_language="zh";
+    }
+
+    // function active_tr_in() {
+    //     $("#zh-in").removeClass("active");
+    //     $("#tr-in").addClass("active");
+    //     $("#en-in").removeClass("active");
+    //     select_input_language="tr";
+    // }
+
+    function active_en_in() {
+        $("#zh-in").removeClass("active");
+        // $("#tr-in").removeClass("active");
+        $("#en-in").addClass("active");
+        select_input_language="en";
+    }
+
+     function active_zh_out() {
+        $("#zh-out").addClass("active");
+        $("#tr-out").removeClass("active");
+        $("#en-out").removeClass("active");
+        select_output_language="zh";
+    }
+
+    function active_tr_out() {
+        $("#zh-out").removeClass("active");
+        $("#tr-out").addClass("active");
+        $("#en-out").removeClass("active");
+        select_output_language="tr";
+    }
+
+    function active_en_out() {
+        $("#zh-out").removeClass("active");
+        $("#tr-out").removeClass("active");
+        $("#en-out").addClass("active");
+        select_output_language="en";
+    }
+
+    function detect_it(input) {
+        wordStatic(input);
+        if(switch_of_detect) {
+            var pattern_cn = "[\u4e00-\u9fa5]+";
+            var input = $("#input").val();
+            if (input != "") {
+                var matchResult = input.match(pattern_cn);
+                if (matchResult != null) {
+                    active_zh_in();
+                    active_en_out();
+                }
+                else {
+                    active_en_in();
+                    active_zh_out();
+                }
+            }
+        }
+
+    }
+
+    function switch_detect() {
+        changeClass();
+    }
+
+
+    function changeClass(){
+        if(document.getElementById('detection').className.indexOf('clicked')>0){
+            document.getElementById('detection').classList.remove('clicked')
+            switch_of_detect = true;
+        }else{
+            document.getElementById('detection').classList.add('clicked')
+            switch_of_detect =false;
+        }
+
+    }
+    function wordStatic(input) {
+        // 获取要显示已经输入字数文本框对象
+        var content = document.getElementById('num');
+        if (content && input) {
+            // 获取输入框输入内容长度并更新到界面
+            var value = input.value;
+            // 将换行符不计算为单词数
+            value = value.replace(/\n|\r/gi,"");
+            // 更新计数
+            content .innerText = value.length;
+        }
+    }
+
+
+</script>
+
+</html>
+
+<style>
+    .active{
+        background-color: #eee;
+        color:#4d90fe;
+    }
+    .translation{
+        float: left;
+    }
+
+    .button_content{
+        /* display: flex;
+        flex-direction: row; */
+        width: 100%;
+        background-color: #f8f8f8;
+        /* width:10px; */
+        border-radius: 2px;
+        margin-bottom: 45px
+    }
+    .title{
+        border-bottom:1px solid #EAEAEA ;
+        height: 50px;
+        font-size: 17px;
+        /*color: #333;*/
+        color: dodgerblue;
+        line-height: 50px;
+        padding-left: 20px;
+    }
+
+    .content{
+        width: 100%;
+        height: 100%;
+        position: absolute
+    }
+    .left{
+        width: 47%;
+        height: 47%;
+        min-width: 375px;
+        max-width: 630px;
+        float: left;
+        /* background-color: aquamarine */
+    }
+    .right{
+        width: 47%;
+        height: 47%;
+        min-width: 375px;
+        max-width: 630px;
+        float: left;
+        /* background-color: #128 */
+    }
+    .box{
+        margin: 1%;
+    }
+    .textarea{
+        width: 96%;
+        min-height: 200px;
+        min-width: 375px;
+
+        /* margin-top: 20px; */
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 2px;
+        font-size: 18px;
+        outline:none;
+        border:none;
+        resize:none;
+        margin  : 2px;
+    }
+    .button{
+        color: #ffffff;
+        padding: 0 10px 0 10px ;
+        background-color: #4d90fe;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+        float: left;
+        /* margin-top: 2px; */
+        height: 28px;
+        line-height: 28px;
+    }
+
+    .status-bar{
+        border:1px solid #eee;
+        /* float: left; */
+        padding: 0 10px 0 10px ;
+        cursor: default;
+        font-size: 11px;
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+        float: left;
+        /* margin-top: 2px; */
+        height: 26px;
+        line-height: 26px;
+    }
+
+    .logo{
+        background: #eee;
+        padding: 20px;
+        height: 30px;
+        padding-bottom: 15px;
+        width: 100%;
+
+    }
+
+    .logo_image{
+        height: 30px;
+        margin-top: 0px;
+    }
+    .noChange{
+        background-color:#eee;
+        border: none;
+    }
+    .weui_textarea_counter{
+        font-size: 10px;
+        color: #888;
+        margin-right: 5px;
+        float: right;
+
+    }
+    .inputBox{
+        border: 1px solid #ccc;
+        margin-top: 20px
+    }
+    .clicked{
+        background: #eee;
+        /* color: #0D2F7A;  */
+        /* 虎博蓝 */
+        color: #4d90fe;
+         /* google蓝 */
+    }
+    .fouce{
+        border: 1px solid #4d90fe
+    }
+    body{
+        font-family: HelveticaNeue,Helvetica,Arial,sans-serif;
+    }
+</style>
