@@ -64,11 +64,15 @@
                 info = out_res;
                 if(info == "pos"){
                     $("#neg").addClass("display_none");
+                    $("#neg").removeClass("display_flex");
+
                     $("#pos").removeClass("display_none");
                     $("#pos").addClass("display_flex");
                 }
                 else if(info=="neg"){
                     $("#pos").addClass("display_none");
+                    $("#pos").removeClass("display_flex");
+
                     $("#neg").removeClass("display_none");
                     $("#neg").addClass("display_flex");
                 }
