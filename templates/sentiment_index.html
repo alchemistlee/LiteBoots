@@ -18,8 +18,8 @@
                         <!--<img  style="width: 20px;height: 20px" src="../static/translation-icon@3x.png" alt="">-->
                     <!--</div>-->
                 </div>
-                <div class='inputBox dislike'>
-                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' on id="input" onkeyup="enter(input)"  class='textarea' style="" ></textarea>
+                <div class='inputBox'>
+                    <textarea maxlength="5000" onblur="onBlur()" onfocus='onFocus()' id="input" onkeyup="wordStat(input)"   class='textarea' style="" ></textarea>
                     <div style="height:20px;line-height:17px">
                         <div class="weui_textarea_counter"><span id="num">0</span>/5000</div>
                     </div>
@@ -27,20 +27,14 @@
                 <div class="button-box">
                     <div style='border-radius:2px;text-align: center' class='button' id='detection' onclick="sentiment_it()">Sentiment</div>
                 </div>
-                <div id='ENG' class="result-box">
-                    <image class="resul-img" src="../static/dislike.png"> 
-                        <span>
-                                ENG
-                        </span>
-                        
+                <div id='neg' class="result-box display_none">
+                    <image class="resul-img" src="../static/dislike.png"/>
+                    <span>NEG</span>
                 </div>
-                <div id='POS' class="result-box">
-                     <image class="resul-img" src="../static/like.png"> 
-                        <span>
-                                POS
-                        </span>
+                <div id='pos' class="result-box display_none">
+                     <image class="resul-img" src="../static/like.png"/>
+                     <span>POS</span>
                 </div>
-
             </div>
 
     
@@ -48,15 +42,12 @@
 
 </body>
 <script type="text/javascript">
-    // var select_input_language = 'en';
-    // var select_output_language = 'zh';
-    // var switch_of_detect = true;
 
     function onFocus(){
-        $('.inputBox').addClass('fouce')
+        $('.inputBox').addClass('fouce');
     }
     function onBlur(){
-        $('.inputBox').removeClass('fouce')
+        $('.inputBox').removeClass('fouce');
     }
     function sentiment_it() {
 
@@ -71,105 +62,36 @@
                 out_res = res.output;
                 // score = res.score;
                 info = out_res;
-                $("#output").text(info);
+                if(info == "pos"){
+                    $("#neg").addClass("display_none");
+                    $("#pos").removeClass("display_none");
+                    $("#pos").addClass("display_flex");
+                }
+                else if(info=="neg"){
+                    $("#pos").addClass("display_none");
+                    $("#neg").removeClass("display_none");
+                    $("#neg").addClass("display_flex");
+                }
         });
 
     }
 
-    // function active_zh_in() {
-    //     $("#zh-in").addClass("active");
-    //     // $("#tr-in").removeClass("active");
-    //     $("#en-in").removeClass("active");
-    //     select_input_language="zh";
-    // }
-    //
-    // // function active_tr_in() {
-    // //     $("#zh-in").removeClass("active");
-    // //     $("#tr-in").addClass("active");
-    // //     $("#en-in").removeClass("active");
-    // //     select_input_language="tr";
-    // // }
-    //
-    // function active_en_in() {
-    //     $("#zh-in").removeClass("active");
-    //     // $("#tr-in").removeClass("active");
-    //     $("#en-in").addClass("active");
-    //     select_input_language="en";
-    // }
-    //
-    //  function active_zh_out() {
-    //     $("#zh-out").addClass("active");
-    //     $("#tr-out").removeClass("active");
-    //     $("#en-out").removeClass("active");
-    //     select_output_language="zh";
-    // }
-    //
-    // function active_tr_out() {
-    //     $("#zh-out").removeClass("active");
-    //     $("#tr-out").addClass("active");
-    //     $("#en-out").removeClass("active");
-    //     select_output_language="tr";
-    // }
-    //
-    // function active_en_out() {
-    //     $("#zh-out").removeClass("active");
-    //     $("#tr-out").removeClass("active");
-    //     $("#en-out").addClass("active");
-    //     select_output_language="en";
-    // }
-    // function detect_it(input) {
-    //     wordStatic(input);
-    //     if(switch_of_detect) {
-    //         var pattern_cn = "[\u4e00-\u9fa5]+";
-    //         var input = $("#input").val();
-    //         if (input != "") {
-    //             var matchResult = input.match(pattern_cn);
-    //             if (matchResult != null) {
-    //                 active_zh_in();
-    //                 active_en_out();
-    //             }
-    //             else {
-    //                 active_en_in();
-    //                 active_zh_out();
-    //             }
-    //         }
-    //     }
-    //
-    // }
-    //
-    // function switch_detect() {
-    //     changeClass();
-    // }
-    //
-    //
-    // function changeClass(){
-    //     if(document.getElementById('detection').className.indexOf('clicked')>0){
-    //         document.getElementById('detection').classList.remove('clicked')
-    //         switch_of_detect = true;
-    //     }else{
-    //         document.getElementById('detection').classList.add('clicked')
-    //         switch_of_detect =false;
-    //     }
-    //
-    // }
-    // function wordStatic(input) {
-    //     // 获取要显示已经输入字数文本框对象
-    //     var content = document.getElementById('num');
-    //     if (content && input) {
-    //         // 获取输入框输入内容长度并更新到界面
-    //         var value = input.value;
-    //         // 将换行符不计算为单词数
-    //         value = value.replace(/\n|\r/gi,"");
-    //         // 更新计数
-    //         content .innerText = value.length;
-    //     }
-    // }
-    function enter(e){
-          
-        if(event.keyCode == 13)     alert('回车');  
-         
-
+    function wordStat(input) {
+        // 获取要显示已经输入字数文本框对象
+        var content = document.getElementById('num');
+        if (content && input) {
+            // 获取输入框输入内容长度并更新到界面
+            var value = input.value;
+            // 将换行符不计算为单词数
+            value = value.replace(/\n|\r/gi,"");
+            // 更新计数
+            content .innerText = value.length;
+        }
     }
+
+    // function enter(e){
+    //     if(event.keyCode == 13)     alert('回车');
+    // }
 
 
 </script>
@@ -183,6 +105,14 @@
     }
     .translation{
         float: left;
+    }
+
+    .display_none{
+        display: none;
+    }
+
+    .display_flex{
+        display: flex;
     }
 
     .button_content{
@@ -321,7 +251,7 @@
     .result-box{
         height: 30px;
         line-height: 30px;
-        display: flex;
+        /*display: flex;*/
         justify-content: center;
         margin-top: 20px
 
