@@ -52,6 +52,7 @@
     function sentiment_it() {
 
         var input= $("#input").val();
+        input=input.trim();
         // alert("input = "+input);
         $.post("/",
             {"input":input},
