@@ -62,6 +62,7 @@
     function translate_it() {
 
         var input= $("#input").val();
+        input=input.trim();
         // alert("input = "+input+"\ninput-language = "+select_input_language+"\noutput-language = "+select_output_language );
         $.post("/",
             {"input":input,"input-language":select_input_language,"output-language":select_output_language},
