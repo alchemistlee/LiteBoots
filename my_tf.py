@@ -23,7 +23,7 @@ import logging
 app = Flask(__name__)
 
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
-t2t_data_dir = '/home/root/t2t_data'
+t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 
 
 @app.route('/translate/zh2en/',methods=['GET'])
@@ -32,7 +32,7 @@ def tran_zh2en_interface():
   return trans_zh2en(inputs)
 
 def trans_zh2en(inputs):
-  server='127.0.0.1:9080'
+  server='127.0.0.1:9082'
   servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
@@ -44,7 +44,7 @@ def trans_en2zh_interface():
   return trans_en2zh(inputs)
 
 def trans_en2zh(inputs):
-  server='127.0.0.1:9081'
+  server='127.0.0.1:9083'
   servable_name='transformer'
   problem='translate_enzh_wmt32k'
   data_dir=t2t_data_dir
