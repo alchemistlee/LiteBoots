@@ -12,3 +12,5 @@ sleep 5s
 nohup python3 /home/root/LiteBoots/my_tf.py &
 
 echo "start tf_flask !"
+
+tailf nohup.out
