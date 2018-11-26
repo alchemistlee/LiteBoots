@@ -19,6 +19,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 import logging
+import json
 
 app = Flask(__name__)
 
@@ -128,7 +129,8 @@ def index():
     #     }
 
     app.logger.info(str(res))
-    return str(res)
+    # return str(res)
+    return json.dumps(res)
   return render_template('index.html')
 
 if __name__ == '__main__':
