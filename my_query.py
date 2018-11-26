@@ -114,7 +114,7 @@ def entry(inputs,input_data_dir,input_problem,input_serable_name,input_server):
   outputs = serving_utils.predict([inputs], problem, request_fn)
   only_one = outputs[0]
   res_content = only_one[0]
-  res_score = only_one[1]
+  res_score = str(only_one[1])
 
   info = "input = %s , output = %s  ( score : %s )" % (inputs,res_content,res_score)
   print(info)
