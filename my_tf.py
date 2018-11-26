@@ -58,9 +58,9 @@ def trans_tr2zh_interface():
 def trans_tr2zh(inputs):
   sentence = Converter('zh-hans').convert(inputs)
   res = {
-          'output':sentence,
-          'input':inputs,
-          'score':1.0
+          "output":sentence,
+          "input":inputs,
+          "score":1.0
         }
   return res
 
@@ -72,9 +72,9 @@ def trans_zh2tr_interface():
 def trans_zh2tr(inputs):
   sentence = Converter('zh-hant').convert(inputs)
   res = {
-    'output':sentence,
-    'input':inputs,
-    'score':1.0
+    "output":sentence,
+    "input":inputs,
+    "score":1.0
   }
   return res
 
