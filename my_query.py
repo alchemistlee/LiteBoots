@@ -28,6 +28,8 @@ from tensor2tensor.utils import registry
 from tensor2tensor.utils import usr_dir
 import tensorflow as tf
 
+import time
+
 flags = tf.flags
 FLAGS = flags.FLAGS
 
@@ -111,7 +113,11 @@ def entry(inputs,input_data_dir,input_problem,input_serable_name,input_server):
   hparams = tf.contrib.training.HParams(data_dir=os.path.expanduser(input_data_dir))
   problem.get_hparams(hparams)
   request_fn = my_make_request_fn(input_serable_name,input_server)
+
+  start = time.time()
   outputs = serving_utils.predict([inputs], problem, request_fn)
+  end = time.time()
+  print("predict cost time : %s s" % end-start)
   only_one = outputs[0]
   res_content = only_one[0]
   res_score = str(only_one[1])
