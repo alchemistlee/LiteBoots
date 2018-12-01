@@ -85,7 +85,7 @@ def index():
 
   if request.method == 'POST':
     stdout_backup = sys.stdout
-    sys.stdout = app.logger
+    sys.stdout = app.logger.info
 
     input = request.form['input']
     in_language = request.form['input-language']
