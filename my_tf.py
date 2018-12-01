@@ -20,6 +20,7 @@ from flask import request
 from flask import render_template
 import logging
 import json
+import sys
 
 app = Flask(__name__)
 
@@ -81,7 +82,11 @@ def trans_zh2tr(inputs):
 
 @app.route("/",methods=['GET','POST'])
 def index():
+
   if request.method == 'POST':
+    stdout_backup = sys.stdout
+    sys.stdout = app.logger
+
     input = request.form['input']
     in_language = request.form['input-language']
     out_language = request.form['output-language']
@@ -129,6 +134,8 @@ def index():
     #     }
 
     app.logger.info(str(res))
+
+    sys.stdout = stdout_backup
     # return str(res)
     return json.dumps(res)
   return render_template('index.html')
