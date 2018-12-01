@@ -142,10 +142,10 @@ def index():
 
 if __name__ == '__main__':
   app.debug = True
+  logging.basicConfig(stream=sys.stdout)
   handler = logging.FileHandler("/data/logs/my-tf-flask.log",encoding="UTF-8")
   handler.setLevel(logging.DEBUG)
   logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
   handler.setFormatter(logging_format)
   app.logger.addHandler(handler)
-  app.logger.basicConfig(stream=sys.stdout)
   app.run(host='0.0.0.0')
