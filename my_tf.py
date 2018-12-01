@@ -84,8 +84,8 @@ def trans_zh2tr(inputs):
 def index():
 
   if request.method == 'POST':
-    stdout_backup = sys.stdout
-    sys.stdout = app.logger.info
+    # stdout_backup = sys.stdout
+    # sys.stdout = app.logger.info
 
     input = request.form['input']
     in_language = request.form['input-language']
@@ -135,7 +135,7 @@ def index():
 
     app.logger.info(str(res))
 
-    sys.stdout = stdout_backup
+    # sys.stdout = stdout_backup
     # return str(res)
     return json.dumps(res)
   return render_template('index.html')
@@ -147,4 +147,5 @@ if __name__ == '__main__':
   logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
   handler.setFormatter(logging_format)
   app.logger.addHandler(handler)
+  app.logger.basicConfig(stream=sys.stdout)
   app.run(host='0.0.0.0')
