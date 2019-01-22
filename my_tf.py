@@ -47,7 +47,7 @@ def trans_en2zh_interface():
 
 def trans_en2zh(inputs):
   server='127.0.0.1:9083'
-  servable_name='transformer'
+  servable_name='transformer_enzh'
   problem='translate_enzh_wmt32k'
   data_dir=t2t_data_dir
   return my_query.entry(inputs,data_dir,problem,servable_name,server)
