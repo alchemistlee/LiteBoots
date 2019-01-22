@@ -40,14 +40,19 @@ nohup tensorflow_model_server \
   --model_name=transformer \
   --model_base_path=/mnt/disk1/yifan.li/t2t_train/translate_enzh_wmt32k/transformer-transformer_base_single_gpu/export/Servo/ &
 
-#docker run
+#docker run en2zh
 docker run -p 9083:8500 -p 9080:8501  \
   --mount type=bind,source=/home/root/trans-enzh-v2/translate_enzh_wmt32k/transformer-transformer_base/export,target=/models/transformer_enzh \
   -e MODEL_NAME=transformer_enzh -t tensorflow/serving &
 
+#docker run zh2en
+docker run -p 9082:8500 -p 9081:8501  \
+  --mount type=bind,source=/home/root/trans-zhen-v2/translate_zhen_wmt32k/transformer-transformer_base/export,target=/models/transformer_zhen \
+  -e MODEL_NAME=transformer_zhen -t tensorflow/serving &
+
 # query en2zh
 t2t-query-server \
-  --server=222.73.24.8:081 \
+  --server=222.73.24.8:9081 \
   --servable_name=transformer \
   --problem =translate_enzh_wmt32k \
   --data_dir=/mnt/disk1/yifan.li/t2t_data

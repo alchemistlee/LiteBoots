@@ -35,7 +35,7 @@ def tran_zh2en_interface():
 
 def trans_zh2en(inputs):
   server='127.0.0.1:9082'
-  servable_name='transformer'
+  servable_name='transformer_zhen'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
   return my_query.entry(inputs,data_dir,problem,servable_name,server)
