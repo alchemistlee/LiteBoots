@@ -41,7 +41,7 @@ def trans_zh2en(inputs):
   server='127.0.0.1:'
   real_port= random.sample(ports,1)
   server=server+str(real_port)
-  logging.info("real server = %s " % server)
+  print("real server = %s " % server)
   servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
