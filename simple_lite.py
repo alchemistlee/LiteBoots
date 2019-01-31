@@ -32,16 +32,18 @@ t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 ports = [9082,9083,9084,9085,9086,9087]
 
 
-@app.route('/translate/zh2en/',methods=['GET','POST'])
+@app.route('/translate/zh2en/',methods=['GET'])
 def tran_zh2en_interface():
   inputs = request.args.get('in')
-  return trans_zh2en(inputs)
+  real_res = trans_zh2en(inputs)
+  app.logger.info(str(real_res))
+  return json.dumps(real_res)
 
 def trans_zh2en(inputs):
   server='127.0.0.1:'
   real_port= random.sample(ports,1)
-  server=server+str(real_port)
-  print("real server = %s " % server)
+  server=server+str(real_port[0])
+  app.logger.info("real server = %s " % server)
   servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
@@ -99,7 +101,7 @@ def index():
 if __name__ == '__main__':
   app.debug = True
   logging.basicConfig(stream=sys.stdout)
-  handler = logging.FileHandler("/data/logs/my-tf-flask.log",encoding="UTF-8")
+  handler = logging.FileHandler("/data/logs/simple-lite.log",encoding="UTF-8")
   handler.setLevel(logging.DEBUG)
   logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
   handler.setFormatter(logging_format)
