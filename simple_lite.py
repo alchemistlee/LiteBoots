@@ -32,7 +32,7 @@ t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 ports = [9082,9083,9084,9085,9086,9087]
 
 
-@app.route('/translate/zh2en/',methods=['GET'])
+@app.route('/translate/zh2en/',methods=['GET','POST'])
 def tran_zh2en_interface():
   inputs = request.args.get('in')
   return trans_zh2en(inputs)
@@ -42,7 +42,7 @@ def trans_zh2en(inputs):
   real_port= random.sample(ports,1)
   server=server+str(real_port)
   logging.info("real server = %s " % server)
-  servable_name='transformer_zhen'
+  servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
   return my_query.entry(inputs,data_dir,problem,servable_name,server)
