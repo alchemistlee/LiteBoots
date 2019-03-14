@@ -197,7 +197,8 @@ def entry(argv,input_str):
 
 if __name__ == "__main__":
   input_str='hello world'
-  argv=['--data_dir=/home/yechen/t2t_data',
+  argv=['xxx.py',
+        '--data_dir=/home/yechen/t2t_data',
         '--problem=translate_enzh_wmt32k',
         '--model=transformer',
         '--hparams_set=transformer_base',
