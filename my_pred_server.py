@@ -160,7 +160,13 @@ def entry(argv,input_str):
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
   print("####")
-  print(FLAGS)
+  print(str(FLAGS.data_dir))
+  print(str(FLAGS.problem))
+  print(str(FLAGS.model))
+  print(str(FLAGS.hparams_set))
+  print(str(FLAGS.output_dir))
+  print(str(FLAGS.decode_hparams))
+
   # if FLAGS.score_file:
   #   filename = os.path.expanduser(FLAGS.score_file)
   #   if not tf.gfile.Exists(filename):
