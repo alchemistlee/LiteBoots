@@ -159,6 +159,8 @@ def entry(argv,input_str):
   trainer_lib.set_random_seed(FLAGS.random_seed)
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
+  print("####")
+  print(FLAGS)
   # if FLAGS.score_file:
   #   filename = os.path.expanduser(FLAGS.score_file)
   #   if not tf.gfile.Exists(filename):
