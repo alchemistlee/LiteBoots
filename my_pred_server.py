@@ -28,7 +28,6 @@ from flask import render_template
 
 import sys
 import json
-import logging
 
 app = Flask(__name__)
 
@@ -220,10 +219,10 @@ def trans_en2zh():
 
 if __name__ == "__main__":
   app.debug = True
-  logging.basicConfig(stream=sys.stdout)
-  handler = logging.FileHandler("/home/yifan.li/data/logs/my-tf-flask.log", encoding="UTF-8")
-  handler.setLevel(logging.DEBUG)
-  logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-  handler.setFormatter(logging_format)
-  app.logger.addHandler(handler)
+  # logging.basicConfig(stream=sys.stdout)
+  # handler = logging.FileHandler("/home/yifan.li/data/logs/my-tf-flask.log", encoding="UTF-8")
+  # handler.setLevel(logging.DEBUG)
+  # logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+  # handler.setFormatter(logging_format)
+  # app.logger.addHandler(handler)
   app.run(host='0.0.0.0')
