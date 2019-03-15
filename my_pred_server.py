@@ -218,7 +218,7 @@ def trans_en2zh():
   res={
       'res':str(decode_res)
   }
-  return res
+  return json.dumps(res)
 
 
 if __name__ == "__main__":
