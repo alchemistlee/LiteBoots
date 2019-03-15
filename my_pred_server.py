@@ -50,6 +50,7 @@ flags.DEFINE_bool("decode_in_memory", False, "Decode in memory.")
 
 
 def create_hparams():
+  print('xx create_hparams')
   return trainer_lib.create_hparams(
       FLAGS.hparams_set,
       FLAGS.hparams,
@@ -58,6 +59,7 @@ def create_hparams():
 
 
 def create_decode_hparams():
+  print('xx create_decode_hparams')
   decode_hp = decoding.decode_hparams(FLAGS.decode_hparams)
   decode_hp.shards = FLAGS.decode_shards
   decode_hp.shard_id = FLAGS.worker_id
@@ -168,26 +170,13 @@ def entry(argv,input_str):
   trainer_lib.set_random_seed(FLAGS.random_seed)
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
-  print("####")
+  print("###self defined hp###")
   print(str(FLAGS.data_dir))
   print(str(FLAGS.problem))
   print(str(FLAGS.model))
   print(str(FLAGS.hparams_set))
   print(str(FLAGS.output_dir))
   print(str(FLAGS.decode_hparams))
-
-  # if FLAGS.score_file:
-  #   filename = os.path.expanduser(FLAGS.score_file)
-  #   if not tf.gfile.Exists(filename):
-  #     raise ValueError("The file to score doesn't exist: %s" % filename)
-  #   results = score_file(filename)
-  #   if not FLAGS.decode_to_file:
-  #     raise ValueError("To score a file, specify --decode_to_file for results.")
-  #   write_file = tf.gfile.Open(os.path.expanduser(FLAGS.decode_to_file), "w")
-  #   for score in results:
-  #     write_file.write("%.6f\n" % score)
-  #   write_file.close()
-  #   return
 
   if hp is None:
     print('hp is None !')
