@@ -67,6 +67,7 @@ def create_decode_hparams():
   return decode_hp
 
 def my_decode(estimator, hparams, decode_hp,input_str):
+  print('hello fuck 1')
   return decoding.decode_my_data(estimator,input_str, hparams, decode_hp,
                                   checkpoint_path=FLAGS.checkpoint_path)
 
