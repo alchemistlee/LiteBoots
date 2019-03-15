@@ -194,6 +194,7 @@ def entry(argv,input_str):
 
   output_decode = my_decode(estimator, hp, decode_hp,input_str)
   print('output-decode-res  = %s ' % str(output_decode))
+  return output_decode
 
 
 self_defined_hp=['xxx.py',
@@ -215,7 +216,7 @@ def trans_en2zh():
   input_str = request.args.get('in')
   print('input-str = %s ' % input_str)
   decode_res =entry(self_defined_hp, input_str)
-  print('output = %s ' % str(decode_res))
+  # print('output = %s ' % str(decode_res))
   res={
       'res':str(decode_res)
   }
