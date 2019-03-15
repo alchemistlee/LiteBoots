@@ -364,6 +364,8 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
 
     for elapsed_time, result in timer(result_iter):
         if decode_hp.return_beams:
+            tf.logging.info("br-1")
+
             beam_decodes = []
             beam_scores = []
             output_beams = np.split(result["outputs"], decode_hp.beam_size, axis=0)
@@ -392,6 +394,8 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
             else:
                 decodes.append("\t".join(beam_decodes))
         else:
+            tf.logging.info("br-2")
+
             _, decoded_outputs, _ = log_decode_results(
                 result["inputs"],
                 result["outputs"],
@@ -401,6 +405,9 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
                 targets_vocab,
                 log_results=decode_hp.log_results)
             decodes.append(decoded_outputs)
+
+        tf.logging.info('decodes content = %s ' % str(decodes))
+
         total_time_per_step += elapsed_time
         total_cnt += result["outputs"].shape[-1]
     tf.logging.info("Elapsed Time: %5.5f" % (time.time() - start_time))
@@ -535,9 +542,6 @@ def decode_from_file(estimator,
           targets_vocab,
           log_results=decode_hp.log_results)
       decodes.append(decoded_outputs)
-
-    tf.logging.info('decodes content = %s ' % str(decodes))
-
     total_time_per_step += elapsed_time
     total_cnt += result["outputs"].shape[-1]
   tf.logging.info("Elapsed Time: %5.5f" % (time.time() - start_time))
@@ -958,6 +962,7 @@ def run_postdecode_hooks(decode_hook_args, dataset_split):
     return
 
   tf.logging.info("hook size = %s " % str(len(hooks)))
+  tf.logging.info("hook content = %s " % str(hooks))
 
   tf.logging.info("Running decode hooks.")
 
