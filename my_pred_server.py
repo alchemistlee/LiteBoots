@@ -22,7 +22,15 @@ import pred_util as decoding
 
 import tensorflow as tf
 
+from flask import Flask
+from flask import request
+from flask import render_template
 
+import sys
+import json
+import logging
+
+app = Flask(__name__)
 
 flags = tf.flags
 FLAGS = flags.FLAGS
@@ -195,13 +203,32 @@ def entry(argv,input_str):
   output_decode = my_decode(estimator, hp, decode_hp,input_str)
   print('output-decode-res  = %s ' % str(output_decode))
 
-if __name__ == "__main__":
-  input_str='hello world'
-  argv=['xxx.py',
+
+self_defined_hp=['xxx.py',
         '--data_dir=/home/yechen/t2t_data',
         '--problem=translate_enzh_wmt32k',
         '--model=transformer',
         '--hparams_set=transformer_base',
         '--output_dir=/home/yechen/t2t_train/translate_enzh_wmt32k/transformer-transformer_base/v3',
         '--decode_hparams=beam_size=4,alpha=0.9']
-  entry(argv,input_str)
+
+def test_entry():
+  global self_defined_hp
+  input_str = 'hello world'
+  entry(self_defined_hp, input_str)
+
+@app.route("/translate/en2zh/",methods=['GET'])
+def trans_en2zh():
+  global self_defined_hp
+  input_str = request.args.get('in')
+  entry(self_defined_hp, input_str)
+
+if __name__ == "__main__":
+  app.debug = True
+  logging.basicConfig(stream=sys.stdout)
+  handler = logging.FileHandler("/data/logs/my-tf-flask.log", encoding="UTF-8")
+  handler.setLevel(logging.DEBUG)
+  logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+  handler.setFormatter(logging_format)
+  app.logger.addHandler(handler)
+  app.run(host='0.0.0.0')
