@@ -189,10 +189,13 @@ def entry(argv,input_str):
   #   return
 
   if hp is None:
+    print('hp is None !')
     hp = create_hparams()
   if decode_hp is None:
+    print('decode_hp is None !')
     decode_hp = create_decode_hparams()
   if estimator is None:
+    print('estimator is None !')
     estimator = trainer_lib.create_estimator(
       FLAGS.model,
       hp,
