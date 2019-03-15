@@ -316,6 +316,128 @@ def decode_once(estimator,
     target_file.close()
     input_file.close()
 
+def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
+    """Compute predictions on entries in filename and write them out."""
+    if not decode_hp.batch_size:
+        decode_hp.batch_size = 32
+        tf.logging.info("decode_hp.batch_size not specified; default=%d" % decode_hp.batch_size)
+
+    # Inputs vocabulary is set to targets if there are no inputs in the problem,
+    # e.g., for language models where the inputs are just a prefix of targets.
+    p_hp = hparams.problem_hparams
+    has_input = "inputs" in p_hp.vocabulary
+    inputs_vocab_key = "inputs" if has_input else "targets"
+    inputs_vocab = p_hp.vocabulary[inputs_vocab_key]
+    targets_vocab = p_hp.vocabulary["targets"]
+    problem_name = FLAGS.problem
+    tf.logging.info("Performing decoding from a file.")
+    sorted_inputs, sorted_keys = _get_transed_inputs(input_str,decode_hp.delimiter)
+    num_decode_batches = (len(sorted_inputs) - 1) // decode_hp.batch_size + 1
+
+    def input_fn():
+        input_gen = _decode_batch_input_fn(num_decode_batches, sorted_inputs,
+                                           inputs_vocab, decode_hp.batch_size,
+                                           decode_hp.max_input_size)
+        gen_fn = make_input_fn_from_generator(input_gen)
+        example = gen_fn()
+        return _decode_input_tensor_to_features_dict(example, hparams)
+
+    decodes = []
+    result_iter = estimator.predict(input_fn, checkpoint_path=checkpoint_path)
+
+    start_time = time.time()
+    total_time_per_step = 0
+    total_cnt = 0
+
+    def timer(gen):
+        while True:
+            try:
+                start_time = time.time()
+                item = next(gen)
+                elapsed_time = time.time() - start_time
+                yield elapsed_time, item
+            except StopIteration:
+                break
+
+    for elapsed_time, result in timer(result_iter):
+        if decode_hp.return_beams:
+            beam_decodes = []
+            beam_scores = []
+            output_beams = np.split(result["outputs"], decode_hp.beam_size, axis=0)
+            scores = None
+            if "scores" in result:
+                scores = np.split(result["scores"], decode_hp.beam_size, axis=0)
+            for k, beam in enumerate(output_beams):
+                tf.logging.info("BEAM %d:" % k)
+                score = scores and scores[k]
+                _, decoded_outputs, _ = log_decode_results(
+                    result["inputs"],
+                    beam,
+                    problem_name,
+                    None,
+                    inputs_vocab,
+                    targets_vocab,
+                    log_results=decode_hp.log_results)
+                beam_decodes.append(decoded_outputs)
+                if decode_hp.write_beam_scores:
+                    beam_scores.append(score)
+            if decode_hp.write_beam_scores:
+                decodes.append("\t".join([
+                    "\t".join([d, "%.2f" % s])
+                    for d, s in zip(beam_decodes, beam_scores)
+                ]))
+            else:
+                decodes.append("\t".join(beam_decodes))
+        else:
+            _, decoded_outputs, _ = log_decode_results(
+                result["inputs"],
+                result["outputs"],
+                problem_name,
+                None,
+                inputs_vocab,
+                targets_vocab,
+                log_results=decode_hp.log_results)
+            decodes.append(decoded_outputs)
+        total_time_per_step += elapsed_time
+        total_cnt += result["outputs"].shape[-1]
+    tf.logging.info("Elapsed Time: %5.5f" % (time.time() - start_time))
+    tf.logging.info("Averaged Single Token Generation Time: %5.7f" % (total_time_per_step / total_cnt))
+
+    # Reversing the decoded inputs and outputs because they were reversed in
+    # _decode_batch_input_fn
+    sorted_inputs.reverse()
+    decodes.reverse()
+    # If decode_to_file was provided use it as the output filename without change
+    # (except for adding shard_id if using more shards for decoding).
+    # Otherwise, use the input filename plus model, hp, problem, beam, alpha.
+
+    # decode_filename = decode_to_file if decode_to_file else filename
+    # if decode_hp.shards > 1:
+    #     decode_filename += "%.2d" % decode_hp.shard_id
+    # if not decode_to_file:
+    #     decode_filename = _decode_filename(decode_filename, problem_name, decode_hp)
+    # tf.logging.info("Writing decodes into %s" % decode_filename)
+    # outfile = tf.gfile.Open(decode_filename, "w")
+
+    # for index in range(len(sorted_inputs)):
+    #     outfile.write("%s%s" % (decodes[sorted_keys[index]], decode_hp.delimiter))
+    # outfile.flush()
+    # outfile.close()
+
+    # output_dir = os.path.join(estimator.model_dir, "decode")
+    # tf.gfile.MakeDirs(output_dir)
+
+    run_postdecode_hooks(DecodeHookArgs(
+        estimator=estimator,
+        problem=hparams.problem,
+        output_dirs=[""],
+        hparams=hparams,
+        decode_hparams=decode_hp,
+        predictions=list(result_iter)
+    ), None)
+
+    return decodes
+
 
 def decode_from_file(estimator,
                      filename,
@@ -660,6 +782,20 @@ def show_and_save_image(img, save_path):
   plt.imshow(img)
   with tf.gfile.Open(save_path, "wb") as sp:
     plt.savefig(sp)
+
+def _get_transed_inputs(input_str,delimiter='\n'):
+    tf.logging.info('trans inputs')
+    records = input_str.split(delimiter)
+    inputs = [ record.strip() for record in records]
+
+    input_lens = [(i, len(line.split())) for i, line in enumerate(inputs)]
+    sorted_input_lens = sorted(input_lens, key=operator.itemgetter(1))
+    sorted_keys = {}
+    sorted_inputs = []
+    for i, (index, _) in enumerate(sorted_input_lens):
+        sorted_inputs.append(inputs[index])
+        sorted_keys[index] = i
+    return sorted_inputs, sorted_keys
 
 
 def _get_sorted_inputs(filename, num_shards=1, delimiter="\n"):
