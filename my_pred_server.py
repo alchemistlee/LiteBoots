@@ -221,7 +221,7 @@ def test_entry():
 def trans_en2zh():
   global self_defined_hp
   input_str = request.args.get('in')
-  entry(self_defined_hp, input_str)
+  return entry(self_defined_hp, input_str)
 
 if __name__ == "__main__":
   app.debug = True
