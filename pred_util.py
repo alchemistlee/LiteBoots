@@ -65,7 +65,7 @@ def decode_hparams(overrides=""):
       num_decodes=1,
       force_decode_length=False,
       display_decoded_images=False)
-  print('my overrides , %s ' % str(overrides))
+  # print('my overrides , %s ' % str(overrides))
   hp.parse(overrides)
   return hp
 
@@ -324,13 +324,14 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
 
     # Inputs vocabulary is set to targets if there are no inputs in the problem,
     # e.g., for language models where the inputs are just a prefix of targets.
+
     p_hp = hparams.problem_hparams
     has_input = "inputs" in p_hp.vocabulary
     inputs_vocab_key = "inputs" if has_input else "targets"
     inputs_vocab = p_hp.vocabulary[inputs_vocab_key]
     targets_vocab = p_hp.vocabulary["targets"]
     problem_name = FLAGS.problem
-    tf.logging.info("Performing decoding from a file.")
+    tf.logging.info("Performing decoding from my data.")
     sorted_inputs, sorted_keys = _get_transed_inputs(input_str,decode_hp.delimiter)
     num_decode_batches = (len(sorted_inputs) - 1) // decode_hp.batch_size + 1
 
