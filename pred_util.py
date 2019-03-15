@@ -65,6 +65,7 @@ def decode_hparams(overrides=""):
       num_decodes=1,
       force_decode_length=False,
       display_decoded_images=False)
+  print('my overrides , %s ' % str(overrides))
   hp.parse(overrides)
   return hp
 
