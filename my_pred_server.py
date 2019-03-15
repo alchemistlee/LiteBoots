@@ -203,5 +203,5 @@ if __name__ == "__main__":
         '--model=transformer',
         '--hparams_set=transformer_base',
         '--output_dir=/home/yechen/t2t_train/translate_enzh_wmt32k/transformer-transformer_base/v3',
-        '--decode_hparams="beam_size=4,alpha=0.9"']
+        '--decode_hparams=beam_size=4,alpha=0.9']
   entry(argv,input_str)
