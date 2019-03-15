@@ -331,7 +331,9 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
     inputs_vocab = p_hp.vocabulary[inputs_vocab_key]
     targets_vocab = p_hp.vocabulary["targets"]
     problem_name = FLAGS.problem
-    tf.logging.info("Performing decoding from my data.")
+
+    tf.logging.info("performing decoding from my data.")
+
     sorted_inputs, sorted_keys = _get_transed_inputs(input_str,decode_hp.delimiter)
     num_decode_batches = (len(sorted_inputs) - 1) // decode_hp.batch_size + 1
 
@@ -492,6 +494,8 @@ def decode_from_file(estimator,
 
   for elapsed_time, result in timer(result_iter):
     if decode_hp.return_beams:
+      tf.logging.info('br-1')
+
       beam_decodes = []
       beam_scores = []
       output_beams = np.split(result["outputs"], decode_hp.beam_size, axis=0)
@@ -520,6 +524,8 @@ def decode_from_file(estimator,
       else:
         decodes.append("\t".join(beam_decodes))
     else:
+      tf.logging.info('br-2')
+
       _, decoded_outputs, _ = log_decode_results(
           result["inputs"],
           result["outputs"],
@@ -529,6 +535,9 @@ def decode_from_file(estimator,
           targets_vocab,
           log_results=decode_hp.log_results)
       decodes.append(decoded_outputs)
+
+    tf.logging.info('decodes content = %s ' % str(decodes))
+
     total_time_per_step += elapsed_time
     total_cnt += result["outputs"].shape[-1]
   tf.logging.info("Elapsed Time: %5.5f" % (time.time() - start_time))
@@ -939,15 +948,19 @@ class DecodeHookArgs(collections.namedtuple(
 
 def run_postdecode_hooks(decode_hook_args, dataset_split):
   """Run hooks after decodes have run."""
+
   hooks = decode_hook_args.problem.decode_hooks
   if not hooks:
     return
   global_step = latest_checkpoint_step(decode_hook_args.estimator.model_dir)
   if global_step is None:
-    tf.logging.info(
-        "Skipping decode hooks because no checkpoint yet available.")
+    tf.logging.info("Skipping decode hooks because no checkpoint yet available.")
     return
+
+  tf.logging.info("hook size = %s " % str(len(hooks)))
+
   tf.logging.info("Running decode hooks.")
+
   parent_dir = os.path.join(decode_hook_args.output_dirs[0], os.pardir)
   child_dir = "decode"
   if dataset_split is not None:
@@ -963,4 +976,5 @@ def run_postdecode_hooks(decode_hook_args, dataset_split):
       summary = tf.Summary(value=list(summaries))
       summary_writer.add_summary(summary, global_step)
   summary_writer.close()
+
   tf.logging.info("Decode hooks done.")
