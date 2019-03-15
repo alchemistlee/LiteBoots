@@ -215,6 +215,7 @@ def trans_en2zh():
   input_str = request.args.get('in')
   print('input-str = %s ' % input_str)
   decode_res =entry(self_defined_hp, input_str)
+  print('output = %s ' % str(decode_res))
   res={
       'res':str(decode_res)
   }
