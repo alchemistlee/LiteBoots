@@ -169,7 +169,7 @@ def entry(argv,input_str):
   trainer_lib.set_random_seed(FLAGS.random_seed)
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
-  tf.logging.info("###self defined hp###")
+  print("###self defined hp###")
   print(str(FLAGS.data_dir))
   print(str(FLAGS.problem))
   print(str(FLAGS.model))
@@ -178,7 +178,7 @@ def entry(argv,input_str):
   print(str(FLAGS.decode_hparams))
 
   if hp is None:
-    tf.logging.info('hp is None !')
+    print('hp is None !')
     hp = create_hparams()
   if decode_hp is None:
     print('decode_hp is None !')
@@ -214,8 +214,12 @@ def trans_en2zh():
   global self_defined_hp
   input_str = request.args.get('in')
   print('input-str = %s ' % input_str)
-  res =entry(self_defined_hp, input_str)
-  return json.dumps(res)
+  decode_res =entry(self_defined_hp, input_str)
+  res={
+      'res':str(decode_res)
+  }
+  return res
+
 
 if __name__ == "__main__":
   app.debug = True
