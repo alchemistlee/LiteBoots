@@ -186,11 +186,11 @@ def score_file(filename):
 # hp=None
 # decode_hp=None
 
-def entry(argv,input_str):
+def entry(input_str):
   # global estimator
   # global hp
   # global decode_hp
-  flags.FLAGS(argv , known_only=True)
+  # flags.FLAGS(argv , known_only=True)
 
   tf.logging.set_verbosity(tf.logging.INFO)
   my_trainer_lib.set_random_seed(FLAGS.random_seed)
@@ -239,7 +239,7 @@ def trans_en2zh():
   global self_defined_hp
   input_str = request.args.get('in')
   print('input-str = %s ' % input_str)
-  decode_res =entry(self_defined_hp, input_str)
+  decode_res =entry(input_str)
   # print('output = %s ' % str(decode_res))
   res={
       'res':str(decode_res)
