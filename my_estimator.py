@@ -515,23 +515,23 @@ class Estimator(object):
       #         config=self._session_config),
       #     hooks=all_hooks) as mon_sess:
       mon_sess = self._my_sess
-      while not mon_sess.should_stop():
-        print('session loop ~')
-        preds_evaluated = mon_sess.run(predictions)
-        if not yield_single_examples:
-          print('br-x')
-          yield preds_evaluated
-        elif not isinstance(predictions, dict):
-          print('br-xx')
-          for pred in preds_evaluated:
-            yield pred
-        else:
-          print('br-xxx')
-          for i in range(self._extract_batch_length(preds_evaluated)):
-            yield {
-                key: value[i]
-                for key, value in six.iteritems(preds_evaluated)
-            }
+      # while not mon_sess.should_stop():
+      print('session loop ~')
+      preds_evaluated = mon_sess.run(predictions)
+        # if not yield_single_examples:
+        #   print('br-x')
+        #   yield preds_evaluated
+        # elif not isinstance(predictions, dict):
+        #   print('br-xx')
+        #   for pred in preds_evaluated:
+        #     yield pred
+        # else:
+        #   print('br-xxx')
+      for i in range(self._extract_batch_length(preds_evaluated)):
+        yield {
+            key: value[i]
+            for key, value in six.iteritems(preds_evaluated)
+        }
 
 
 
