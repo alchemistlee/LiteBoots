@@ -475,6 +475,7 @@ def decode_from_file(estimator,
   num_decode_batches = (len(sorted_inputs) - 1) // decode_hp.batch_size + 1
 
   def input_fn():
+
     input_gen = _decode_batch_input_fn(num_decode_batches, sorted_inputs,
                                        inputs_vocab, decode_hp.batch_size,
                                        decode_hp.max_input_size)
@@ -499,7 +500,10 @@ def decode_from_file(estimator,
       except StopIteration:
         break
 
+
   for elapsed_time, result in timer(result_iter):
+    tf.logging.info('cost time = %s ' % str(elapsed_time))
+
     if decode_hp.return_beams:
       tf.logging.info('br-1')
 
@@ -658,9 +662,12 @@ def decode_interactively(estimator, hparams, decode_hp, checkpoint_path=None):
 def _decode_batch_input_fn(num_decode_batches, sorted_inputs, vocabulary,
                            batch_size, max_input_size):
   """Generator to produce batches of inputs."""
+
   tf.logging.info(" batch %d" % num_decode_batches)
+
   # First reverse all the input sentences so that if you're going to get OOMs,
   # you'll see it in the first batch
+
   sorted_inputs.reverse()
   for b in range(num_decode_batches):
     tf.logging.info("Decoding batch %d" % b)

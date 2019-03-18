@@ -15,8 +15,9 @@ from tensor2tensor.data_generators import problem  # pylint: disable=unused-impo
 from tensor2tensor.data_generators import text_encoder
 # from tensor2tensor.utils import decoding
 from tensor2tensor.utils import registry
-from tensor2tensor.utils import trainer_lib
+# from tensor2tensor.utils import trainer_lib
 from tensor2tensor.utils import usr_dir
+import my_trainer_lib
 
 import pred_util as decoding
 
@@ -50,7 +51,7 @@ flags.DEFINE_bool("decode_in_memory", False, "Decode in memory.")
 
 def create_hparams():
   print('xx create_hparams')
-  return trainer_lib.create_hparams(
+  return my_trainer_lib.create_hparams(
       FLAGS.hparams_set,
       FLAGS.hparams,
       data_dir=os.path.expanduser(FLAGS.data_dir),
@@ -165,7 +166,7 @@ def entry(argv,input_str):
   flags.FLAGS(argv , known_only=True)
 
   tf.logging.set_verbosity(tf.logging.INFO)
-  trainer_lib.set_random_seed(FLAGS.random_seed)
+  my_trainer_lib.set_random_seed(FLAGS.random_seed)
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
   print("###self defined hp###")
@@ -184,7 +185,7 @@ def entry(argv,input_str):
     decode_hp = create_decode_hparams()
   if estimator is None:
     print('estimator is None !')
-    estimator = trainer_lib.create_estimator(
+    estimator = my_trainer_lib.create_estimator(
       FLAGS.model,
       hp,
       t2t_trainer.create_run_config(hp),
