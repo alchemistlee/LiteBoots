@@ -516,13 +516,17 @@ class Estimator(object):
       #     hooks=all_hooks) as mon_sess:
       mon_sess = self._my_sess
       while not mon_sess.should_stop():
+        print('session loop ~')
         preds_evaluated = mon_sess.run(predictions)
         if not yield_single_examples:
+          print('br-0')
           yield preds_evaluated
         elif not isinstance(predictions, dict):
+          print('br-1')
           for pred in preds_evaluated:
             yield pred
         else:
+          print('br-2')
           for i in range(self._extract_batch_length(preds_evaluated)):
             yield {
                 key: value[i]
