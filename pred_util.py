@@ -364,7 +364,7 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
 
     for elapsed_time, result in timer(result_iter):
         if decode_hp.return_beams:
-            tf.logging.info("br-1")
+            tf.logging.info("outer br-1")
 
             beam_decodes = []
             beam_scores = []
@@ -394,7 +394,7 @@ def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
             else:
                 decodes.append("\t".join(beam_decodes))
         else:
-            tf.logging.info("br-2")
+            tf.logging.info("outer br-2")
 
             _, decoded_outputs, _ = log_decode_results(
                 result["inputs"],
