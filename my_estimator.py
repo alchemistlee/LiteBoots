@@ -519,14 +519,14 @@ class Estimator(object):
         print('session loop ~')
         preds_evaluated = mon_sess.run(predictions)
         if not yield_single_examples:
-          print('br-0')
+          print('br-x')
           yield preds_evaluated
         elif not isinstance(predictions, dict):
-          print('br-1')
+          print('br-xx')
           for pred in preds_evaluated:
             yield pred
         else:
-          print('br-2')
+          print('br-xxx')
           for i in range(self._extract_batch_length(preds_evaluated)):
             yield {
                 key: value[i]
