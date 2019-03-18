@@ -32,6 +32,7 @@ import json
 
 app = Flask(__name__)
 
+
 flags = tf.flags
 FLAGS = flags.FLAGS
 
@@ -47,6 +48,18 @@ flags.DEFINE_integer("decode_shards", 1, "Number of decoding replicas.")
 flags.DEFINE_string("score_file", "", "File to score. Each line in the file "
                     "must be in the format input \t target.")
 flags.DEFINE_bool("decode_in_memory", False, "Decode in memory.")
+
+self_defined_hp=['xxx.py',
+        '--data_dir=/home/yechen/t2t_data',
+        '--problem=translate_enzh_wmt32k',
+        '--model=transformer',
+        '--hparams_set=transformer_base',
+        '--output_dir=/home/yechen/t2t_train/translate_enzh_wmt32k/transformer-transformer_base/v3',
+        '--decode_hparams=beam_size=4,alpha=0.9']
+
+
+flags.FLAGS(self_defined_hp, known_only=True)
+
 
 
 def create_hparams():
@@ -67,6 +80,20 @@ def create_decode_hparams():
   decode_hp.decode_to_file = FLAGS.decode_to_file
   decode_hp.decode_reference = FLAGS.decode_reference
   return decode_hp
+
+
+def create_new_estimator(hp,decode_hp):
+    estimator = my_trainer_lib.create_estimator(
+        FLAGS.model,
+        hp,
+        t2t_trainer.create_run_config(hp),
+        decode_hparams=decode_hp,
+        use_tpu=FLAGS.use_tpu)
+    return estimator
+
+app.config['hp']=create_hparams()
+app.config['decode_hp']=create_decode_hparams()
+app.config['estimator']=create_new_estimator(app.config['hp'],app.config['decode_hp'])
 
 def my_decode(estimator, hparams, decode_hp,input_str):
   return decoding.decode_my_data(estimator,input_str, hparams, decode_hp,
@@ -155,14 +182,14 @@ def score_file(filename):
       results.append(np_loss)
   return results
 
-estimator = None
-hp=None
-decode_hp=None
+# estimator = None
+# hp=None
+# decode_hp=None
 
 def entry(argv,input_str):
-  global estimator
-  global hp
-  global decode_hp
+  # global estimator
+  # global hp
+  # global decode_hp
   flags.FLAGS(argv , known_only=True)
 
   tf.logging.set_verbosity(tf.logging.INFO)
@@ -177,38 +204,36 @@ def entry(argv,input_str):
   print(str(FLAGS.output_dir))
   print(str(FLAGS.decode_hparams))
 
-  if hp is None:
-    print('hp is None !')
-    hp = create_hparams()
-  if decode_hp is None:
-    print('decode_hp is None !')
-    decode_hp = create_decode_hparams()
-  if estimator is None:
-    print('estimator is None !')
-    estimator = my_trainer_lib.create_estimator(
-      FLAGS.model,
-      hp,
-      t2t_trainer.create_run_config(hp),
-      decode_hparams=decode_hp,
-      use_tpu=FLAGS.use_tpu)
+  # if hp is None:
+  #   print('hp is None !')
+  #   hp = create_hparams()
+  # if decode_hp is None:
+  #   print('decode_hp is None !')
+  #   decode_hp = create_decode_hparams()
+  # if estimator is None:
+  #   print('estimator is None !')
+  #   estimator = my_trainer_lib.create_estimator(
+  #     FLAGS.model,
+  #     hp,
+  #     t2t_trainer.create_run_config(hp),
+  #     decode_hparams=decode_hp,
+  #     use_tpu=FLAGS.use_tpu)
+
+  hp=app.config['hp']
+  decode_hp=app.config['decode_hp']
+  estimator=app.config['estimator']
 
   output_decode = my_decode(estimator, hp, decode_hp,input_str)
   print('output-decode-res  = %s ' % str(output_decode))
   return output_decode
 
 
-self_defined_hp=['xxx.py',
-        '--data_dir=/home/yechen/t2t_data',
-        '--problem=translate_enzh_wmt32k',
-        '--model=transformer',
-        '--hparams_set=transformer_base',
-        '--output_dir=/home/yechen/t2t_train/translate_enzh_wmt32k/transformer-transformer_base/v3',
-        '--decode_hparams=beam_size=4,alpha=0.9']
-
 def test_entry():
   global self_defined_hp
   input_str = 'hello world'
   entry(self_defined_hp, input_str)
+
+app.before_request()
 
 @app.route("/translate/en2zh/",methods=['GET'])
 def trans_en2zh():
