@@ -482,34 +482,34 @@ class Estimator(object):
       raise ValueError('Could not find trained model in model_dir: {}.'.format(
           self._model_dir))
 
-    if self._my_graph is None:
-      print("set my graph ")
-      self._my_graph=ops.Graph().as_default()
-    # with ops.Graph().as_default() as g:
+    # if self._my_graph is None:
+    #   self._my_graph=ops.Graph().as_default()
 
-    random_seed.set_random_seed(self._config.tf_random_seed)
-    print('my_graph =  ',  dir(self._my_graph))
-    self._create_and_assert_global_step(self._my_graph)
+    with ops.Graph().as_default() as g:
 
-    features, input_hooks = self._get_features_from_input_fn(
+      random_seed.set_random_seed(self._config.tf_random_seed)
+      print(g)
+      self._create_and_assert_global_step(g)
+
+      features, input_hooks = self._get_features_from_input_fn(
           input_fn, model_fn_lib.ModeKeys.PREDICT)
-    estimator_spec = self._call_model_fn(
+      estimator_spec = self._call_model_fn(
           features, None, model_fn_lib.ModeKeys.PREDICT, self.config)
 
-    predictions = self._extract_keys(estimator_spec.predictions, predict_keys)
+      predictions = self._extract_keys(estimator_spec.predictions, predict_keys)
 
-    all_hooks = list(input_hooks)
-    all_hooks.extend(hooks)
-    all_hooks.extend(list(estimator_spec.prediction_hooks or []))
+      all_hooks = list(input_hooks)
+      all_hooks.extend(hooks)
+      all_hooks.extend(list(estimator_spec.prediction_hooks or []))
 
-    if self._my_sess is None:
-      self._my_sess = training.MonitoredSession(
-                            session_creator=training.ChiefSessionCreator(
-                            checkpoint_filename_with_path=checkpoint_path,
-                            master=self._config.master,
-                            scaffold=estimator_spec.scaffold,
-                            config=self._session_config),
-                            hooks=all_hooks)
+      if self._my_sess is None:
+          self._my_sess = training.MonitoredSession(
+                                session_creator=training.ChiefSessionCreator(
+                                checkpoint_filename_with_path=checkpoint_path,
+                                master=self._config.master,
+                                scaffold=estimator_spec.scaffold,
+                                config=self._session_config),
+                                hooks=all_hooks)
 
 
       # with training.MonitoredSession(
@@ -519,10 +519,10 @@ class Estimator(object):
       #         scaffold=estimator_spec.scaffold,
       #         config=self._session_config),
       #     hooks=all_hooks) as mon_sess:
-    mon_sess = self._my_sess
+      mon_sess = self._my_sess
       # while not mon_sess.should_stop():
-    print('session loop ~')
-    preds_evaluated = mon_sess.run(predictions)
+      print('session loop ~')
+      preds_evaluated = mon_sess.run(predictions)
         # if not yield_single_examples:
         #   print('br-x')
         #   yield preds_evaluated
@@ -532,11 +532,11 @@ class Estimator(object):
         #     yield pred
         # else:
         #   print('br-xxx')
-    for i in range(self._extract_batch_length(preds_evaluated)):
-      yield {
-         key: value[i]
-         for key, value in six.iteritems(preds_evaluated)
-      }
+      for i in range(self._extract_batch_length(preds_evaluated)):
+        yield {
+            key: value[i]
+            for key, value in six.iteritems(preds_evaluated)
+        }
 
 
 
