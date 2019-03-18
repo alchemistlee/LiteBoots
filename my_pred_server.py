@@ -233,7 +233,6 @@ def test_entry():
   input_str = 'hello world'
   entry(self_defined_hp, input_str)
 
-app.before_request()
 
 @app.route("/translate/en2zh/",methods=['GET'])
 def trans_en2zh():
