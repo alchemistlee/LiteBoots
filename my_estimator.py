@@ -219,6 +219,8 @@ class Estimator(object):
     # pylint: disable=protected-access
     self._warm_start_settings = _get_default_warm_start_settings(
         warm_start_from)
+    # add my session
+    self._my_sess = None
     # pylint: enable=protected-access
 
   @property
@@ -495,8 +497,8 @@ class Estimator(object):
       all_hooks.extend(hooks)
       all_hooks.extend(list(estimator_spec.prediction_hooks or []))
 
-      if self.__my_sess is None:
-          self.__my_sess = training.MonitoredSession(
+      if self._my_sess is None:
+          self._my_sess = training.MonitoredSession(
                                 session_creator=training.ChiefSessionCreator(
                                 checkpoint_filename_with_path=checkpoint_path,
                                 master=self._config.master,
@@ -512,7 +514,7 @@ class Estimator(object):
       #         scaffold=estimator_spec.scaffold,
       #         config=self._session_config),
       #     hooks=all_hooks) as mon_sess:
-      mon_sess = self.__my_sess
+      mon_sess = self._my_sess
       while not mon_sess.should_stop():
         preds_evaluated = mon_sess.run(predictions)
         if not yield_single_examples:
