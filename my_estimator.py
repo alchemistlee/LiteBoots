@@ -483,6 +483,7 @@ class Estimator(object):
           self._model_dir))
 
     if self._my_graph is None:
+      print("set my graph ")
       self._my_graph=ops.Graph().as_default()
     # with ops.Graph().as_default() as g:
 
