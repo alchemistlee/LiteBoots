@@ -253,7 +253,7 @@ def create_estimator(model_name,
   #     config=run_config,
   # )
 
-  estimator = my_estimator.estimator.Estimator(
+  estimator = my_estimator.Estimator(
       model_fn=model_fn,
       model_dir=run_config.model_dir,
       config=run_config,
