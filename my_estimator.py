@@ -488,7 +488,7 @@ class Estimator(object):
     # with ops.Graph().as_default() as g:
 
     random_seed.set_random_seed(self._config.tf_random_seed)
-    print('my_graph =  ',  self._my_graph)
+    print('my_graph =  ',  dir(self._my_graph))
     self._create_and_assert_global_step(self._my_graph)
 
     features, input_hooks = self._get_features_from_input_fn(
