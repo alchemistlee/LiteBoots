@@ -9,10 +9,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import my_pred_server
-
-
-from langconv import *
+from util.langconv import *
 
 from flask import Flask
 from flask import request

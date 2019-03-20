@@ -9,11 +9,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import my_query 
+import my_query
 
-import tensorflow as tf
-
-from langconv import *
+from util.langconv import *
 
 from flask import Flask
 from flask import request

@@ -13,13 +13,13 @@ import os
 from tensor2tensor.bin import t2t_trainer
 from tensor2tensor.data_generators import problem  # pylint: disable=unused-import
 from tensor2tensor.data_generators import text_encoder
-# from tensor2tensor.utils import decoding
+from tensor2tensor.utils import decoding
 from tensor2tensor.utils import registry
-# from tensor2tensor.utils import trainer_lib
+from tensor2tensor.utils import trainer_lib
 from tensor2tensor.utils import usr_dir
-import my_trainer_lib
+# import my_trainer_lib
 
-import pred_util as decoding
+# import my_decoding as decoding
 
 import tensorflow as tf
 
@@ -64,7 +64,7 @@ flags.FLAGS(self_defined_hp, known_only=True)
 
 def create_hparams():
   print('xx create_hparams')
-  return my_trainer_lib.create_hparams(
+  return trainer_lib.create_hparams(
       FLAGS.hparams_set,
       FLAGS.hparams,
       data_dir=os.path.expanduser(FLAGS.data_dir),
@@ -83,7 +83,7 @@ def create_decode_hparams():
 
 
 def create_new_estimator(hp,decode_hp):
-    estimator = my_trainer_lib.create_estimator(
+    estimator = trainer_lib.create_estimator(
         FLAGS.model,
         hp,
         t2t_trainer.create_run_config(hp),
@@ -193,7 +193,7 @@ def entry(input_str):
   # flags.FLAGS(argv , known_only=True)
 
   tf.logging.set_verbosity(tf.logging.INFO)
-  my_trainer_lib.set_random_seed(FLAGS.random_seed)
+  trainer_lib.set_random_seed(FLAGS.random_seed)
   usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
 
   print("###self defined hp###")

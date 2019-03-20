@@ -316,6 +316,7 @@ def decode_once(estimator,
     target_file.close()
     input_file.close()
 
+
 def decode_my_data(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
     """Compute predictions on entries in filename and write them out."""
     if not decode_hp.batch_size:
@@ -616,6 +617,47 @@ def make_input_fn_from_generator(gen):
     return example
 
   return input_fn
+
+
+def decode_my_data_v2(estimator,input_str,hparams,decode_hp,checkpoint_path=None):
+
+  is_image = "image" in hparams.problem.name
+  is_text2class = isinstance(hparams.problem,
+                             text_problems.Text2ClassProblem)
+  skip_eos_postprocess = is_image or is_text2class
+
+  def input_fn():
+    gen_fn = make_input_fn_from_generator(
+        _interactive_input_fn(hparams, decode_hp))
+    example = gen_fn()
+    example = _interactive_input_tensor_to_features_dict(example, hparams)
+    return example
+
+  result_iter = estimator.predict(input_fn, checkpoint_path=checkpoint_path)
+  for result in result_iter:
+    targets_vocab = hparams.problem_hparams.vocabulary["targets"]
+
+    if decode_hp.return_beams:
+      beams = np.split(result["outputs"], decode_hp.beam_size, axis=0)
+      scores = None
+      if "scores" in result:
+        scores = np.split(result["scores"], decode_hp.beam_size, axis=0)
+      for k, beam in enumerate(beams):
+        tf.logging.info("BEAM %d:" % k)
+        beam_string = targets_vocab.decode(_save_until_eos(
+          beam, skip_eos_postprocess))
+        if scores is not None:
+          tf.logging.info("\"%s\"\tScore:%f" % (beam_string, scores[k]))
+        else:
+          tf.logging.info("\"%s\"" % beam_string)
+    else:
+      if decode_hp.identity_output:
+        tf.logging.info(" ".join(map(str, result["outputs"].flatten())))
+      else:
+        tf.logging.info(
+          targets_vocab.decode(_save_until_eos(
+            result["outputs"], skip_eos_postprocess)))
+
 
 
 def decode_interactively(estimator, hparams, decode_hp, checkpoint_path=None):
