@@ -299,6 +299,7 @@ class LiteBootsServer(object):
       if(self._task_queue.empty()):
         continue
       uid, input_string = self._task_queue.get()
+      print('task queue is coming , uid = %s , input-str = %s' % (uid,input_string))
 
       input_ids = vocabulary.encode(input_string)
       if has_input:
@@ -512,10 +513,6 @@ class LiteBootsServer(object):
       self._task_result[input+input_md5]=decoded_outputs
 
   def entry(self):
-    # global estimator
-    # global hp
-    # global decode_hp
-    # flags.FLAGS(argv , known_only=True)
 
     tf.logging.set_verbosity(tf.logging.INFO)
     trainer_lib.set_random_seed(FLAGS.random_seed)
@@ -529,20 +526,6 @@ class LiteBootsServer(object):
     print(str(FLAGS.output_dir))
     print(str(FLAGS.decode_hparams))
 
-    # if hp is None:
-    #   print('hp is None !')
-    #   hp = create_hparams()
-    # if decode_hp is None:
-    #   print('decode_hp is None !')
-    #   decode_hp = create_decode_hparams()
-    # if estimator is None:
-    #   print('estimator is None !')
-    #   estimator = my_trainer_lib.create_estimator(
-    #     FLAGS.model,
-    #     hp,
-    #     t2t_trainer.create_run_config(hp),
-    #     decode_hparams=decode_hp,
-    #     use_tpu=FLAGS.use_tpu)
 
     hp = self.create_hparams()
     decode_hp = self.create_decode_hparams()
