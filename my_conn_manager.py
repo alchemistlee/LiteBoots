@@ -13,8 +13,6 @@ import threading
 from connect import ConnectManager
 
 
-
-
 class MyConnManager(object):
 
   def __init__(self, hosts=None, authkey=None):
@@ -80,11 +78,13 @@ class MyConnManager(object):
         idx, manager = self._get_random_manager()
       else:
         manager = self._get_manager(idx)
-      uid = uuid.uuid4()
+      uid = uuid.uuid3(uuid.NAMESPACE_DNS,string)
       push_func = manager.get(config.REMOTE_PUSH_FUNC)
-      push_func(uid, string)
+      push_func(uid,string)
       result_func = manager.get(config.REMOTE_RESULT_FUNC)
-      return result_func(uid, timeout=30)
+      res = result_func(uid, timeout=30)
+      print(str(res))
+      return res
     except (ConnectionRefusedError, EOFError):
       self.connect(idx)
       return self.result(string)

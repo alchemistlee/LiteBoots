@@ -21,6 +21,8 @@ from tensor2tensor.utils import usr_dir
 import collections
 import operator
 import time
+import uuid
+
 
 import numpy as np
 import six
@@ -44,7 +46,7 @@ import hashlib
 from multiprocessing import freeze_support
 import fire
 
-
+tf.reset_default_graph()
 
 flags = tf.flags
 FLAGS = flags.FLAGS
@@ -70,7 +72,17 @@ self_defined_hp=['xxx.py',
         '--output_dir=/home/yechen/t2t_train/translate_enzh_wmt32k/transformer-transformer_base/v3',
         '--decode_hparams=beam_size=4,alpha=0.9']
 
-flags.FLAGS(self_defined_hp, known_only=True)
+
+self_defined_hp_local=['xxx.py',
+        '--data_dir=/Users/alchemistlee/tigerye/tmp/t2t-data',
+        '--problem=translate_enzh_wmt32k',
+        '--model=transformer',
+        '--hparams_set=transformer_base',
+        '--output_dir=/Users/alchemistlee/tigerye/tmp/t2t-train',
+        '--decode_hparams=beam_size=4,alpha=0.9']
+
+# flags.FLAGS(self_defined_hp, known_only=True)
+flags.FLAGS(self_defined_hp_local, known_only=True)
 
 IMAGE_DECODE_LENGTH = 100
 
@@ -90,14 +102,14 @@ class LiteBootsServer(object):
   def _initialize(self):
     ConnectManager.register(config.REMOTE_PUSH_FUNC, callable=self.push)
     ConnectManager.register(config.REMOTE_RESULT_FUNC, callable=self.result)
-    ConnectManager.register(config.REMOTE_PREDICT_FUNC, callable=self.predict)
+    # ConnectManager.register(config.REMOTE_PREDICT_FUNC, callable=self.predict)
     threading.Thread(target=self._manager.server).start()
     print('host: %s start success!' % self._address)
 
-  def push(self,  content):
-    md5=self.md5(content)
-    print('uid: %s, string: %s' % (md5, content))
-    self._task_queue.put((md5, content))
+  def push(self, uid, content):
+    # md5=self.md5(content)
+    print('uid: %s, string: %s' % (uid, content))
+    self._task_queue.put((uid, content))
 
   def create_hparams(self):
     print('xx create_hparams')
@@ -107,11 +119,7 @@ class LiteBootsServer(object):
       data_dir=os.path.expanduser(FLAGS.data_dir),
       problem_name=FLAGS.problem)
 
-  def md5(self,str):
-    m = hashlib.md5()
-    m.update(str.encode("utf8"))
-    md5_str=m.hexdigest()
-    return md5_str
+
 
   def create_decode_hparams(self):
     print('xx create_decode_hparams')
@@ -274,6 +282,8 @@ class LiteBootsServer(object):
     #   import readline  # pylint: disable=g-import-not-at-top,unused-variable
     # except ImportError:
     #   pass
+
+    is_begin_loop=False
     while True:
       # prompt = ("INTERACTIVE MODE  num_samples=%d  decode_length=%d  \n"
       #           "  it=<input_type>     ('text' or 'image' or 'label', default: "
@@ -297,6 +307,9 @@ class LiteBootsServer(object):
       #   if input_type == "text":
 
       if(self._task_queue.empty()):
+        if not is_begin_loop:
+          is_begin_loop = True
+          print('begin to loop ~ ')
         continue
       uid, input_string = self._task_queue.get()
       print('task queue is coming , uid = %s , input-str = %s' % (uid,input_string))
@@ -509,8 +522,24 @@ class LiteBootsServer(object):
         log_results=decode_hp.log_results)
       print('decode-input = %s ' % str(decoded_inputs))
       print('decode-output = %s ' % str(decoded_outputs))
-      input_md5=self.md5(decoded_inputs)
-      self._task_result[input+input_md5]=decoded_outputs
+      # input_md5=self.md5(decoded_inputs)
+      input_md5=uuid.uuid3(uuid.NAMESPACE_DNS,decoded_inputs)
+
+      self._task_result[input_md5]=decoded_outputs
+
+  def result(self, uid, timeout=None):
+    result_data = dict()
+    begin_time = time.time()
+    while True:
+      if uid not in self._task_result:
+        if timeout and (time.time() - begin_time) >= timeout:
+          print('host: %s, uid: %s, timeout: %s' % (self._address, uid, time.time() - begin_time))
+          result_data['status'] = -999
+          return result_data
+        continue
+      result_data = self._task_result.pop(uid)
+      print('host: %s, uid: %s, result: %s' % (self._address, uid, result_data))
+      return result_data
 
   def entry(self):
 

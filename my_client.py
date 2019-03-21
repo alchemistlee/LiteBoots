@@ -21,7 +21,7 @@ app = Flask(__name__)
 
 MyConnManager.register(config.REMOTE_PUSH_FUNC)
 MyConnManager.register(config.REMOTE_RESULT_FUNC)
-MyConnManager.register(config.REMOTE_PREDICT_FUNC)
+# MyConnManager.register(config.REMOTE_PREDICT_FUNC)
 app.config['myConn'] = MyConnManager(hosts=config.REMOTE_ADDRESS, authkey=config.REMOTE_AUTHKEY)
 
 
