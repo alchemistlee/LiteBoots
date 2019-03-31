@@ -35,6 +35,8 @@ import my_decoding
 
 import tensorflow as tf
 
+tf.reset_default_graph()
+
 import sys
 import json
 
@@ -78,7 +80,8 @@ self_defined_hp_local=['xxx.py',
         '--problem=translate_enzh_wmt32k',
         '--model=transformer',
         '--hparams_set=transformer_base',
-        '--output_dir=/Users/alchemistlee/tigerye/tmp/t2t-train',
+        '--output_dir=/Users/alchemistlee/tigerye/tmp/t2t-train/v5',
+        '--checkpoint_path=/Users/alchemistlee/tigerye/tmp/t2t-train/v5/model.ckpt-500000',
         '--decode_hparams=beam_size=4,alpha=0.9']
 
 # flags.FLAGS(self_defined_hp, known_only=True)
@@ -488,7 +491,7 @@ class LiteBootsServer(object):
       example = gen_fn()
       example = self._interactive_input_tensor_to_features_dict(example, hparams)
       return example
-
+    print('input checkpoint-path =  %s' % checkpoint_path)
     result_iter = estimator.predict(input_fn, checkpoint_path=checkpoint_path)
     for result in result_iter:
       # targets_vocab = hparams.problem_hparams.vocabulary["targets"]
@@ -537,7 +540,8 @@ class LiteBootsServer(object):
           result_data['status'] = -999
           return result_data
         continue
-      result_data = self._task_result.pop(uid)
+      result_data['res'] = self._task_result.pop(uid)
+      result_data['status']=0
       print('host: %s, uid: %s, result: %s' % (self._address, uid, result_data))
       return result_data
 

@@ -15,6 +15,8 @@ import config
 
 import sys
 import json
+import time
+
 
 app = Flask(__name__)
 
@@ -29,26 +31,36 @@ def decode_predict(string):
   try:
     myConn = app.config['myConn']
     result_dict = myConn.result(string)
+    print('result-dict = %s ' % str(result_dict))
     # result_dict = dispatch.predict(string)
     status = result_dict.get('status')
-    if status and status == -999:
+    res=result_dict.get('res')
+    if status == -999:
       raise Exception('识别超时')
-    rate = result_dict.get('rate')
   except Exception as e:
     raise e
   else:
-    return status, rate
+    return status, res
 
 app.config['decode_predict_func']=decode_predict
 
-@app.route("/trans/en2zh/",methods=['GET'])
+@app.route("/trans/en2zh/",methods=['GET','POST'])
 def trans_en2zh():
 
   result_dict = dict(error_code=1)
   try:
-    input_str = request.args.get('in')
+
+    if request.method == 'GET':
+      input_str = request.args.get('in')
+    else :
+      # post
+      input_str = request.form['in']
+
     decode_predict_func = app.config['decode_predict_func']
-    status, rate = decode_predict_func(input_str)
+    start_time = time.time()
+    status, res = decode_predict_func(input_str)
+    elapsed_time = time.time() - start_time
+    print(' cost time =  %s ' % str(elapsed_time))
   except Exception as e:
     result_dict['message'] = str(e)
     print('views action text error: %s' % e)
@@ -57,11 +69,12 @@ def trans_en2zh():
       'error_code': 0,
       'message': 'success',
       'data': {
-        'rate': rate,
+        'res': res,
         'status': status,
       }
     }
-  return result_dict
+
+  return json.dumps(result_dict)
 
 
 if __name__ == "__main__":

@@ -82,8 +82,8 @@ class MyConnManager(object):
       push_func = manager.get(config.REMOTE_PUSH_FUNC)
       push_func(uid,string)
       result_func = manager.get(config.REMOTE_RESULT_FUNC)
-      res = result_func(uid, timeout=30)
-      print(str(res))
+      res = result_func(uid, timeout=config.REMOTE_LISTEN_TIME)
+      # print(str(res))
       return res
     except (ConnectionRefusedError, EOFError):
       self.connect(idx)
