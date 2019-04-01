@@ -11,10 +11,6 @@ from __future__ import print_function
 
 import my_query
 
-import tensorflow as tf
-
-from langconv import *
-
 from flask import Flask
 from flask import request
 from flask import render_template
