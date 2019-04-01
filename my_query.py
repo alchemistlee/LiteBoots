@@ -75,6 +75,7 @@ def make_request_fn():
         timeout_secs=FLAGS.timeout_secs)
   return request_fn
 
+
 def my_make_request_fn(servable_name,server):
   """Returns a request function."""
   request_fn = serving_utils.make_grpc_request_fn(

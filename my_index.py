@@ -18,6 +18,8 @@ import logging
 import json
 import sys
 
+import my_query
+
 app = Flask(__name__)
 
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
