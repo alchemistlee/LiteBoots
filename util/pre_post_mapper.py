@@ -53,6 +53,7 @@ class PrePostMapper(object):
     replaced_index =0
     for tmp_keys in self._en_keys:
       replaced_str = self.replace_tpl % str(replaced_index)
+      is_replaced = False
       for i in range(0,len(tmp_keys)):
         item_key = tmp_keys[i]
         if item_key in input_str:
@@ -60,9 +61,10 @@ class PrePostMapper(object):
             item_mapping_val = self.get_mapped_val(item_key)
             post_replace_dict[replaced_str]=item_mapping_val
 
+          is_replaced =True
           input_str=input_str.replace(item_key,replaced_str)
-
-      replaced_index+=1
+      if is_replaced:
+        replaced_index+=1
 
     return input_str,post_replace_dict
 
