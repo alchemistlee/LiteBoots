@@ -59,15 +59,15 @@ def trans_en2zh(inputs):
   en2zhMapper = app.config['en2zhMapper']
   dealt_input,mark_dict=en2zhMapper.pre_replace(inputs)
 
-  print('pre-res = %s ' % dealt_input)
+  app.logger.info('pre-res = %s ' % dealt_input)
 
   model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
 
-  print('model-res = %s ' % model_res)
+  app.logger.info('model-res = %s ' % model_res)
 
   is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res,mark_dict)
 
-  print(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
+  app.logger.info(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
 
   if is_all_right:
     return post_dealt_res
