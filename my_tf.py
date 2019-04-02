@@ -65,12 +65,13 @@ def trans_en2zh(inputs):
 
   app.logger.info('model-res = %s ' % model_res)
 
-  is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res,mark_dict)
+  is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res['output'],mark_dict)
 
   app.logger.info(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
 
   if is_all_right:
-    return post_dealt_res
+    model_res['output']=post_dealt_res
+    return model_res
   else:
     return my_query.entry(inputs,data_dir,problem,servable_name,server)
 
