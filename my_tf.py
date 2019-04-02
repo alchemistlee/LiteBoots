@@ -55,7 +55,7 @@ def trans_en2zh(inputs):
   problem='translate_enzh_wmt32k'
   data_dir=t2t_data_dir
 
-  # dealt_with en2zh
+  # dealt_with en2zh mapper
   en2zhMapper = app.config['en2zhMapper']
   dealt_input,mark_dict=en2zhMapper.pre_replace(inputs)
 
