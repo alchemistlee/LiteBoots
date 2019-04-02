@@ -6252,4 +6252,4 @@ Lyft, Inc.;Lyft	Lyft
 Tuscan Holdings Corp.	Tuscan Holdings Corp.
 Trine Acquisition Corp.	Trine Acquisition Corp.
 Verb Technology Company, Inc.;Verb	Verb
-tigerobo    虎博
+tigerobo	虎博

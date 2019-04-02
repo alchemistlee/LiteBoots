@@ -20,6 +20,11 @@ class PrePostMapper(object):
     index =0
     for line in open(self.path):
       tmp_list=line.strip().split('\t')
+
+      if len(tmp_list)!=2:
+        print(tmp_list)
+        continue
+
       ori_en_str = tmp_list[0].strip()
       ori_zh_str = tmp_list[1].strip()
 
@@ -73,7 +78,8 @@ class PrePostMapper(object):
     return is_all_right,ret_str
 
 if __name__=='__main__':
-  pass
+  a =  PrePostMapper('../data/en2zh_data_v2.txt','<%s>')
+
 
 
 
