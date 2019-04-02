@@ -5828,7 +5828,7 @@ Tarena International, Inc.;Tarena	达内
 Quotient Limited	Quotient Limited
 Moelis & Company	Moelis & Company
 Sabre Corporation;Sabre	Sabre
-Weibo Corporation;Weibo	微博
+Weibo Corporation;Weibo;weibo	微博
 TrueCar, Inc.;TrueCar	TrueCar
 Tuniu Corporation;Tuniu	途牛
 PBF Logistics LP;PBF Logistics	PBF Logistics
@@ -6867,7 +6867,7 @@ Travelsky Technology Limited;Travelsky Technology	中国民航信息网络
 Shougang Concord International Enterprises Co. Ltd.;Shougang Concord International Enterprises;Shougang Concord International	SHOUGANG INT'L
 Tongda Group Holdings Ltd.;Tongda Group	通达集团
 CAR Inc.;CAR	神州租车
-Tencent Holdings Ltd;Tencent	腾讯控股
+Tencent Holdings Ltd;Tencent;tencent	腾讯控股
 CNT Group Ltd.;CNT Group	CNT GROUP
 Sino Oil and Gas Holdings Limited;Sino Oil and Gas	中国油气控股
 Future Bright Holdings Limited;Future Bright	FUTURE BRIGHT
