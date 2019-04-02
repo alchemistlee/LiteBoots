@@ -26,7 +26,7 @@ app = Flask(__name__)
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
 t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 
-en2zh_data_path=''
+en2zh_data_path='./data/en2zh_data.txt'
 en2zh_replace_tpl='<%s>'
 
 app.config['en2zhMapper']= PrePostMapper(en2zh_data_path,en2zh_replace_tpl)
@@ -59,8 +59,15 @@ def trans_en2zh(inputs):
   en2zhMapper = app.config['en2zhMapper']
   dealt_input,mark_dict=en2zhMapper.pre_replace(inputs)
 
+  print('pre-res = %s ' % dealt_input)
+
   model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
+
+  print('model-res = %s ' % model_res)
+
   is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res,mark_dict)
+
+  print(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
 
   if is_all_right:
     return post_dealt_res
