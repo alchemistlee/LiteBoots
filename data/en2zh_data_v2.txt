@@ -5156,7 +5156,7 @@ Parke Bancorp, Inc.	Parke Bancorp, Inc.
 Patriot National Bancorp, Inc.	Patriot National Bancorp, Inc.
 Penns Woods Bancorp, Inc.	Penns Woods Bancorp, Inc.
 Peoples Bancorp Inc.	Peoples Bancorp Inc.
-Peoples Bancorp of North Carolina, Inc.;Bancorp	Bancorp
+Peoples Bancorp of North Carolina, Inc.	Peoples Bancorp of North Carolina
 Peoples Financial Corporation	Peoples Financial Corporation
 Pinnacle Financial Partners, Inc.	Pinnacle Financial Partners, Inc.
 Premier Financial Bancorp, Inc.	Premier Financial Bancorp, Inc.

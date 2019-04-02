@@ -81,6 +81,7 @@ class PrePostMapper(object):
 
 if __name__=='__main__':
   a =  PrePostMapper('../data/en2zh_data_v2.txt','<%s>')
+  a.pre_replace('Prudential Bancorp, Inc.')
 
 
 
