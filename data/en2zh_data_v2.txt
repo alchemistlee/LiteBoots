@@ -4942,7 +4942,7 @@ Westwood Holdings Group, Inc.;Westwood	韦斯特伍德控股集团公司
 Sony Corporation;Sony	索尼
 Matson, Inc.	Matson, Inc.
 Twitter, Inc.;Twitter	推特
-Partner Communications Company Ltd.;Partner	Partner
+Partner Communications Company Ltd.	Partner
 Perma-Fix Environmental Services, Inc.	Perma-Fix Environmental Services, Inc.
 Sharps Compliance Corp.	Sharps Compliance Corp.
 Patrick Industries, Inc.	Patrick Industries, Inc.

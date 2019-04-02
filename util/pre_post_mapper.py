@@ -80,8 +80,8 @@ class PrePostMapper(object):
     return is_all_right,ret_str
 
 if __name__=='__main__':
-  # a =  PrePostMapper('../data/en2zh_data_v2.txt','<%s>')
-  # a.pre_replace('Prudential Bancorp, Inc.')
-  a='8609.HK	永续农业	Eggriculture Foods Ltd.	Eggriculture Foods	 \n'
-  b=a.strip(' \n')
-  print('hello')
+  a =  PrePostMapper('../data/en2zh_data_v2.txt','<%s>')
+  a.pre_replace('Hans Tungbegan his career as an investment banker at Merrill Lynch. He joined GGV in 2013 from Qiming Venture Partners, where he had focused on investments in China and co-led a Series A investment in Xiaomi. Prior to that, he was with Bessemer Venture Partners, where he helped companies like Skype expand into China.')
+  # a='8609.HK	永续农业	Eggriculture Foods Ltd.	Eggriculture Foods	 \n'
+  # b=a.strip(' \n')
+  # print('hello')
