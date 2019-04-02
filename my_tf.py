@@ -19,11 +19,17 @@ from flask import render_template
 import logging
 import json
 
+from util.pre_post_mapper import *
+
 app = Flask(__name__)
 
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
 t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 
+en2zh_data_path=''
+en2zh_replace_tpl='<%s>'
+
+app.config['en2zhMapper']= PrePostMapper(en2zh_data_path,en2zh_replace_tpl)
 
 @app.route('/translate/zh2en/',methods=['GET'])
 def tran_zh2en_interface():
@@ -42,12 +48,26 @@ def trans_en2zh_interface():
   inputs = request.args.get('in')
   return trans_en2zh(inputs)
 
+
 def trans_en2zh(inputs):
   server='127.0.0.1:9083'
   servable_name='transformer'
   problem='translate_enzh_wmt32k'
   data_dir=t2t_data_dir
-  return my_query.entry(inputs,data_dir,problem,servable_name,server)
+
+  # dealt_with en2zh
+  en2zhMapper = app.config['en2zhMapper']
+  dealt_input,mark_dict=en2zhMapper.pre_replace(inputs)
+
+  model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
+  is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res,mark_dict)
+
+  if is_all_right:
+    return post_dealt_res
+  else:
+    return my_query.entry(inputs,data_dir,problem,servable_name,server)
+
+  #return my_query.entry(inputs,data_dir,problem,servable_name,server)
 
 @app.route("/translate/tr2zh/",methods=['GET'])
 def trans_tr2zh_interface():
