@@ -60,6 +60,8 @@ def trans_en2zh(inputs):
   dealt_input,mark_dict=en2zhMapper.pre_replace(inputs)
 
   app.logger.info('pre-res = %s ' % dealt_input)
+  app.logger.info('mark-dict = %s ' % str(mark_dict))
+
 
   model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
 
