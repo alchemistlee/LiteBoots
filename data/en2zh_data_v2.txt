@@ -10,7 +10,6 @@ First Midwest Bancorp, Inc.	First Midwest Bancorp, Inc.
 Fulton Financial Corporation	富尔顿金融公司
 Popular, Inc.;Popular	Popular
 Associated Banc-Corp	联合银行公司
-Associated Banc-Corp	联合银行公司
 Astoria Financial Corporation	Astoria Financial Corporation
 Banco Santander (Brasil) S.A.;Santander Brasil	桑坦德巴西分行
 Bank of Hawaii Corporation;Bank of Hawaii	夏威夷银行
@@ -20,12 +19,10 @@ First Interstate BancSystem, Inc.;First Interstate BancSystem	First Interstate B
 Central Pacific Financial Corp.	Central Pacific Financial Corp.
 Columbia Financial, Inc.	Columbia Financial, Inc.
 TD Ameritrade Holding Corporation;TD Ameritrade	亚美利交易
-TD Ameritrade Holding Corporation;TD Ameritrade	亚美利交易
 First Republic Bank;First Republic	First Republic
 ING Groep N.V.;ING Groep	荷兰国际集团
 American International Group, Inc.;AIG	美国国际集团
 Barclays PLC;Barclays	巴克莱
-Bank of Montreal;BMO	蒙特利尔银行
 Bank of Montreal;BMO	蒙特利尔银行
 J.C. Penney Company, Inc.;JCPenney	美国彭尼公司
 Comcast Corporation;Comcast	康卡斯特
@@ -36,7 +33,6 @@ Emerson Electric Co.;Emerson	艾默生
 ConocoPhillips;ConocoPhillips	康菲石油
 Coupa Software Incorporated;Coupa	Coupa
 Canadian Imperial Bank of Commerce;CIBC	加拿大帝国银行
-CME Group Inc.;CME Group	芝商所
 CME Group Inc.;CME Group	芝商所
 Canadian Natural Resources Limited;Canadian Natural	Canadian Natural
 Devon Energy Corporation;Devon	Devon
@@ -52,7 +48,6 @@ The Bank of New York Mellon Corporation;The Bank of New York Mellon	纽约梅隆
 First Bank	First Bank
 Alibaba Group Holding Limited;Alibaba Group	阿里巴巴集团
 ORIX Corporation;ORIX	欧力士
-Apollo Investment Corporation;Apollo	Apollo
 Apollo Investment Corporation;Apollo	Apollo
 Apollo Group Inc.	阿波罗公司
 Aviva Investors Global Services Limited	英杰华投资集团
@@ -88,10 +83,8 @@ The Allstate Corporation;Aallstate	好事达保险
 Allied Nevada	Allied Nevada
 Alexco Resource Corp.;Alexco	Alexco
 Ever-Glory International Group, Inc.	江苏华瑞服装有限公司
-Ever-Glory International Group, Inc.	江苏华瑞服装有限公司
 China Metro-Rural Holdings Limited;CHINA METRO-RURAL HOLDINGS	民生控股集团
 China Pharma Holdings, Inc.	China Pharma Holdings, Inc.
-ChinaNet Online Holdings, Inc.;ChinaNet Online	中网载线
 ChinaNet Online Holdings, Inc.;ChinaNet Online	中网载线
 China Armco Metals, Inc.;ARMCO METALS	惠通
 Augusta Resource	Augusta Resource
@@ -130,10 +123,8 @@ Ellomay Capital Ltd.;Ellomay	Ellomay
 Global Cord Blood Corporation;GCBC	国际脐带血库
 Caladrius Biosciences, Inc.;Caladrius Biosciences	Caladrius Biosciences
 Full House Resorts, Inc.;Full House Resorts	Full House Resorts
-Full House Resorts, Inc.;Full House Resorts	Full House Resorts
 HMG/Courtland Properties, Inc.	HMG/Courtland Properties, Inc.
 Income Opportunity Realty Investors, Inc.	Income Opportunity Realty Investors, Inc.
-Iteris, Inc.;Iteris	Iteris
 Iteris, Inc.;Iteris	Iteris
 IsoRay, Inc.;IsoRay	IsoRay
 iParty	iParty
@@ -142,13 +133,10 @@ Evolution Petroleum Corporation	Evolution Petroleum Corporation
 FieldPoint Petroleum Corporation	FieldPoint Petroleum Corporation
 Daxor Corporation;Daxor	Daxor
 Altimmune, Inc.;Altimmune	Altimmune
-Altimmune, Inc.;Altimmune	Altimmune
 Bar Harbor Bankshares	Bar Harbor Bankshares
 Hemispherx Biopharma, Inc.;Hemispherx	Hemispherx
 Electromed, Inc.;Electromed	Electromed
-Electromed, Inc.;Electromed	Electromed
 CIM Commercial Trust Corporation;CMCT	CMCT
-Preferred Apartment Communities, Inc.;Preferred Apartment Communities	Preferred Apartment Communities
 Preferred Apartment Communities, Inc.;Preferred Apartment Communities	Preferred Apartment Communities
 Apyx Medical Corporation;Apyx Medical	Apyx Medical
 ACRE Realty Investors Inc.	ACRE Realty Investors Inc.
@@ -157,11 +145,9 @@ Barnwell Industries, Inc.	Barnwell Industries, Inc.
 Cheniere Energy Partners LP Holdings, LLC;Cheniere	Cheniere
 BioTime, Inc.;BioTime	BioTime
 Antares Pharma, Inc.;Antares Pharma	Antares Pharma
-Antares Pharma, Inc.;Antares Pharma	Antares Pharma
 American Shared Hospital Services	American Shared Hospital Services
 American Apparel Inc;American Apparel	美国服饰
 Bancorp of New Jersey, Inc.	Bancorp of New Jersey, Inc.
-Community Bankers Trust Corporation	Community Bankers Trust Corporation
 Community Bankers Trust Corporation	Community Bankers Trust Corporation
 Chromcraft Revington	Chromcraft Revington
 EnviroStar, Inc.;EnviroStar	EnviroStar
@@ -173,7 +159,6 @@ Erin Energy Corporation;Erin Energy	Erin Energy Corporation
 CKX Lands, Inc.;CKX	CKX
 Flow International Corporation	美国福禄国际股份有限公司
 ECB Bancorp	ECB Bancorp
-Evans Bancorp, Inc.	Evans Bancorp, Inc.
 Evans Bancorp, Inc.	Evans Bancorp, Inc.
 Cohen & Company Inc.	Cohen & Company Inc.
 East West Bancorp, Inc.	华美银行控股公司
@@ -241,8 +226,6 @@ BlackBerry Limited;BlackBerry	黑莓
 Apartment Investment and Management Company;Aimco	Aimco
 Assurant, Inc.	Assurant, Inc.
 AK Steel Holding Corporation	AK钢铁控股公司
-AK Steel Holding Corporation	AK钢铁控股公司
-Advanced Micro Devices, Inc.;AMD	超威半导体
 Advanced Micro Devices, Inc.;AMD	超威半导体
 Abercrombie & Fitch Co.;A&F	阿贝克隆比&费奇
 Aon Plc;AON	怡安保险
@@ -280,7 +263,6 @@ Blonder Tongue Laboratories, Inc.	Blonder Tongue Laboratories, Inc.
 Cover-All Technologies	Cover-All Technologies
 Crexendo	Crexendo
 Ellie Mae, Inc.;Ellie Mae	Ellie Mae
-Ellie Mae, Inc.;Ellie Mae	Ellie Mae
 eMagin Corporation;eMagin	eMagin
 Colgate-Palmolive Company;Colgate-Palmolive	高露洁-棕榄
 Covidien PLC;Covidien	科维迪恩
@@ -291,11 +273,8 @@ Cummins Inc.;Cummins	康明斯
 Jabil Inc.;Jabil	捷普
 Family Dollar Stores Inc	家庭美元商店
 BlackRock, Inc.;BlackRock	贝莱德
-BlackRock, Inc.;BlackRock	贝莱德
 Berkshire Hathaway Inc.;Berkshire	伯克希尔哈撒韦
 Eldorado Gold Corporation;Eldorado Gold	埃尔拉多黄金
-Eldorado Gold Corporation;Eldorado Gold	埃尔拉多黄金
-Barclays Bank PLC;Barclays Bank	巴克莱银行
 Barclays Bank PLC;Barclays Bank	巴克莱银行
 American Express Company;American Express	美国运通
 Comerica Incorporated;Comerica	Comerica
@@ -320,7 +299,6 @@ Fluor Corporation;Fluor	福陆
 FirstEnergy Corp.;FirstEnergy	第一能源
 Capital One Financial Corporation;Capital One Financial	美国第一资本金融
 Arconic Inc.;Arconic	Arconic
-Arconic Inc.;Arconic	Arconic
 The Hartford Financial Services Group, Inc.;The Hartford	哈特福德金融服务
 Amazon.com, Inc.;Amazon	亚马逊
 Duke Energy Corporation;Duke Energy	杜克能源
@@ -330,7 +308,6 @@ Morgan Stanley;MS	摩根士丹利
 Liberty Global,Inc.;LGI	自由全球
 MRV Communications, Inc.;MRV	MRV
 NTT DOCOMO, INC.;NTT DOCOMO	NTT DOCOMO
-IDT Corporation;IDT	IDT
 IDT Corporation;IDT	IDT
 Mesa Royalty Trust	Mesa Royalty Trust
 Diageo plc;Diageo	帝亚吉欧
@@ -367,7 +344,6 @@ Avago Technologies Limited;Avago	安华高科技
 American Woodmark Corporation	American Woodmark Corporation
 Amyris, Inc.;Amyris	Amyris
 Balchem Corporation;Balchem	Balchem
-Innospec Inc.;Innospec	英诺斯派
 Innospec Inc.;Innospec	英诺斯派
 Heritage-Crystal Clean, Inc.	Heritage-Crystal Clean, Inc.
 Veru Inc.;Veru	Veru
@@ -433,7 +409,6 @@ Alimera Sciences, Inc.;Alimera Sciences	Alimera Sciences
 Alkermes public limited company;Alkermes	阿尔凯默斯
 Alnylam Pharmaceuticals, Inc.;Alnylam Pharmaceuticals	Alnylam Pharmaceuticals
 AMAG Pharmaceuticals, Inc.;AMAG Pharmaceuticals	AMAG Pharmaceuticals
-AMAG Pharmaceuticals, Inc.;AMAG Pharmaceuticals	AMAG Pharmaceuticals
 Amarin Corporation plc;Amarin Corporation	Amarin Corporation
 Amicus Therapeutics, Inc.;Amicus Therapeutics	Amicus Therapeutics
 Ampio Pharmaceuticals, Inc.;Ampio Pharmaceuticals	Ampio Pharmaceuticals
@@ -489,7 +464,6 @@ American Superconductor Corporation	American Superconductor Corporation
 Franklin Electric Co., Inc.;Franklin Electric	Franklin Electric
 Innophos Holdings, Inc.;Innophos	Innophos
 Iridium Communications Inc.;Iridium	铱星
-Iridium Communications Inc.;Iridium	铱星
 Columbia Sportswear Company;Columbia	哥伦比亚
 Coca-Cola Bottling Co. Consolidated	Coca-Cola Bottling Co. Consolidated
 National Beverage Corp.	National Beverage Corp.
@@ -522,7 +496,6 @@ Hongli Clean Energy Technologies Corp.	泓利煤焦
 ALUMINUM CORPORATION OF CHINA LIMITED;CHALCO	中国铝业
 Le Gaga Holdings Limited;LE GAGA	利农国际
 Melco Resorts & Entertainment Limited;Melco Resorts & Entertainment	新濠博亚娱乐
-Community Health Systems, Inc.	Community Health Systems, Inc.
 Community Health Systems, Inc.	Community Health Systems, Inc.
 Ctrip.com International, Ltd.;Ctrip	携程网
 CNOOC Limited;CNOOC	中国海洋石油
@@ -559,7 +532,6 @@ ChinaCache International Holdings Ltd.;ChinaCache	蓝汛
 China Botanic Pharmaceutical Inc.;CHINA BOTANIC PHARMACEUTICAL	中国植物制药
 China Mobile Limited;CHINA MOBILE	中国移动
 Argan, Inc.;Argan	Argan
-Argan, Inc.;Argan	Argan
 Gold Reserve	Gold Reserve
 China Gerui Advanced Materials Group Ltd;China Gerui Advanced Materials Group	鸽瑞复合材料
 Almaden Minerals Ltd.;Almaden Minerals	Almaden Minerals
@@ -580,7 +552,6 @@ Century Casinos, Inc.;Century Casinos	世纪赌场
 Town Sports International Holdings, Inc.	Town Sports International Holdings, Inc.
 Ecology and Environment, Inc.	Ecology and Environment, Inc.
 ENGlobal Corporation;ENGlobal	ENGlobal
-ENGlobal Corporation;ENGlobal	ENGlobal
 Altisource Portfolio Solutions S.A.	Altisource Portfolio Solutions S.A.
 American Public Education, Inc.	American Public Education, Inc.
 Capella Education Company	Capella Education Company
@@ -588,7 +559,6 @@ Education Management Corporation	Education Management Corporation
 Grand Canyon Education, Inc.;Grand Canyon Education	大峡谷教育
 1-800-FLOWERS.COM, Inc.	1-800-FLOWERS.COM, Inc.
 Big 5 Sporting Goods Corporation;Big 5 Sporting Goods	Big 5体育用品
-FirstCash, Inc.;FirstCash	FirstCash
 FirstCash, Inc.;FirstCash	FirstCash
 Hibbett Sports, Inc.;Hibbett Sports	希贝特体育
 Essendant Inc.;Essendant	Essendant
@@ -615,7 +585,6 @@ IFM Investments Limited;IFM INVESTMENTS	21世纪不动产
 E-Commerce China Dangdang Inc.;DANGDANG	当当网
 Ldk Solar Co., Ltd.	赛维LDK
 Lentuo International Inc.;LENTUO	联拓国际
-China Green Agriculture, Inc.;CGA	中国绿色农业
 China Green Agriculture, Inc.;CGA	中国绿色农业
 Concord Medical Services Holdings Limited;Concord Medical	泰和诚
 Country Style Cooking Restaurant Chain Co., Ltd.;COUNTRY STYLE COOKING	乡村基
@@ -4287,10 +4256,8 @@ Corporate Office Properties Trust;COPT	COPT
 Office Properties Income Trust	Office Properties Income Trust
 MV Oil Trust	MV Oil Trust
 New York Mortgage Trust, Inc.	纽约抵押信托公司
-New York Mortgage Trust, Inc.	纽约抵押信托公司
 Pacific Coast Oil Trust	Pacific Coast Oil Trust
 Obsidian Energy Ltd.;Obsidian Energy	Obsidian Energy
-RAIT Financial Trust	RAIT Financial Trust
 RAIT Financial Trust	RAIT Financial Trust
 RPT Realty;RPT	RPT
 Redwood Trust, Inc.;Redwood Trust	Redwood Trust
@@ -4565,7 +4532,7 @@ Opiant Pharmaceuticals, Inc.;Opiant	Opiant
 NexPoint Credit Strategies Fund	NexPoint Credit Strategies Fund
 ZAI Lab Limited;ZAI Lab	再鼎医药
 Oasis Midstream Partners LP;Oasis Midstream Partners	Oasis Midstream Partners
-RYB Education, Inc.;RYB Education	红黄蓝教育
+RYB Education, Inc.;RYB Education Inc.;RYB Education	红黄蓝教育
 Nightstar Therapeutics plc;Nightstar Therapeutics	Nightstar Therapeutics
 Roku, Inc.;Roku	Roku
 NuCana plc;NuCana	NuCana
@@ -6190,7 +6157,7 @@ Twelve Seas Investment Company	Twelve Seas Investment Company
 Tricida, Inc.;Tricida	Tricida
 Naked Brand Group Limited;Naked Brand Group	Naked Brand Group
 Titan Medical Inc.;Titan Medical	Titan Medical
-Pinduoduo Inc.;Pinduoduo;PDD;pdd	拼多多
+Pinduoduo Inc.;Pinduoduo;PDD;pdd;pingduoduo	拼多多
 Safe-T Group Ltd.;SAFE-T	SAFE-T
 Tilray, Inc.;TILRAY	TILRAY
 Priority Income Fund, Inc.	Priority Income Fund, Inc.
@@ -7391,7 +7358,7 @@ Quali-Smart Holdings Limited;Quali-Smart	滉达富控股
 Shanghai Fudan-Zhangjiang Bio-Pharmaceutical Co., Ltd.;Shanghai Fudan-Zhangjiang Bio-Pharmaceutical	复旦张江
 Fujian Nuoqi Co., Ltd.;Fujian Nuoqi	诺奇
 Legend Strategy International Holdings Group Company Limited;Legend Strategy International Holdings	朸浚国际
-Meitu, Inc.;Meitu	美图公司
+Meitu, Inc.	美图公司
 PW Medtech Group Limited;PW Medtech	普华和顺
 China Cinda Asset Management Co.,Ltd.;China Cinda Asset Management	中国信达
 Mega Expo Holdings Limited;Mega Expo	MEGAEXPO HLDG
@@ -8000,7 +7967,7 @@ Great Harvest Maeta Group Holdings Limited;Great Harvest Maeta	荣丰联合控�
 Clifford Modern Living Holdings Limited;Clifford Modern Living	祈福生活服务
 Top Spring International Holdings limited;Top Spring	莱蒙国际
 Guangdong Kanghua Healthcare Co., Ltd.;Guangdong Kanghua Healthcare	康华医疗
-Meituan Dianping;Meituan Dianping	美团点评-W
+Meituan Dianping;Meituan Dianping;Meituan-Dianping	美团点评-W
 Huishang Bank Corporation Limited;Huishang Bank	徽商银行
 Everbright Grand China Assets Limited;Everbright Grand China Assets	光大永年
 Inke Limited;Inke	映客
@@ -8544,3 +8511,26 @@ Boltek Holdings Limited;Boltek	宝燵控股
 Kinetix Systems Holdings Limited;Kinetix Systems	倢冠控股
 Eggriculture Foods Ltd.;Eggriculture Foods	永续农业
 WAC Holdings Limited;WAC Holdings	WAC HOLDINGS
+Bertelsmann Asia Investments;BAI	贝塔斯曼亚洲投资基金
+BlueRun Ventures	蓝驰创投
+IDG Capital Partners;IDG Capital	IDG资本
+Gobi VC;Gobi	戈壁创投
+GGV;Granite Global Ventures	纪源资本
+Lightspeed China Partners	光速中国
+MatrixPartners China	经纬中国
+Morningside Venture Capital	晨兴资本
+Northern Light Venture Capital	北极光创投
+Qiming Venture Partners	启明创投
+Softbank China Venture Capital;SBCVC	软银中国
+Sequoia Capital China	红杉中国
+Sequoia Capital	红杉资本
+Gaorong Capital	高榕资本
+Hillhouse Capital	高瓴资本
+K2VC	险峰长青
+Fortune Venture Capital	达晨创投
+Legend Capital Management Co., Ltd.;Legend Capital	君联资本
+Suzhou Oriza Holdings Co., Ltd.;Oriza Holdings	元禾控股
+SIG China;SIG Asia Investment	海纳亚洲
+Shunwei Capital	顺为资本
+Orchid Asia Group Management, Ltd.;Orchid Asia	兰馨亚洲
+Source Code Capital	源码资本
