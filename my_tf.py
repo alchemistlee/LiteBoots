@@ -16,7 +16,7 @@ from util.langconv import *
 from flask import Flask
 from flask import request
 from flask import render_template
-from util.my_logger import *
+import util.my_logger as log
 import json
 
 from util.pre_post_mapper import *
@@ -31,7 +31,7 @@ en2zh_replace_tpl='<%s>'
 
 app.config['en2zhMapper']= PrePostMapper(path=en2zh_data_path,tpl=en2zh_replace_tpl)
 
-my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
+# my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
 
 @app.route('/translate/zh2en/',methods=['GET'])
 def tran_zh2en_interface():
@@ -61,17 +61,17 @@ def trans_en2zh(inputs):
   en2zhMapper = app.config['en2zhMapper']
   dealt_input,mark_dict=en2zhMapper.pre_replace_v2(inputs)
 
-  my_logger.info('pre-res = %s ' % dealt_input)
-  my_logger.info('mark-dict = %s ' % str(mark_dict))
+  log.info('pre-res = %s ' % dealt_input)
+  log.info('mark-dict = %s ' % str(mark_dict))
 
 
   model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
 
-  my_logger.info('model-res = %s ' % model_res)
+  log.info('model-res = %s ' % model_res)
 
   is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res['output'],mark_dict)
 
-  my_logger.info(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
+  log.info(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
 
   if is_all_right:
     model_res['output']=post_dealt_res
@@ -158,7 +158,7 @@ def index():
     #       "score":1.0
     #     }
 
-    my_logger.info(str(res))
+    log.info(str(res))
     # return str(res)
     return json.dumps(res)
   return render_template('index.html')
