@@ -46,19 +46,19 @@ class PrePostMapper(object):
     while True:
       time.sleep(60)
       if self._is_update():
-        log.info('begin to update it ... ')
+        log.logger.info('begin to update it ... ')
         self.load_data_db()
         self._my_ts = self._get_timestamp()
       else:
-        log.info('no need update ...')
+        log.logger.info('no need update ...')
 
   def load_data_db(self):
     tmp_zh_vals = list()
     tmp_en_keys = list()
     tmp_en_key2id = dict()
-    log.info(' go to get_all ... ')
+    log.logger.info(' go to get_all ... ')
     db_data = self.mysql_util.get_all()
-    log.info(' db_data size = %s ' % str(len(db_data)))
+    log.logger.info(' db_data size = %s ' % str(len(db_data)))
     index=0
     for item in db_data:
       ori_en_str = item[1].strip()
