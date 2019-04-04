@@ -44,7 +44,7 @@ class PrePostMapper(object):
 
   def _thread_update(self):
     while True:
-      time.sleep(10)
+      time.sleep(60)
       if self._is_update():
         my_logger.info('begin to update it ... ')
         self.load_data_db()
