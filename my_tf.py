@@ -29,7 +29,7 @@ t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
 en2zh_data_path='./data/en2zh_data_v2.txt'
 en2zh_replace_tpl='<%s>'
 
-app.config['en2zhMapper']= PrePostMapper(en2zh_data_path,en2zh_replace_tpl)
+app.config['en2zhMapper']= PrePostMapper(path=en2zh_data_path,tpl=en2zh_replace_tpl)
 
 @app.route('/translate/zh2en/',methods=['GET'])
 def tran_zh2en_interface():

@@ -10,6 +10,10 @@ import jieba
 
 def sliding_it(input_token,window_size):
   res = []
+
+  if len(input_token)<window_size:
+    return res
+
   base = input_token
   end = len(base)-window_size+1
   for i in range(0,end):
@@ -63,6 +67,6 @@ def filter_overlap(sliding_lst):
 
 
 if __name__ == '__main__':
-  # base = 'Royal Caribbean Cruises Ltd. Q4 adjusted earnings Beat Estimates'
-  # print(list(jieba.cut(base)))
+  base = 'Royal Caribbean Cruises Ltd. Q4 adjusted earnings Beat Estimates'
+  print(list(jieba.cut(base)))
   pass

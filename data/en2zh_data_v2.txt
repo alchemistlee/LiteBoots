@@ -1,5 +1,5 @@
 Federated Investors, Inc.;Federated	Federated
-Merrill Lynch & Co Inc;Merrill	伟禄美林证券
+Merrill Lynch & Co Inc;Merrill;Merrill Lynch	伟禄美林证券
 Halliburton Company;Halliburton	哈里伯顿
 Focus Media Holding Limited;FOCUS MEDIA HOLDING	分众传媒控股有限公司
 Jefferies Group LLC	杰富瑞集团
