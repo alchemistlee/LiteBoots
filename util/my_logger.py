@@ -15,6 +15,7 @@ import logging
 def get_logger(is_test=False, log_path=None):
 
   logger = logging.getLogger()
+  logger.propagate=False
   logger.setLevel(logging.INFO)
   # rq = time.strftime('%Y-%m-%d', time.localtime(time.time()))
   # log_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/Logs/'
