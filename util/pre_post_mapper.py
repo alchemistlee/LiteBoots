@@ -5,6 +5,8 @@
 # @fileName: pre_post_mapper.py
 # @abstract:
 
+from util.sliding_utility import *
+
 
 class PrePostMapper(object):
 
@@ -67,6 +69,46 @@ class PrePostMapper(object):
         replaced_index+=1
 
     return input_str,post_replace_dict
+
+  def _batch_sliding(self,input_str):
+    input_token=list(jieba.cut(input))
+    matched = list()
+    for sub_window_size in range(1,9):
+      tmp_sliding = sliding_it(input_token,sub_window_size)
+      for item in tmp_sliding:
+        if item[0] in self._en_key2id.keys():
+          matched.append(item)
+
+    res = filter_overlap(matched)
+
+    return res,input_token
+
+
+  def _rep_in_lst(self,input_lst,rep_beg,rep_end,rep_val):
+    input_lst.insert(rep_beg,rep_val)
+    for i in range(0,rep_end-rep_beg+1):
+      input_lst.pop(rep_beg+1)
+    return input_lst
+
+
+  def pre_replace_v2(self,input_str):
+    post_replace_dict = dict()
+    replaced_index =0
+
+    matched,input_token = self._batch_sliding(input_str)
+
+    for item in matched:
+      tmp_val = self.get_mapped_val(item[0])
+      replaced_str = self.replace_tpl % str(replaced_index)
+
+      input_token=self._rep_in_lst(input_token,item[1],item[2],replaced_str)
+
+      post_replace_dict[replaced_str]=tmp_val
+      replaced_index+=1
+
+    res_str=''.join(input_token)
+
+    return res_str,post_replace_dict
 
   def post_replace(self,input_str,post_rep_dict):
     is_all_right = True
