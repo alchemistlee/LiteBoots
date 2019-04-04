@@ -46,11 +46,11 @@ class PrePostMapper(object):
     while True:
       time.sleep(10)
       if self._is_update():
-        my_logger('begin to update it ... ')
+        my_logger.info('begin to update it ... ')
         self.load_data_db()
         self._my_ts = self._get_timestamp()
       else:
-        my_logger('no need update ...')
+        my_logger.info('no need update ...')
 
   def load_data_db(self):
     tmp_zh_vals = list()
