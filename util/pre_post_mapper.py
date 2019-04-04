@@ -9,7 +9,9 @@ import threading
 from util.sliding_utility import *
 
 from util.mysql_utility import *
-import logging
+
+from flask import current_app
+
 
 class PrePostMapper(object):
 
@@ -41,19 +43,19 @@ class PrePostMapper(object):
     while True:
       time.sleep(10)
       if self._is_update():
-        print('begin to update it ... ')
+        current_app.logger.info('begin to update it ... ')
         self.load_data_db()
         self._my_ts = self._get_timestamp()
       else:
-        print('no need update ...')
+        current_app.logger.info('no need update ...')
 
   def load_data_db(self):
     tmp_zh_vals = list()
     tmp_en_keys = list()
     tmp_en_key2id = dict()
-    logging.info(' go to get_all ... ')
+    current_app.logger.info(' go to get_all ... ')
     db_data = self.mysql_util.get_all()
-    logging.info(' db_data size = %s ' % str(len(db_data)))
+    current_app.logger.info(' db_data size = %s ' % str(len(db_data)))
     index=0
     for item in db_data:
       ori_en_str = item[1].strip()
