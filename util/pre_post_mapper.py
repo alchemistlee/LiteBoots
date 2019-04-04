@@ -9,7 +9,7 @@ import threading
 from util.sliding_utility import *
 
 from util.mysql_utility import *
-
+import logging
 
 class PrePostMapper(object):
 
@@ -51,9 +51,9 @@ class PrePostMapper(object):
     tmp_zh_vals = list()
     tmp_en_keys = list()
     tmp_en_key2id = dict()
-    print(' go to get_all ... ')
+    logging.info(' go to get_all ... ')
     db_data = self.mysql_util.get_all()
-    print(' db_data size = %s ' % str(len(db_data)))
+    logging.info(' db_data size = %s ' % str(len(db_data)))
     index=0
     for item in db_data:
       ori_en_str = item[1].strip()
@@ -199,7 +199,7 @@ if __name__=='__main__':
 
   t2='Huazhu Group Limited (HTHT) Q4 2018 Earnings Conference Call Transcript'
 
-  t3='QVC, Inc is bad'
+  t3='PDD is bad'
 
   b_str,b_dict = a.pre_replace_v2(t3)
   print(b_str)

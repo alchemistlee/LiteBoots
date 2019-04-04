@@ -20,7 +20,7 @@ DB_NAME='rt'
 class MysqlUtil(object):
 
   def __init__(self):
-    self._db = pymysql.connect(HOST, USER, PSWD, DB_NAME)
+    self._db = pymysql.connect(HOST, USER, PSWD, DB_NAME,charset='utf8')
     self._cursor=self._db.cursor()
 
   def __del__(self):
