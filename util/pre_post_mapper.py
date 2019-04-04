@@ -10,7 +10,10 @@ from util.sliding_utility import *
 
 from util.mysql_utility import *
 
-from flask import current_app
+from util.my_logger import *
+
+my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
+
 
 
 class PrePostMapper(object):
@@ -43,19 +46,19 @@ class PrePostMapper(object):
     while True:
       time.sleep(10)
       if self._is_update():
-        current_app.logger.info('begin to update it ... ')
+        my_logger('begin to update it ... ')
         self.load_data_db()
         self._my_ts = self._get_timestamp()
       else:
-        current_app.logger.info('no need update ...')
+        my_logger('no need update ...')
 
   def load_data_db(self):
     tmp_zh_vals = list()
     tmp_en_keys = list()
     tmp_en_key2id = dict()
-    current_app.logger.info(' go to get_all ... ')
+    my_logger.info(' go to get_all ... ')
     db_data = self.mysql_util.get_all()
-    current_app.logger.info(' db_data size = %s ' % str(len(db_data)))
+    my_logger.info(' db_data size = %s ' % str(len(db_data)))
     index=0
     for item in db_data:
       ori_en_str = item[1].strip()
