@@ -24,7 +24,8 @@ from util.pre_post_mapper import *
 app = Flask(__name__)
 
 # t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
-t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
+# t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
+t2t_data_dir = '/data/translate/models/v3/t2t_data'
 
 en2zh_data_path='./data/en2zh_data_v2.txt'
 en2zh_replace_tpl='<%s>'
