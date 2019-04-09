@@ -18,7 +18,7 @@ from flask import Flask
 from flask import request
 from flask import render_template
 import json
-import config
+# import config
 
 
 from util.pre_post_mapper import *
@@ -55,7 +55,7 @@ def trans_zh2en(inputs):
 
   # dealt_with zh2en mapper
   zh2enMapper = app.config['zh2enMapper']
-  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs)
+  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs,is_zhen=True)
 
   log.logger.info('[zh2en] pre-res = %s ' % dealt_input)
   log.logger.info('[zh2en] mark-dict = %s ' % str(mark_dict))
