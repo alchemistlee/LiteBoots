@@ -16,8 +16,9 @@ from util.langconv import *
 from flask import Flask
 from flask import request
 from flask import render_template
-import util.my_logger as log
 import json
+
+from util.mysql_utility import *
 
 from util.pre_post_mapper import *
 
@@ -30,7 +31,16 @@ t2t_data_dir = '/data/translate/models/v3/t2t_data'
 en2zh_data_path='./data/en2zh_data_v2.txt'
 en2zh_replace_tpl='<%s>'
 
-app.config['en2zhMapper']= PrePostMapper(path=en2zh_data_path,tpl=en2zh_replace_tpl)
+EN2ZH_SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from en_zh_ent where is_delete=0;'
+EN2ZH_SQL_GET_MAX_UPDATE='select update_time from en_zh_ent order by update_time desc limit 1;'
+
+ZH2EN_SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from zh_en_ent where is_delete=0;'
+ZH2EN_SQL_GET_MAX_UPDATE='select update_time from zh_en_ent order by update_time desc limit 1;'
+
+
+app.config['en2zhMapper']= PrePostMapper(MysqlUtil(EN2ZH_SQL_GET_ALL_DATA,EN2ZH_SQL_GET_MAX_UPDATE),name='en2zhMapper', tpl=en2zh_replace_tpl)
+app.config['zh2enMapper']= PrePostMapper(MysqlUtil(ZH2EN_SQL_GET_ALL_DATA,ZH2EN_SQL_GET_MAX_UPDATE),name='zh2enMapper', tpl=en2zh_replace_tpl)
+
 
 # my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
 
@@ -39,12 +49,35 @@ def tran_zh2en_interface():
   inputs = request.args.get('in')
   return trans_zh2en(inputs)
 
+
 def trans_zh2en(inputs):
   server='127.0.0.1:9082'
   servable_name='transformer'
   problem='translate_zhen_wmt32k'
   data_dir=t2t_data_dir
-  return my_query.entry(inputs,data_dir,problem,servable_name,server)
+
+  # dealt_with zh2en mapper
+  zh2enMapper = app.config['zh2enMapper']
+  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs)
+
+  log.logger.info('[zh2en] pre-res = %s ' % dealt_input)
+  log.logger.info('[zh2en] mark-dict = %s ' % str(mark_dict))
+
+  model_res = my_query.entry(dealt_input, data_dir, problem, servable_name, server)
+
+  log.logger.info('[zh2en] model-res = %s ' % model_res)
+
+  is_all_right, post_dealt_res = zh2enMapper.post_replace(model_res['output'], mark_dict)
+
+  log.logger.info('[zh2en] is_all_right = %s , post-res = %s ' % (str(is_all_right), post_dealt_res))
+
+  if is_all_right:
+    model_res['output'] = post_dealt_res
+    return model_res
+  else:
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+  # return my_query.entry(inputs,data_dir,problem,servable_name,server)
+
 
 @app.route('/translate/en2zh/',methods=['GET'])
 def trans_en2zh_interface():
@@ -62,17 +95,17 @@ def trans_en2zh(inputs):
   en2zhMapper = app.config['en2zhMapper']
   dealt_input,mark_dict=en2zhMapper.pre_replace_v2(inputs)
 
-  log.logger.info('pre-res = %s ' % dealt_input)
-  log.logger.info('mark-dict = %s ' % str(mark_dict))
+  log.logger.info('[en2zh] pre-res = %s ' % dealt_input)
+  log.logger.info('[en2zh] mark-dict = %s ' % str(mark_dict))
 
 
   model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
 
-  log.logger.info('model-res = %s ' % model_res)
+  log.logger.info('[en2zh] model-res = %s ' % model_res)
 
   is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res['output'],mark_dict)
 
-  log.logger.info(' is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
+  log.logger.info('[en2zh] is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
 
   if is_all_right:
     model_res['output']=post_dealt_res
@@ -80,7 +113,6 @@ def trans_en2zh(inputs):
   else:
     return my_query.entry(inputs,data_dir,problem,servable_name,server)
 
-  #return my_query.entry(inputs,data_dir,problem,servable_name,server)
 
 @app.route("/translate/tr2zh/",methods=['GET'])
 def trans_tr2zh_interface():

@@ -8,8 +8,8 @@
 import pymysql
 import time,datetime
 
-SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from en_zh_ent where is_delete=0;'
-SQL_GET_MAX_UPDATE='select update_time from en_zh_ent order by update_time desc limit 1;'
+# SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from en_zh_ent where is_delete=0;'
+# SQL_GET_MAX_UPDATE='select update_time from en_zh_ent order by update_time desc limit 1;'
 
 HOST='rm-uf67jlfy9n338fqa5.mysql.rds.aliyuncs.com'
 USER='rt'
@@ -19,9 +19,11 @@ DB_NAME='rt'
 
 class MysqlUtil(object):
 
-  def __init__(self):
+  def __init__(self,sql_get_all,sql_get_max):
     self._db = pymysql.connect(HOST, USER, PSWD, DB_NAME,charset='utf8')
     self._cursor=self._db.cursor()
+    self._sql_get_all_data=sql_get_all
+    self._sql_get_max_update= sql_get_max
 
   def __del__(self):
     self._db.close()
@@ -36,12 +38,12 @@ class MysqlUtil(object):
     return None
 
   def get_max_update(self):
-    tmp= self.get_data(SQL_GET_MAX_UPDATE)
+    tmp= self.get_data(self._sql_get_max_update)
     res=int(time.mktime(tmp[0][0].timetuple()))
     return res
 
   def get_all(self):
-    return self.get_data(SQL_GET_ALL_DATA)
+    return self.get_data(self._sql_get_all_data)
 
 if __name__ == '__main__':
   m=MysqlUtil()

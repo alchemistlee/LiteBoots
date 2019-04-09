@@ -15,17 +15,18 @@ import util.my_logger as log
 # my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
 
 
-
 class PrePostMapper(object):
 
-  def __init__(self,path=None,tpl=None):
+  def __init__(self,mysql_obj,name=None,path=None,tpl=None):
     self.path=path
     self._en_key2id=dict()
     self._en_keys=list()
     self._zh_vals=list()
     self.replace_tpl=tpl
 
-    self.mysql_util=MysqlUtil()
+    self._name=name
+
+    self.mysql_util=mysql_obj
     self.load_data_db()
     self._my_ts=self._get_timestamp()
 
@@ -46,19 +47,19 @@ class PrePostMapper(object):
     while True:
       time.sleep(60)
       if self._is_update():
-        log.logger.info('begin to update it ... ')
+        log.logger.info('%s begin to update it ... ' % self._name)
         self.load_data_db()
         self._my_ts = self._get_timestamp()
       else:
-        log.logger.info('no need update ...')
+        log.logger.info('%s no need update ...' % self._name)
 
   def load_data_db(self):
     tmp_zh_vals = list()
     tmp_en_keys = list()
     tmp_en_key2id = dict()
-    log.logger.info(' go to get_all ... ')
+    log.logger.info('%s go to get_all ... ' % self._name)
     db_data = self.mysql_util.get_all()
-    log.logger.info(' db_data size = %s ' % str(len(db_data)))
+    log.logger.info('%s db_data size = %s ' % (self._name,str(len(db_data))))
     index=0
     for item in db_data:
       ori_en_str = item[1].strip()
