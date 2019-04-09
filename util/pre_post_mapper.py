@@ -168,7 +168,7 @@ class PrePostMapper(object):
     return input_lst
 
 
-  def pre_replace_v2(self,input_str,is_zhen=False):
+  def pre_replace_v2(self,input_str):
     post_replace_dict = dict()
     replaced_index =0
 
@@ -177,9 +177,6 @@ class PrePostMapper(object):
     for item in matched:
       tmp_val = self.get_mapped_val(item[0])
       replaced_str = self.replace_tpl % str(replaced_index)
-
-      if is_zhen:
-        replaced_str = ' %s ' % replaced_str
 
       input_token=self._rep_in_lst(input_token,item[1],item[2],replaced_str)
 
@@ -190,7 +187,7 @@ class PrePostMapper(object):
 
     return res_str,post_replace_dict
 
-  def post_replace(self,input_str,post_rep_dict):
+  def post_replace(self,input_str,post_rep_dict,is_zhen=False):
     is_all_right = True
     ret_str = input_str
     for item_rep_key in post_rep_dict.keys():
@@ -198,6 +195,10 @@ class PrePostMapper(object):
         is_all_right= False
         break
       item_map_val = post_rep_dict[item_rep_key]
+
+      if is_zhen:
+        item_map_val = ' %s ' % item_map_val
+
       ret_str = ret_str.replace(item_rep_key,item_map_val)
     return is_all_right,ret_str
 
