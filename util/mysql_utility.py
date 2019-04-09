@@ -6,7 +6,7 @@
 # @abstract:
 
 import pymysql
-import time,datetime
+import time
 
 # SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from en_zh_ent where is_delete=0;'
 # SQL_GET_MAX_UPDATE='select update_time from en_zh_ent order by update_time desc limit 1;'

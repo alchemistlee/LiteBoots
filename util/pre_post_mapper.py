@@ -12,7 +12,7 @@ from util.mysql_utility import *
 
 import util.my_logger as log
 
-# my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
+import config
 
 
 class PrePostMapper(object):
@@ -198,8 +198,9 @@ class PrePostMapper(object):
       ret_str = ret_str.replace(item_rep_key,item_map_val)
     return is_all_right,ret_str
 
+
 if __name__=='__main__':
-  a =  PrePostMapper(path='../data/en2zh_data_v2.txt',tpl='<%s>')
+  a = PrePostMapper(MysqlUtil(config.ZH2EN_GET_ALL,config.ZH2EN_GET_MAX),name='test',tpl='<%s>')
 
   t1='Hans Tungbegan his career as an investment banker at Merrill Lynch. He joined GGV in 2013 from Qiming Venture Partners, where he had focused on investments in China and co-led a Series A investment in Xiaomi. Prior to that, he was with Bessemer Venture Partners, where he helped companies like Skype expand into China.'
 
@@ -207,7 +208,9 @@ if __name__=='__main__':
 
   t3='PDD is bad'
 
-  b_str,b_dict = a.pre_replace_v2(t3)
+  t4='虎博科技准备上市'
+
+  b_str,b_dict = a.pre_replace_v2(t4)
   print(b_str)
   print(b_dict)
 

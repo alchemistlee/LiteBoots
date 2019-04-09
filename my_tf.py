@@ -5,6 +5,7 @@
 # @author  : alchemistlee
 # @fileName: my_tf.py
 # @abstract:
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -17,8 +18,8 @@ from flask import Flask
 from flask import request
 from flask import render_template
 import json
+import config
 
-from util.mysql_utility import *
 
 from util.pre_post_mapper import *
 
@@ -29,17 +30,13 @@ app = Flask(__name__)
 t2t_data_dir = '/data/translate/models/v3/t2t_data'
 
 en2zh_data_path='./data/en2zh_data_v2.txt'
+
 en2zh_replace_tpl='<%s>'
-
-EN2ZH_SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from en_zh_ent where is_delete=0;'
-EN2ZH_SQL_GET_MAX_UPDATE='select update_time from en_zh_ent order by update_time desc limit 1;'
-
-ZH2EN_SQL_GET_ALL_DATA='select id,ent_keys,ent_val,type from zh_en_ent where is_delete=0;'
-ZH2EN_SQL_GET_MAX_UPDATE='select update_time from zh_en_ent order by update_time desc limit 1;'
+zh2en_replace_tpl='<%s>'
 
 
-app.config['en2zhMapper']= PrePostMapper(MysqlUtil(EN2ZH_SQL_GET_ALL_DATA,EN2ZH_SQL_GET_MAX_UPDATE),name='en2zhMapper', tpl=en2zh_replace_tpl)
-app.config['zh2enMapper']= PrePostMapper(MysqlUtil(ZH2EN_SQL_GET_ALL_DATA,ZH2EN_SQL_GET_MAX_UPDATE),name='zh2enMapper', tpl=en2zh_replace_tpl)
+app.config['en2zhMapper']= PrePostMapper(MysqlUtil(config.EN2ZH_GET_ALL,config.EN2ZH_GET_MAX),name='en2zhMapper', tpl=en2zh_replace_tpl)
+app.config['zh2enMapper']= PrePostMapper(MysqlUtil(config.ZH2EN_GET_ALL,config.ZH2EN_GET_MAX),name='zh2enMapper', tpl=zh2en_replace_tpl)
 
 
 # my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
