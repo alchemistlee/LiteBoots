@@ -170,7 +170,7 @@ class PrePostMapper(object):
 
   def pre_replace_v2(self,input_str):
     post_replace_dict = dict()
-    replaced_index =1
+    replaced_index =2
 
     matched,input_token = self._batch_sliding(input_str)
 
