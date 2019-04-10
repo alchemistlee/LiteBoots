@@ -68,5 +68,6 @@ def filter_overlap(sliding_lst):
 
 if __name__ == '__main__':
   base = 'Royal Caribbean Cruises Ltd. Q4 adjusted earnings Beat Estimates'
-  print(list(jieba.cut(base)))
+  b1 = "eden hazard's incredible goal against West Ham left Chelsea fans delighted yet devastated as he nears a 100 million move to Real Madrid "
+  print(list(jieba.cut(b1)))
   pass
