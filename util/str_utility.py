@@ -6,7 +6,12 @@
 # @abstract:
 
 import re
+import jieba
 
+
+def rm_redundant_space_in_str(input_str):
+  tmp_lst = input_str.split()
+  return ''.join(tmp_lst)
 
 def find_all(base_str,tar):
   res = []
@@ -49,16 +54,21 @@ def batch_sub_str(base_str,idxs,rep_str):
 
 
 if __name__ == '__main__':
-  base = 'hello world'
-  rep = 'wow'
-  beg=2
-  end=6
-
-  idxs = [(0,1),(5,7)]
+  # base = 'hello world'
+  # rep = 'wow'
+  # beg=2
+  # end=6
+  #
+  # idxs = [(0,1),(5,7)]
 
   # print(sub_str(base,beg,end,rep))
   # print(batch_sub_str(base,idxs,rep))
-  b= ' 6ProPhase Labs, Inc. is a great company '
-  r1 = re.findall('[^a-z]ProPhase Labs, Inc\.|^ProPhase Labs, Inc\.',b,flags=re.IGNORECASE)
-  print(r1)
-  print(len(r1))
+  # b= ' 6ProPhase Labs, Inc. is a great company '
+  # r1 = re.findall('[^a-z]ProPhase Labs, Inc\.|^ProPhase Labs, Inc\.',b,flags=re.IGNORECASE)
+  # print(r1)
+  # print(len(r1))
+  t= '虎博是家 好公司'
+  # print(t.split())
+  # print(list(jieba.cut(t)))
+
+

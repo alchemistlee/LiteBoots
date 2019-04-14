@@ -13,16 +13,17 @@ from util.mysql_utility import *
 import util.my_logger as log
 
 import config
-
+from util.str_utility import *
 
 class PrePostMapper(object):
 
   def __init__(self,mysql_obj,name=None,path=None,tpl=None):
-    self.path=path
-    self._en_key2id=dict()
-    self._en_keys=list()
-    self._zh_vals=list()
-    self.replace_tpl=tpl
+    self.path = path
+    self._key2id = dict()
+    self._keys = list()
+    self._vals = list()
+    self._pre_key2id = dict()
+    self.replace_tpl = tpl
 
     self._name=name
 
@@ -54,9 +55,12 @@ class PrePostMapper(object):
         log.logger.info('%s no need update ...' % self._name)
 
   def load_data_db(self):
-    tmp_zh_vals = list()
-    tmp_en_keys = list()
-    tmp_en_key2id = dict()
+    tmp_vals = list()
+    tmp_keys = list()
+    tmp_key2id = dict()
+    #提前做替换后，再走翻译
+    tmp_pre_key2id= dict()
+
     log.logger.info('%s go to get_all ... ' % self._name)
     db_data = self.mysql_util.get_all()
     log.logger.info('%s db_data size = %s ' % (self._name,str(len(db_data))))
@@ -64,6 +68,7 @@ class PrePostMapper(object):
     for item in db_data:
       ori_en_str = item[1].strip()
       ori_zh_str = item[2].strip()
+      type = int(item[3])
 
       tmp_en_lst = ori_en_str.split(';')
       # sort as str size
@@ -71,24 +76,29 @@ class PrePostMapper(object):
         tmp_en_lst.sort(key=lambda x: len(x), reverse=True)
 
       # self._zh_vals.append(ori_zh_str)
-      tmp_zh_vals.append(ori_zh_str)
+      tmp_vals.append(ori_zh_str)
       # self._en_keys.append(tmp_en_lst)
-      tmp_en_keys.append(tmp_en_lst)
+      tmp_keys.append(tmp_en_lst)
 
       for en_key in tmp_en_lst:
         if en_key.strip() != '':
           # self._en_key2id[en_key]=index
-          lower_en_key = en_key.lower()
-          tmp_en_key2id[lower_en_key] = index
+          en_key= en_key.strip()
+          if type ==3:
+            tmp_pre_key2id[en_key]=index
+          else:
+            lower_en_key = en_key.lower()
+            tmp_key2id[lower_en_key] = index
       index += 1
-    self._zh_vals = tmp_zh_vals
-    self._en_keys = tmp_en_keys
-    self._en_key2id = tmp_en_key2id
+    self._vals = tmp_vals
+    self._keys = tmp_keys
+    self._key2id = tmp_key2id
+    self._pre_key2id = tmp_pre_key2id
 
   def load_data(self):
-    tmp_zh_vals=list()
-    tmp_en_keys=list()
-    tmp_en_key2id=dict()
+    tmp_vals=list()
+    tmp_keys=list()
+    tmp_key2id=dict()
 
     index =0
     for line in open(self.path):
@@ -107,28 +117,28 @@ class PrePostMapper(object):
         tmp_en_lst.sort(key=lambda x : len(x),reverse=True)
 
       # self._zh_vals.append(ori_zh_str)
-      tmp_zh_vals.append(ori_zh_str)
+      tmp_vals.append(ori_zh_str)
       # self._en_keys.append(tmp_en_lst)
-      tmp_en_keys.append(tmp_en_lst)
+      tmp_keys.append(tmp_en_lst)
 
       for en_key in tmp_en_lst:
         if en_key.strip()!='':
           # self._en_key2id[en_key]=index
-          tmp_en_key2id[en_key]=index
+          tmp_key2id[en_key]=index
       index+=1
-    self._zh_vals=tmp_zh_vals
-    self._en_keys=tmp_en_keys
-    self._en_key2id=tmp_en_key2id
+    self._vals=tmp_vals
+    self._keys=tmp_keys
+    self._key2id=tmp_key2id
 
   def get_mapped_val(self,input_key):
-    if input_key in self._en_key2id.keys():
-      return self._zh_vals[self._en_key2id[input_key]]
+    if input_key in self._key2id.keys():
+      return self._vals[self._key2id[input_key]]
     return None
 
   def pre_replace(self,input_str):
     post_replace_dict = dict()
     replaced_index =0
-    for tmp_keys in self._en_keys:
+    for tmp_keys in self._keys:
       replaced_str = self.replace_tpl % str(replaced_index)
       is_replaced = False
       for i in range(0,len(tmp_keys)):
@@ -153,18 +163,46 @@ class PrePostMapper(object):
       res = res[0:-2]
     return res
 
+  def _pre_proc(self,input_str):
+    input_token = list(jieba.cut(input_str))
+    matched = list()
 
-  def _batch_sliding(self,input_str,is_zhen=False):
-    input_token=list(jieba.cut(input_str))
+    for sub_window_size in range(1,9):
+      tmp_sliding = sliding_it(input_token,sub_window_size)
+      for item in tmp_sliding:
+        k1 = item[0]
+        if k1 in self._pre_key2id.keys():
+          new_item = (item[0],item[1],item[2],k1)
+          matched.append(new_item)
+
+    no_dup = filter_overlap(matched)
+
+    for item in no_dup:
+      tmp_id = self._pre_key2id[item[3]]
+      tmp_val = self._vals[tmp_id]
+      replaced_str = tmp_val
+      input_token=self._rep_in_lst(input_token,item[1],item[2],replaced_str)
+
+    res_str=''.join(input_token)
+
+    return res_str
+
+  def _batch_sliding(self,input_str,input_token=None):
+    if input_token is None:
+      input_token=list(jieba.cut(input_str))
     print(input_token)
     matched = list()
     for sub_window_size in range(1,9):
       tmp_sliding = sliding_it(input_token,sub_window_size)
       for item in tmp_sliding:
         k1 = self._compatible_enkey(item[0])
-        if k1 in self._en_key2id.keys():
+        # k2 =item[0]
+        if k1 in self._key2id.keys():
           new_item = (item[0],item[1],item[2],k1)
           matched.append(new_item)
+        # elif k2 in self._en_key2id.keys():
+        #   new_item = (item[0], item[1], item[2], k2)
+        #   matched.append(new_item)
 
     res = filter_overlap(matched)
 
@@ -176,11 +214,14 @@ class PrePostMapper(object):
       input_lst[i] = ''
     return input_lst
 
-  def pre_replace_v2(self,input_str,is_zhen=False):
+  def pre_replace_v2(self,input_str):
     post_replace_dict = dict()
     replaced_index =2
+    pre_proc_str = self._pre_proc(input_str)
 
-    matched,input_token = self._batch_sliding(input_str,is_zhen=is_zhen)
+    log.logger.info('pre proc = %s ' % pre_proc_str)
+
+    matched,input_token = self._batch_sliding(pre_proc_str)
 
     for item in matched:
       tmp_val = self.get_mapped_val(item[3])
@@ -208,6 +249,10 @@ class PrePostMapper(object):
         item_map_val = ' %s ' % item_map_val
 
       ret_str = ret_str.replace(item_rep_key,item_map_val)
+
+      if not is_zhen:
+        #处理返回的中文
+        ret_str=rm_redundant_space_in_str(ret_str)
     return is_all_right,ret_str
 
 
@@ -225,7 +270,9 @@ if __name__=='__main__':
 
   t5 = "eden hazard's incredible goal against West Ham left Chelsea fans delighted yet devastated as he nears a 100 million move to Real Madrid "
 
-  b_str,b_dict = a.pre_replace_v2(t5)
+  t6="eden hazard's incredible goal against West Ham ,We forecast a revenue CAGR of 39% over FY16–18, driven by CAGRs of 34%, 46% and 34% in the accommodation, transportation and package tour segments, respectively. We project FY16 revenue growth of 65% YoY, higher than in FY17–18, due to the full-year consolidation of Qunar, which was acquired in Q4 FY15."
+
+  b_str,b_dict = a.pre_replace_v2(t6)
   print(b_str)
   print(b_dict)
 
