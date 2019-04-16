@@ -23,6 +23,7 @@ class PrePostMapper(object):
     self._keys = list()
     self._vals = list()
     self._pre_key2id = dict()
+    self._pre_replace_str_key2id = dict()
     self.replace_tpl = tpl
 
     self._name=name
@@ -60,6 +61,7 @@ class PrePostMapper(object):
     tmp_key2id = dict()
     #提前做替换后，再走翻译
     tmp_pre_key2id= dict()
+    tmp_pre_replace_str_key2id = dict()
 
     log.logger.info('%s go to get_all ... ' % self._name)
     db_data = self.mysql_util.get_all()
@@ -69,6 +71,7 @@ class PrePostMapper(object):
       ori_en_str = item[1].strip()
       ori_zh_str = item[2].strip()
       type = int(item[3])
+      is_replace = int(item[4])
 
       tmp_en_lst = ori_en_str.split(';')
       # sort as str size
@@ -80,10 +83,15 @@ class PrePostMapper(object):
       # self._en_keys.append(tmp_en_lst)
       tmp_keys.append(tmp_en_lst)
 
+
       for en_key in tmp_en_lst:
         if en_key.strip() != '':
           # self._en_key2id[en_key]=index
           en_key= en_key.strip()
+
+          if is_replace == 1:
+            tmp_pre_replace_str_key2id[en_key]=index
+
           if type ==3:
             tmp_pre_key2id[en_key]=index
           else:
@@ -94,6 +102,7 @@ class PrePostMapper(object):
     self._keys = tmp_keys
     self._key2id = tmp_key2id
     self._pre_key2id = tmp_pre_key2id
+    self._pre_replace_str_key2id = tmp_pre_replace_str_key2id
 
   def load_data(self):
     tmp_vals=list()
@@ -163,6 +172,16 @@ class PrePostMapper(object):
       res = res[0:-2]
     return res
 
+  def _pre_rep(self,input_str,is_enzh=True):
+    res = input_str
+    for item in self._pre_replace_str_key2id.keys():
+      if item in res :
+        rep_val = self._vals[self._pre_replace_str_key2id[item]]
+        if is_enzh:
+          rep_val = ' %s ' % rep_val
+        res=res.replace(item ,rep_val )
+    return res
+
   def _pre_proc(self,input_str):
     input_token = list(jieba.cut(input_str))
     matched = list()
@@ -214,9 +233,12 @@ class PrePostMapper(object):
       input_lst[i] = ''
     return input_lst
 
-  def pre_replace_v2(self,input_str):
+  def pre_replace_v2(self,input_str,is_enzh=False):
     post_replace_dict = dict()
     replaced_index =2
+
+    input_str = self._pre_rep(input_str,is_enzh)
+
     pre_proc_str = self._pre_proc(input_str)
 
     log.logger.info('pre proc = %s ' % pre_proc_str)
@@ -272,7 +294,7 @@ if __name__=='__main__':
 
   t6="eden hazard's incredible goal against West Ham ,We forecast a revenue CAGR of 39% over FY16–18, driven by CAGRs of 34%, 46% and 34% in the accommodation, transportation and package tour segments, respectively. We project FY16 revenue growth of 65% YoY, higher than in FY17–18, due to the full-year consolidation of Qunar, which was acquired in Q4 FY15."
 
-  b_str,b_dict = a.pre_replace_v2(t6)
+  b_str,b_dict = a.pre_replace_v2(t6,is_enzh=True)
   print(b_str)
   print(b_dict)
 

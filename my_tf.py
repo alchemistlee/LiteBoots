@@ -55,7 +55,7 @@ def trans_zh2en(inputs):
 
   # dealt_with zh2en mapper
   zh2enMapper = app.config['zh2enMapper']
-  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs)
+  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs,is_enzh=False)
 
   log.logger.info('[zh2en] pre-res = %s ' % dealt_input)
   log.logger.info('[zh2en] mark-dict = %s ' % str(mark_dict))
@@ -90,7 +90,7 @@ def trans_en2zh(inputs):
 
   # dealt_with en2zh mapper
   en2zhMapper = app.config['en2zhMapper']
-  dealt_input,mark_dict=en2zhMapper.pre_replace_v2(inputs)
+  dealt_input,mark_dict=en2zhMapper.pre_replace_v2(inputs,is_enzh=True)
 
   log.logger.info('[en2zh] pre-res = %s ' % dealt_input)
   log.logger.info('[en2zh] mark-dict = %s ' % str(mark_dict))
