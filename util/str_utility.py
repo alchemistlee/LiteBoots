@@ -53,6 +53,16 @@ def batch_sub_str(base_str,idxs,rep_str):
   return last_base_str
 
 
+def is_all_en(input_str):
+  for ch in input_str:
+    print(ch)
+    if (ch >= u'\u0041' and ch <= u'\u005a') or (ch >= u'\u0061' and ch <= u'\u007a') or (ch == ' '):
+      continue
+    else:
+      return False
+  return True
+
+
 if __name__ == '__main__':
   # base = 'hello world'
   # rep = 'wow'
@@ -67,8 +77,8 @@ if __name__ == '__main__':
   # r1 = re.findall('[^a-z]ProPhase Labs, Inc\.|^ProPhase Labs, Inc\.',b,flags=re.IGNORECASE)
   # print(r1)
   # print(len(r1))
-  t= '虎博是家 好公司'
+  t= 'hello '
   # print(t.split())
   # print(list(jieba.cut(t)))
-
+  print(is_all_en(t))
 

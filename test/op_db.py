@@ -2,12 +2,13 @@
 
 # @time    : 2019/4/10 5:24 PM
 # @author  : alchemistlee
-# @fileName: rm_dup_db.py
+# @fileName: op_db.py
 # @abstract:
 
 
 from util.mysql_utility import *
 import config
+from util.str_utility import *
 
 
 class MysqlExtend(MysqlUtil):
@@ -56,10 +57,28 @@ def rm_dup(sql_all,sql_max,sql_del):
   my_db.del_by_id(rm_ids)
 
 
+def rm_all_en_in_zh(sql_all=None,sql_max=None,sql_del=None):
+  my_db = MysqlExtend(sql_all,sql_max,sql_del)
+  all_data = my_db.get_all()
+  rm_ids = list()
+
+  for item in all_data:
+    tmp_id = item[0]
+    tmp_key = item[1]
+    if is_all_en(tmp_key):
+      rm_ids.append(tmp_id)
+
+  my_db.del_by_id(rm_ids)
+
+
+
 if __name__ == '__main__':
   # print('rm en2zh dup !')
   # rm_dup(config.EN2ZH_GET_ALL,config.EN2ZH_GET_MAX,config.EN2ZH_DEL)
   # exit()
 
-  print('rm zh2en dup !')
-  rm_dup(config.ZH2EN_GET_ALL,config.ZH2EN_GET_MAX,config.ZH2EN_DEL)
+  # print('rm zh2en dup !')
+  # rm_dup(config.ZH2EN_GET_ALL,config.ZH2EN_GET_MAX,config.ZH2EN_DEL)
+
+  sql_1 = 'select id,ent_keys,ent_val,type,is_replace from zh_en_ent where is_delete=2 and type = 0;'
+  rm_all_en_in_zh(sql_all=sql_1,sql_del=config.ZH2EN_DEL)
