@@ -71,7 +71,10 @@ class PrePostMapper(object):
       ori_en_str = item[1].strip()
       ori_zh_str = item[2].strip()
       type = int(item[3])
-      is_replace = int(item[4])
+      if item[4] is None:
+        is_replace = 0
+      else:
+        is_replace = int(item[4])
 
       tmp_en_lst = ori_en_str.split(';')
       # sort as str size
