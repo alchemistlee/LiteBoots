@@ -264,6 +264,11 @@ class PrePostMapper(object):
   def post_replace(self,input_str,post_rep_dict,is_zhen=False):
     is_all_right = True
     ret_str = input_str
+
+    if not is_zhen:
+      # 处理返回的中文
+      ret_str = rm_redundant_space_in_str(ret_str)
+
     for item_rep_key in post_rep_dict.keys():
       if not item_rep_key in ret_str:
         is_all_right= False
@@ -275,9 +280,6 @@ class PrePostMapper(object):
 
       ret_str = ret_str.replace(item_rep_key,item_map_val)
 
-      if not is_zhen:
-        #处理返回的中文
-        ret_str=rm_redundant_space_in_str(ret_str)
     return is_all_right,ret_str
 
 
