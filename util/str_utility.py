@@ -9,9 +9,32 @@ import re
 import jieba
 
 
+def is_alphabet(ch):
+  if (ch >= u'\u0041' and ch <= u'\u005a') or (ch >= u'\u0061' and ch <= u'\u007a') :
+    return True
+  return False
+
 def rm_redundant_space_in_str(input_str):
   tmp_lst = input_str.split()
-  return ''.join(tmp_lst)
+  res = list()
+  for i in range(0,len(tmp_lst)):
+    cur = tmp_lst[i]
+    next = None
+
+    if i+1 < len(tmp_lst):
+      next = tmp_lst[i+1]
+
+    if next is None:
+      res.append(cur)
+      continue
+
+    cur_end = cur[-1]
+    next_beg = next[0]
+    if is_alphabet(cur_end) and is_alphabet(next_beg):
+      cur+=' '
+    res.append(cur)
+
+  return ''.join(res)
 
 def find_all(base_str,tar):
   res = []
@@ -55,7 +78,7 @@ def batch_sub_str(base_str,idxs,rep_str):
 
 def is_all_en(input_str):
   for ch in input_str:
-    print(ch)
+    # print(ch)
     if (ch >= u'\u0041' and ch <= u'\u005a') or (ch >= u'\u0061' and ch <= u'\u007a') or (ch == ' '):
       continue
     else:
@@ -64,7 +87,9 @@ def is_all_en(input_str):
 
 
 if __name__ == '__main__':
-  # base = 'hello world'
+  base = '世界 人民 hello world '
+  print(is_all_en(base))
+  print(rm_redundant_space_in_str(base))
   # rep = 'wow'
   # beg=2
   # end=6
@@ -77,8 +102,8 @@ if __name__ == '__main__':
   # r1 = re.findall('[^a-z]ProPhase Labs, Inc\.|^ProPhase Labs, Inc\.',b,flags=re.IGNORECASE)
   # print(r1)
   # print(len(r1))
-  t= 'hello '
+  # t= 'hello '
   # print(t.split())
   # print(list(jieba.cut(t)))
-  print(is_all_en(t))
+  # print(is_all_en(t))
 
