@@ -37,7 +37,7 @@ flags.DEFINE_string("problem", None, "Problem name.")
 flags.DEFINE_string("data_dir", None, "Data directory, for vocab files.")
 flags.DEFINE_string("t2t_usr_dir", None, "Usr dir for registrations.")
 flags.DEFINE_string("inputs_once", None, "Query once with this input.")
-flags.DEFINE_integer("timeout_secs", 10, "Timeout for query.")
+flags.DEFINE_integer("timeout_secs", 20, "Timeout for query.")
 
 # For Cloud ML Engine predictions.
 flags.DEFINE_string("cloud_mlengine_model_name", None,
