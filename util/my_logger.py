@@ -5,14 +5,16 @@
 # @fileName: my_logger.py
 # @abstract:
 
-
+import sys
 import logging
+
+from config import gen_config
 # import os.path
 # import sys
 # import time
-
-
 # def get_logger(is_test=False, log_path=None):
+
+config = gen_config()
 
 logger = logging.getLogger()
 logger.propagate
@@ -29,8 +31,11 @@ formatter = logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(l
 #   return logger
 #
 # else:
-fh = logging.FileHandler('/data/logs/my-tf-flask.log', mode='a',encoding="UTF-8")
-fh.setLevel(logging.DEBUG)
+if config.LOG_STDOUT:
+    fh = logging.StreamHandler(sys.stdout)
+else:
+    fh = logging.FileHandler(config.LOG_FILE_PATH, mode='a', encoding="UTF-8")
+
+fh.setLevel(config.LOG_LEVEL)
 fh.setFormatter(formatter)
 logger.addHandler(fh)
-    # return logger

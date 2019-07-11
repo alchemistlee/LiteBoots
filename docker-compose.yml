@@ -1,0 +1,12 @@
+version: '2'
+services:
+  liteboots:
+    container_name: liteboots
+    image: liteboots
+    restart: always
+    ports:
+      - 5000:5000
+    environment:
+      - ZH2EN_SERVER=10.0.8.230:9082
+      - EN2ZH_SERVER=10.0.8.230:9083
+      - DEBUG=True

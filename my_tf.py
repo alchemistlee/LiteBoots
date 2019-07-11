@@ -10,194 +10,186 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import my_query
+import json
 
-from util.langconv import *
+import my_query
 
 from flask import Flask
 from flask import request
 from flask import render_template
-import json
-# import config
 
-
+from util.langconv import *
 from util.pre_post_mapper import *
+from config import get_config_obj, gen_config
 
+config = gen_config()
 app = Flask(__name__)
-
-# t2t_data_dir = '/mnt/disk1/yifan.li/t2t_data'
-# t2t_data_dir = '/home/root/t2t_data_v2/t2t_data'
-t2t_data_dir = '/data/translate/models/v6/t2t_data'
-
-en2zh_data_path='./data/en2zh_data_v2.txt'
-
-en2zh_replace_tpl='<%s>'
-zh2en_replace_tpl='<%s>'
+app.config.from_object(get_config_obj())
 
 
-app.config['en2zhMapper']= PrePostMapper(MysqlUtil(config.EN2ZH_GET_ALL,config.EN2ZH_GET_MAX),name='en2zhMapper', tpl=en2zh_replace_tpl)
-app.config['zh2enMapper']= PrePostMapper(MysqlUtil(config.ZH2EN_GET_ALL,config.ZH2EN_GET_MAX),name='zh2enMapper', tpl=zh2en_replace_tpl)
-
-
-# my_logger = get_logger(log_path='/data/logs/my-tf-flask.log')
-
-@app.route('/translate/zh2en/',methods=['GET'])
+@app.route('/translate/zh2en/', methods=['GET'])
 def tran_zh2en_interface():
-  inputs = request.args.get('in')
-  return trans_zh2en(inputs)
+    inputs = request.args.get('in')
+    return trans_zh2en(inputs)
 
 
 def trans_zh2en(inputs):
-  server='127.0.0.1:9082'
-  servable_name='transformer'
-  problem='translate_zhen_wmt32k'
-  data_dir=t2t_data_dir
+    server = config.ZH2EN_SERVER
+    servable_name = config.ZH2EN_SERVABLE_NAME
+    problem = config.ZH2EN_PROBLEM
+    data_dir = config.T2T_DATA_DIR
 
-  # dealt_with zh2en mapper
-  zh2enMapper = app.config['zh2enMapper']
-  dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs,is_enzh=False)
+    # dealt_with zh2en mapper
+    zh2enMapper = PrePostMapper(MysqlUtil(config.ZH2EN_GET_ALL, config.ZH2EN_GET_MAX),
+                                name='zh2enMapper', tpl=config.ZH2EN_REPLACE_TPL)
+    dealt_input, mark_dict = zh2enMapper.pre_replace_v2(inputs, is_enzh=False)
 
-  log.logger.info('[zh2en] pre-res = %s ' % dealt_input)
-  log.logger.info('[zh2en] mark-dict = %s ' % str(mark_dict))
+    log.logger.info('[zh2en] pre-res = %s ' % dealt_input)
+    log.logger.info('[zh2en] mark-dict = %s ' % str(mark_dict))
 
-  model_res = my_query.entry(dealt_input, data_dir, problem, servable_name, server)
+    model_res = my_query.entry(dealt_input, data_dir, problem, servable_name, server)
 
-  log.logger.info('[zh2en] model-res = %s ' % model_res)
+    log.logger.info('[zh2en] model-res = %s ' % model_res)
 
-  is_all_right, post_dealt_res = zh2enMapper.post_replace(model_res['output'], mark_dict,is_zhen=True)
+    is_all_right, post_dealt_res = zh2enMapper.post_replace(model_res['output'], mark_dict, is_zhen=True)
 
-  log.logger.info('[zh2en] is_all_right = %s , post-res = %s ' % (str(is_all_right), post_dealt_res))
+    log.logger.info('[zh2en] is_all_right = %s , post-res = %s ' % (str(is_all_right), post_dealt_res))
 
-  if is_all_right:
-    model_res['output'] = post_dealt_res
-    return model_res
-  else:
-    return my_query.entry(inputs, data_dir, problem, servable_name, server)
-  # return my_query.entry(inputs,data_dir,problem,servable_name,server)
+    if is_all_right:
+        model_res['output'] = post_dealt_res
+        return model_res
+    else:
+        return my_query.entry(inputs, data_dir, problem, servable_name, server)
+    # return my_query.entry(inputs,data_dir,problem,servable_name,server)
 
 
-@app.route('/translate/en2zh/',methods=['GET'])
+@app.route('/translate/en2zh/', methods=['GET'])
 def trans_en2zh_interface():
-  inputs = request.args.get('in')
-  return trans_en2zh(inputs)
+    inputs = request.args.get('in')
+    return trans_en2zh(inputs)
 
 
 def trans_en2zh(inputs):
-  server='127.0.0.1:9083'
-  servable_name='transformer'
-  problem='translate_enzh_wmt32k'
-  data_dir=t2t_data_dir
+    server = config.EN2ZH_SERVER
+    servable_name = config.EN2ZH_SERVABLE_NAME
+    problem = config.EN2ZH_PROBLEM
+    data_dir = config.T2T_DATA_DIR
 
-  # dealt_with en2zh mapper
-  en2zhMapper = app.config['en2zhMapper']
-  dealt_input,mark_dict=en2zhMapper.pre_replace_v2(inputs,is_enzh=True)
+    # dealt_with en2zh mapper
+    en2zhMapper = PrePostMapper(MysqlUtil(config.EN2ZH_GET_ALL, config.EN2ZH_GET_MAX),
+                                name='en2zhMapper', tpl=config.EN2ZH_REPLACE_TPL)
+    dealt_input, mark_dict = en2zhMapper.pre_replace_v2(inputs, is_enzh=True)
 
-  log.logger.info('[en2zh] pre-res = %s ' % dealt_input)
-  log.logger.info('[en2zh] mark-dict = %s ' % str(mark_dict))
+    log.logger.info('[en2zh] pre-res = %s ' % dealt_input)
+    log.logger.info('[en2zh] mark-dict = %s ' % str(mark_dict))
+
+    model_res = my_query.entry(dealt_input, data_dir, problem, servable_name, server)
+
+    log.logger.info('[en2zh] model-res = %s ' % model_res)
+
+    is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res['output'], mark_dict)
+
+    log.logger.info('[en2zh] is_all_right = %s , post-res = %s ' % (str(is_all_right), post_dealt_res))
+
+    if is_all_right:
+        model_res['output'] = post_dealt_res
+        return model_res
+    else:
+        return my_query.entry(inputs, data_dir, problem, servable_name, server)
 
 
-  model_res = my_query.entry(dealt_input,data_dir,problem,servable_name,server)
-
-  log.logger.info('[en2zh] model-res = %s ' % model_res)
-
-  is_all_right, post_dealt_res = en2zhMapper.post_replace(model_res['output'],mark_dict)
-
-  log.logger.info('[en2zh] is_all_right = %s , post-res = %s ' % (str(is_all_right),post_dealt_res))
-
-  if is_all_right:
-    model_res['output']=post_dealt_res
-    return model_res
-  else:
-    return my_query.entry(inputs,data_dir,problem,servable_name,server)
-
-
-@app.route("/translate/tr2zh/",methods=['GET'])
+@app.route("/translate/tr2zh/", methods=['GET'])
 def trans_tr2zh_interface():
-  inputs = request.args.get('in')
-  return trans_tr2zh(inputs)
+    inputs = request.args.get('in')
+    return trans_tr2zh(inputs)
+
 
 def trans_tr2zh(inputs):
-  sentence = Converter('zh-hans').convert(inputs)
-  res = {
-          "output":sentence,
-          "input":inputs,
-          "score":1.0
-        }
-  return res
+    sentence = Converter('zh-hans').convert(inputs)
+    res = {
+        "output": sentence,
+        "input": inputs,
+        "score": 1.0
+    }
+    return res
+
 
 @app.route("/translate/zh2tr/")
 def trans_zh2tr_interface():
-  inputs = request.args.get('in')
-  return trans_zh2tr(inputs)
+    inputs = request.args.get('in')
+    return trans_zh2tr(inputs)
+
 
 def trans_zh2tr(inputs):
-  sentence = Converter('zh-hant').convert(inputs)
-  res = {
-    "output":sentence,
-    "input":inputs,
-    "score":1.0
-  }
-  return res
+    sentence = Converter('zh-hant').convert(inputs)
+    res = {
+        "output": sentence,
+        "input": inputs,
+        "score": 1.0
+    }
+    return res
 
-@app.route("/",methods=['GET','POST'])
+
+@app.route("/", methods=['GET', 'POST'])
 def index():
-  if request.method == 'POST':
-    input = request.form['input']
-    in_language = request.form['input-language']
-    out_language = request.form['output-language']
+    if request.method == 'POST':
+        input = request.form['input']
+        in_language = request.form['input-language']
+        out_language = request.form['output-language']
 
-    if in_language == 'zh':
-      if out_language == 'en':
-        tmp_input = trans_tr2zh(input)
-        tr2zh_out = tmp_input['output']
-        res = trans_zh2en(tr2zh_out)
-      elif out_language == 'tr':
-        res = trans_zh2tr(input)
-      else:
-        res = {
-          "output":input,
-          "input":input,
-          "score":1.0
-        }
-    else:
-      # in_language = en
+        if in_language == 'zh':
+            if out_language == 'en':
+                tmp_input = trans_tr2zh(input)
+                tr2zh_out = tmp_input['output']
+                res = trans_zh2en(tr2zh_out)
+            elif out_language == 'tr':
+                res = trans_zh2tr(input)
+            else:
+                res = {
+                    "output": input,
+                    "input": input,
+                    "score": 1.0
+                }
+        else:
+            # in_language = en
 
-      if out_language == 'zh':
-        res = trans_en2zh(input)
-      elif out_language == 'tr':
-        res = trans_en2zh(input)
-        en2zh_out = res['output']
-        res = trans_zh2tr(en2zh_out)
-      else:
-        res = {
-          "output":input,
-          "input":input,
-          "score":1.0
-        }
-    # else:
-    #   if out_language == 'zh':
-    #     res = trans_tr2zh(input)
-    #   elif out_language == 'en':
-    #     res = trans_tr2zh(input)
-    #     tr2zh_out = res['ouptput']
-    #     res = trans_zh2en(tr2zh_out)
-    #   else:
-    #     res = {
-    #       "output":input,
-    #       "input":input,
-    #       "score":1.0
-    #     }
+            if out_language == 'zh':
+                res = trans_en2zh(input)
+            elif out_language == 'tr':
+                res = trans_en2zh(input)
+                en2zh_out = res['output']
+                res = trans_zh2tr(en2zh_out)
+            else:
+                res = {
+                    "output": input,
+                    "input": input,
+                    "score": 1.0
+                }
+        # else:
+        #   if out_language == 'zh':
+        #     res = trans_tr2zh(input)
+        #   elif out_language == 'en':
+        #     res = trans_tr2zh(input)
+        #     tr2zh_out = res['ouptput']
+        #     res = trans_zh2en(tr2zh_out)
+        #   else:
+        #     res = {
+        #       "output":input,
+        #       "input":input,
+        #       "score":1.0
+        #     }
 
-    log.logger.info(str(res))
-    # return str(res)
-    return json.dumps(res)
-  return render_template('index.html')
+        log.logger.info(str(res))
+        # return str(res)
+        return json.dumps(res)
+    return render_template('index.html')
+
 
 if __name__ == '__main__':
-  app.debug = True
-  # handler = logging.FileHandler("/data/logs/my-tf-flask.log",encoding="UTF-8")
-  # handler.setLevel(logging.DEBUG)
-  # logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
-  # handler.setFormatter(logging_format)
-  # app.logger.addHandler(handler)
-  app.run(host='0.0.0.0')
+    app.debug = config.DEBUG
+    # handler = logging.FileHandler("/data/logs/my-tf-flask.log",encoding="UTF-8")
+    # handler.setLevel(logging.DEBUG)
+    # logging_format = logging.Formatter('%(asctime)s - %(levelname)s - %(filename)s - %(funcName)s - %(lineno)s - %(message)s')
+    # handler.setFormatter(logging_format)
+    # app.logger.addHandler(handler)
+    app.run(host='0.0.0.0')
