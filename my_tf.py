@@ -27,6 +27,115 @@ app = Flask(__name__)
 app.config.from_object(get_config_obj())
 
 
+@app.route('/translate/en2cs/', methods=['GET'])
+def tran_en2cs_interface():
+    inputs = request.args.get('in')
+    return trans_en2cs(inputs)
+
+
+def trans_en2cs(inputs):
+    server = config.EN2CS_SERVER
+    servable_name = config.EN2CS_SERVABLE_NAME
+    problem = config.EN2CS_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    # # dealt_with zh2en mapper
+    # en2csMapper = PrePostMapper(MysqlUtil(config.EN2CS_GET_ALL, config.EN2CS_GET_MAX),
+    #                             name='en2csMapper', tpl=config.EN2CS_REPLACE_TPL)
+    # dealt_input, mark_dict = en2csMapper.pre_replace_v2(inputs, is_enzh=False)
+    #
+    # log.logger.info('[en2cs] pre-res = %s ' % dealt_input)
+    # log.logger.info('[en2cs] mark-dict = %s ' % str(mark_dict))
+    # model_res = my_query.entry(dealt_input, data_dir, problem, servable_name, server)
+    #
+    # log.logger.info('[en2cs] model-res = %s ' % model_res)
+    #
+    # is_all_right, post_dealt_res = en2csMapper.post_replace(model_res['output'], mark_dict, is_zhen=True)
+    #
+    # log.logger.info('[zh2en] is_all_right = %s , post-res = %s ' % (str(is_all_right), post_dealt_res))
+    #
+    # if is_all_right:
+    #     model_res['output'] = post_dealt_res
+    #     return model_res
+    # else:
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
+@app.route('/translate/cs2en/', methods=['GET'])
+def tran_cs2en_interface():
+    inputs = request.args.get('in')
+    return trans_cs2en(inputs)
+
+
+def trans_cs2en(inputs):
+    server = config.CS2EN_SERVER
+    servable_name = config.CS2EN_SERVABLE_NAME
+    problem = config.CS2EN_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
+@app.route('/translate/en2de/', methods=['GET'])
+def tran_en2de_interface():
+    inputs = request.args.get('in')
+    return trans_en2de(inputs)
+
+
+def trans_en2de(inputs):
+    server = config.EN2DE_SERVER
+    servable_name = config.EN2DE_SERVABLE_NAME
+    problem = config.EN2DE_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
+@app.route('/translate/de2en/', methods=['GET'])
+def tran_de2en_interface():
+    inputs = request.args.get('in')
+    return trans_de2en(inputs)
+
+
+def trans_de2en(inputs):
+    server = config.DE2EN_SERVER
+    servable_name = config.DE2EN_SERVABLE_NAME
+    problem = config.DE2EN_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
+@app.route('/translate/en2es/', methods=['GET'])
+def tran_en2es_interface():
+    inputs = request.args.get('in')
+    return trans_en2es(inputs)
+
+
+def trans_en2es(inputs):
+    server = config.EN2ES_SERVER
+    servable_name = config.EN2ES_SERVABLE_NAME
+    problem = config.EN2ES_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
+@app.route('/translate/es2en/', methods=['GET'])
+def tran_es2en_interface():
+    inputs = request.args.get('in')
+    return trans_es2en(inputs)
+
+
+def trans_es2en(inputs):
+    server = config.ES2EN_SERVER
+    servable_name = config.ES2EN_SERVABLE_NAME
+    problem = config.ES2EN_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+
+    return my_query.entry(inputs, data_dir, problem, servable_name, server)
+
+
 @app.route('/translate/zh2en/', methods=['GET'])
 def tran_zh2en_interface():
     inputs = request.args.get('in')
