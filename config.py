@@ -26,6 +26,24 @@ class Config():
     EN2ZH_SERVABLE_NAME = 'transformer_enzh'
     EN2ZH_PROBLEM = 'translate_enzh_wmt32k'
 
+    EN2CS_SERVABLE_NAME = 'transformer_encs'
+    EN2CS_PROBLEM = 'translate_encs_wmt32k'
+
+    CS2EN_SERVABLE_NAME = 'transformer_csen'
+    CS2EN_PROBLEM = 'translate_csen_wmt32k'
+
+    EN2DE_SERVABLE_NAME = 'transformer_ende'
+    EN2DE_PROBLEM = 'translate_ende_wmt32k'
+
+    DE2EN_SERVABLE_NAME = 'transformer_deen'
+    DE2EN_PROBLEM = 'translate_deen_wmt32k'
+
+    EN2ES_SERVABLE_NAME = 'transformer_enes'
+    EN2ES_PROBLEM = 'translate_enes_wmt32k'
+
+    ES2EN_SERVABLE_NAME = 'transformer_esen'
+    ES2EN_PROBLEM = 'translate_esen_wmt32k'
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -53,6 +71,16 @@ class ProductionConfig(Config):
     T2T_DATA_DIR = os.getenv('T2T_DATA_DIR', '/app/t2t_data')
     ZH2EN_SERVER = os.getenv('ZH2EN_SERVER', '127.0.0.1:9082')
     EN2ZH_SERVER = os.getenv('EN2ZH_SERVER', '127.0.0.1:9083')
+
+    EN2CS_SERVER = os.getenv('EN2CS_SERVER', '')
+    CS2EN_SERVER = os.getenv('CS2EN_SERVER', '')
+
+    EN2DE_SERVER = os.getenv('EN2DE_SERVER', '')
+    DE2EN_SERVER = os.getenv('DE2EN_SERVER', '')
+
+    EN2ES_SERVER = os.getenv('EN2ES_SERVER', '')
+    ES2EN_SERVER = os.getenv('ES2EN_SERVER', '')
+
     MYSQL_HOST = os.getenv('MYSQL_HOST', 'rm-uf67jlfy9n338fqa5.mysql.rds.aliyuncs.com')
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'jUOcnRR6ZoZ5')
     MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', 'rt')
