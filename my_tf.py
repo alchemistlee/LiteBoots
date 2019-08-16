@@ -58,6 +58,7 @@ def trans_en2cs(inputs):
     #     model_res['output'] = post_dealt_res
     #     return model_res
     # else:
+    print('server = {} , name = {} , problem = {} , data-dir = {}'.format(server,servable_name,problem,data_dir))
     return my_query.entry(inputs, data_dir, problem, servable_name, server)
 
 
