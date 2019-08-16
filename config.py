@@ -72,14 +72,14 @@ class ProductionConfig(Config):
     ZH2EN_SERVER = os.getenv('ZH2EN_SERVER', '127.0.0.1:9082')
     EN2ZH_SERVER = os.getenv('EN2ZH_SERVER', '127.0.0.1:9083')
 
-    EN2CS_SERVER = os.getenv('EN2CS_SERVER', '')
-    CS2EN_SERVER = os.getenv('CS2EN_SERVER', '')
+    EN2CS_SERVER = os.getenv('EN2CS_SERVER', '127.0.0.1:19000')
+    CS2EN_SERVER = os.getenv('CS2EN_SERVER', '127.0.0.1:9000')
 
-    EN2DE_SERVER = os.getenv('EN2DE_SERVER', '')
-    DE2EN_SERVER = os.getenv('DE2EN_SERVER', '')
+    EN2DE_SERVER = os.getenv('EN2DE_SERVER', '127.0.0.1:9001')
+    DE2EN_SERVER = os.getenv('DE2EN_SERVER', '127.0.0.1:19001')
 
-    EN2ES_SERVER = os.getenv('EN2ES_SERVER', '')
-    ES2EN_SERVER = os.getenv('ES2EN_SERVER', '')
+    EN2ES_SERVER = os.getenv('EN2ES_SERVER', '127.0.0.1:9002')
+    ES2EN_SERVER = os.getenv('ES2EN_SERVER', '127.0.0.1:19002')
 
     MYSQL_HOST = os.getenv('MYSQL_HOST', 'rm-uf67jlfy9n338fqa5.mysql.rds.aliyuncs.com')
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'jUOcnRR6ZoZ5')
