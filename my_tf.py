@@ -259,8 +259,7 @@ def index():
                     "input": input,
                     "score": 1.0
                 }
-        else:
-            # in_language = en
+        elif in_language == 'en':
 
             if out_language == 'zh':
                 res = trans_en2zh(input)
@@ -268,6 +267,39 @@ def index():
                 res = trans_en2zh(input)
                 en2zh_out = res['output']
                 res = trans_zh2tr(en2zh_out)
+            elif out_language == 'de':
+                res =  trans_en2de(input)
+            elif out_language == 'es':
+                res = trans_en2es(input)
+            elif out_language == 'cs':
+                res = trans_en2cs(input)
+            else:
+                res = {
+                    "output": input,
+                    "input": input,
+                    "score": 1.0
+                }
+        elif in_language == 'de' :
+            if out_language == 'en':
+                res = trans_de2en(input)
+            else:
+                res = {
+                    "output": input,
+                    "input": input,
+                    "score": 1.0
+                }
+        elif in_language == 'es':
+            if out_language =='en':
+                res = trans_es2en(input)
+            else:
+                res = {
+                    "output": input,
+                    "input": input,
+                    "score": 1.0
+                }
+        elif in_language == 'cs':
+            if out_language == 'en':
+                res = trans_cs2en(input)
             else:
                 res = {
                     "output": input,
