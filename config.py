@@ -68,7 +68,7 @@ class ProductionConfig(Config):
     LOG_STDOUT = os.getenv('LOG_STDOUT', True)
     if LOG_STDOUT == 'False':
         LOG_STDOUT = False
-    T2T_DATA_DIR = os.getenv('T2T_DATA_DIR', '/app/t2t_data')
+    T2T_DATA_DIR = os.getenv('T2T_DATA_DIR', '/data/translate/models/v13/t2t_data')
     ZH2EN_SERVER = os.getenv('ZH2EN_SERVER', '127.0.0.1:9082')
     EN2ZH_SERVER = os.getenv('EN2ZH_SERVER', '127.0.0.1:9083')
 
