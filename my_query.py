@@ -49,83 +49,84 @@ flags.DEFINE_string(
 
 
 def validate_flags():
-  """Validates flags are set to acceptable values."""
-  if FLAGS.cloud_mlengine_model_name:
-    assert not FLAGS.server
-    assert not FLAGS.servable_name
-  else:
-    assert FLAGS.server
-    assert FLAGS.servable_name
+    """Validates flags are set to acceptable values."""
+    if FLAGS.cloud_mlengine_model_name:
+        assert not FLAGS.server
+        assert not FLAGS.servable_name
+    else:
+        assert FLAGS.server
+        assert FLAGS.servable_name
 
 
 def make_request_fn():
-  """Returns a request function."""
-  if FLAGS.cloud_mlengine_model_name:
-    request_fn = serving_utils.make_cloud_mlengine_request_fn(
-        credentials=GoogleCredentials.get_application_default(),
-        model_name=FLAGS.cloud_mlengine_model_name,
-        version=FLAGS.cloud_mlengine_model_version)
-  else:
+    """Returns a request function."""
+    if FLAGS.cloud_mlengine_model_name:
+        request_fn = serving_utils.make_cloud_mlengine_request_fn(
+            credentials=GoogleCredentials.get_application_default(),
+            model_name=FLAGS.cloud_mlengine_model_name,
+            version=FLAGS.cloud_mlengine_model_version)
+    else:
+        request_fn = serving_utils.make_grpc_request_fn(
+            servable_name=FLAGS.servable_name,
+            server=FLAGS.server,
+            timeout_secs=FLAGS.timeout_secs)
+    return request_fn
 
+
+def my_make_request_fn(servable_name, server):
+    """Returns a request function."""
     request_fn = serving_utils.make_grpc_request_fn(
-        servable_name=FLAGS.servable_name,
-        server=FLAGS.server,
+        servable_name=servable_name,
+        server=server,
         timeout_secs=FLAGS.timeout_secs)
-  return request_fn
-
-def my_make_request_fn(servable_name,server):
-  """Returns a request function."""
-  request_fn = serving_utils.make_grpc_request_fn(
-      servable_name=servable_name,
-      server=server,
-      timeout_secs=FLAGS.timeout_secs)
-  return request_fn
+    return request_fn
 
 
 def main(_):
-  tf.logging.set_verbosity(tf.logging.INFO)
-  validate_flags()
-  usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
-  problem = registry.problem(FLAGS.problem)
-  hparams = tf.contrib.training.HParams(
-      data_dir=os.path.expanduser(FLAGS.data_dir))
-  problem.get_hparams(hparams)
-  request_fn = make_request_fn()
-  while True:
-    inputs = FLAGS.inputs_once if FLAGS.inputs_once else input(">> ")
-    outputs = serving_utils.predict([inputs], problem, request_fn)
-    outputs, = outputs
-    output, score = outputs
-    print_str = """
+    tf.logging.set_verbosity(tf.logging.INFO)
+    validate_flags()
+    usr_dir.import_usr_dir(FLAGS.t2t_usr_dir)
+    problem = registry.problem(FLAGS.problem)
+    hparams = tf.contrib.training.HParams(
+        data_dir=os.path.expanduser(FLAGS.data_dir))
+    problem.get_hparams(hparams)
+    request_fn = make_request_fn()
+    while True:
+        inputs = FLAGS.inputs_once if FLAGS.inputs_once else input(">> ")
+        outputs = serving_utils.predict([inputs], problem, request_fn)
+        outputs, = outputs
+        output, score = outputs
+        print_str = """
 Input:
 {inputs}
 Output (Score {score:.3f}):
 {output}
     """
-    print(print_str.format(inputs=inputs, output=output, score=score))
-    if FLAGS.inputs_once:
-      break
+        print(print_str.format(inputs=inputs, output=output, score=score))
+        if FLAGS.inputs_once:
+            break
 
-def entry(inputs,input_data_dir,input_problem,input_serable_name,input_server):
-  problem = registry.problem(input_problem)
-  hparams = tf.contrib.training.HParams(data_dir=os.path.expanduser(input_data_dir))
-  problem.get_hparams(hparams)
-  request_fn = my_make_request_fn(input_serable_name,input_server)
-  outputs = serving_utils.predict([inputs], problem, request_fn)
-  only_one = outputs[0]
-  res_content = only_one[0]
-  res_score = str(only_one[1])
 
-  info = "input = %s , output = %s  ( score : %s )" % (inputs,res_content,res_score)
-  print(info)
-  res = {
-      "output":res_content,
-      "input":inputs,
-      "score":res_score
-         }
-  return res
+def entry(inputs, input_data_dir, input_problem, input_serable_name, input_server):
+    problem = registry.problem(input_problem)
+    hparams = tf.contrib.training.HParams(data_dir=os.path.expanduser(input_data_dir))
+    problem.get_hparams(hparams)
+    request_fn = my_make_request_fn(input_serable_name, input_server)
+    outputs = serving_utils.predict([inputs], problem, request_fn)
+    only_one = outputs[0]
+    res_content = only_one[0]
+    res_score = str(only_one[1])
+
+    info = "input = %s , output = %s  ( score : %s )" % (inputs, res_content, res_score)
+    print(info)
+    res = {
+        "output": res_content,
+        "input": inputs,
+        "score": res_score
+    }
+    return res
 
 
 if __name__ == "__main__":
-  flags.mark_flags_as_required(["problem", "data_dir"])
-  tf.app.run()
+    flags.mark_flags_as_required(["problem", "data_dir"])
+    tf.app.run()
