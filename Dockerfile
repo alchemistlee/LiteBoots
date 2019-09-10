@@ -1,6 +1,6 @@
 FROM wangweijie/oss-tools:version-1.1 as downloader
 # 模型版本
-ENV VERSION v12
+ENV VERSION v13
 # oss 下载参数
 ENV ACCESS_KEY_ID LTAITFQMrCFZSSF3
 ENV ACCESS_KEY_SECRET Y6VgcVuhgmG7kuutVpXdr1D82jc1sz
@@ -36,6 +36,7 @@ COPY files/data_generators/ /usr/local/lib/python3.6/site-packages/tensor2tensor
 COPY . .
 
 EXPOSE 5000
-ENV ENV prod
+ENV ENV=prod\
+    T2T_DATA_DIR=/app/t2t_data
 # 设置启动命令
 CMD python my_tf.py
