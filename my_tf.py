@@ -436,6 +436,32 @@ def tran_vi2en_interface():
     res = my_query.entry(inputs, data_dir, problem, servable_name, server)
     return jsonify(res)
 
+
+@app.route('/translate/en2ar/', methods=['GET'])
+def tran_en2ar_interface():
+    inputs = request.args.get('in')
+    server = config.EN2AR_SERVER
+    servable_name = config.EN2AR_SERVABLE_NAME
+    problem = config.EN2AR_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+    print('server = {} , name = {} , problem = {} , data-dir = {}'.format(server, servable_name, problem, data_dir))
+    res = my_query.entry(inputs, data_dir, problem, servable_name, server)
+    return jsonify(res)
+
+
+@app.route('/translate/ar2en/', methods=['GET'])
+def tran_ar2en_interface():
+    inputs = request.args.get('in')
+    server = config.AR2EN_SERVER
+    servable_name = config.AR2EN_SERVABLE_NAME
+    problem = config.AR2EN_PROBLEM
+    data_dir = config.T2T_DATA_DIR
+    print('server = {} , name = {} , problem = {} , data-dir = {}'.format(server, servable_name, problem, data_dir))
+    res = my_query.entry(inputs, data_dir, problem, servable_name, server)
+    return jsonify(res)
+
+
+
 @app.route('/translate/zh2en/', methods=['GET'])
 def tran_zh2en_interface():
     inputs = request.args.get('in')

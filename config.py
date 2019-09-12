@@ -147,6 +147,12 @@ class Config():
     VI2EN_SERVABLE_NAME = 'transformer_vien'
     VI2EN_PROBLEM = 'translate_vien_iwslt32k'
 
+    EN2AR_SERVABLE_NAME = 'transformer_enar'
+    EN2AR_PROBLEM = 'translate_enar_wmt32k'
+
+    AR2EN_SERVABLE_NAME = 'transformer_aren'
+    AR2EN_PROBLEM = 'translate_aren_wmt32k'
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -175,40 +181,42 @@ class ProductionConfig(Config):
     ZH2EN_SERVER = os.getenv('ZH2EN_SERVER', '127.0.0.1:9082')
     EN2ZH_SERVER = os.getenv('EN2ZH_SERVER', '127.0.0.1:9083')
 
-    ES2EN_SERVER = os.getenv('ES2EN_SERVER', '10.0.3.125:9005')
+    EN2CS_SERVER = os.getenv('EN2CS_SERVER', '10.0.3.125:9000')
     CS2EN_SERVER = os.getenv('CS2EN_SERVER', '10.0.3.125:9001')
     EN2DE_SERVER = os.getenv('EN2DE_SERVER', '10.0.3.125:9002')
     DE2EN_SERVER = os.getenv('DE2EN_SERVER', '10.0.3.125:9003')
     EN2ES_SERVER = os.getenv('EN2ES_SERVER', '10.0.3.125:9004')
-    EN2CS_SERVER = os.getenv('EN2CS_SERVER', '10.0.3.125:9000')
-    EN2VI_SERVER = os.getenv('EN2VI_SERVER', '10.0.3.125:9032')
-    TN2EN_SERVER = os.getenv('TN2EN_SERVER', '10.0.3.125:9029')
-    EN2PT_SERVER = os.getenv('EN2PT_SERVER', '10.0.3.125:9022')
-    MK2EN_SERVER = os.getenv('MK2EN_SERVER', '10.0.3.125:9021')
-    KO2EN_SERVER = os.getenv('KO2EN_SERVER', '10.0.3.125:9017')
-    HI2EN_SERVER = os.getenv('HI2EN_SERVER', '10.0.3.125:9011')
-    FR2EN_SERVER = os.getenv('FR2EN_SERVER', '10.0.3.125:9009')
-    EN2TN_SERVER = os.getenv('EN2TN_SERVER', '10.0.3.125:9028')
-    EN2RU_SERVER = os.getenv('EN2RU_SERVER', '10.0.3.125:9024')
-    EN2ID_SERVER = os.getenv('EN2ID_SERVER', '10.0.3.125:9012')
-    EN2KO_SERVER = os.getenv('EN2KO_SERVER', '10.0.3.125:9016')
-    TH2EN_SERVER = os.getenv('TH2EN_SERVER', '10.0.3.125:9027')
-    RU2EN_SERVER = os.getenv('RU2EN_SERVER', '10.0.3.125:9025')
-    PT2EN_SERVER = os.getenv('PT2EN_SERVER', '10.0.3.125:9023')
+    ES2EN_SERVER = os.getenv('ES2EN_SERVER', '10.0.3.125:9005')
+    EN2ET_SERVER = os.getenv('EN2ET_SERVER', '10.0.3.125:9006')
+    ET2EN_SERVER = os.getenv('ET2EN_SERVER', '10.0.3.125:9007')
     EN2FR_SERVER = os.getenv('EN2FR_SERVER', '10.0.3.125:9008')
+    FR2EN_SERVER = os.getenv('FR2EN_SERVER', '10.0.3.125:9009')
+    EN2HI_SERVER = os.getenv('EN2HI_SERVER', '10.0.3.125:9010')
+    HI2EN_SERVER = os.getenv('HI2EN_SERVER', '10.0.3.125:9011')
+    EN2ID_SERVER = os.getenv('EN2ID_SERVER', '10.0.3.125:9012')
+    ID2EN_SERVER = os.getenv('ID2EN_SERVER', '10.0.3.125:9013')
+    EN2JP_SERVER = os.getenv('EN2JP_SERVER', '10.0.3.125:9014')
+    JP2EN_SERVER = os.getenv('JP2EN_SERVER', '10.0.3.125:9015')
+    EN2KO_SERVER = os.getenv('EN2KO_SERVER', '10.0.3.125:9016')
+    KO2EN_SERVER = os.getenv('KO2EN_SERVER', '10.0.3.125:9017')
+    EN2RO_SERVER = os.getenv('EN2RO_SERVER', '10.0.3.125:9018')
     RO2EN_SERVER = os.getenv('RO2EN_SERVER', '10.0.3.125:9019')
     EN2MK_SERVER = os.getenv('EN2MK_SERVER', '10.0.3.125:9020')
-    TR2EN_SERVER = os.getenv('TR2EN_SERVER', '10.0.3.125:9031')
-    EN2RO_SERVER = os.getenv('EN2RO_SERVER', '10.0.3.125:9018')
-    EN2JP_SERVER = os.getenv('EN2JP_SERVER', '10.0.3.125:9014')
-    ID2EN_SERVER = os.getenv('ID2EN_SERVER', '10.0.3.125:9013')
-    JP2EN_SERVER = os.getenv('JP2EN_SERVER', '10.0.3.125:9015')
-    EN2ET_SERVER = os.getenv('EN2ET_SERVER', '10.0.3.125:9006')
-    EN2TR_SERVER = os.getenv('EN2TR_SERVER', '10.0.3.125:9030')
-    VI2EN_SERVER = os.getenv('VI2EN_SERVER', '10.0.3.125:9033')
-    ET2EN_SERVER = os.getenv('ET2EN_SERVER', '10.0.3.125:9007')
+    MK2EN_SERVER = os.getenv('MK2EN_SERVER', '10.0.3.125:9021')
+    EN2PT_SERVER = os.getenv('EN2PT_SERVER', '10.0.3.125:9022')
+    PT2EN_SERVER = os.getenv('PT2EN_SERVER', '10.0.3.125:9023')
+    EN2RU_SERVER = os.getenv('EN2RU_SERVER', '10.0.3.125:9024')
+    RU2EN_SERVER = os.getenv('RU2EN_SERVER', '10.0.3.125:9025')
     EN2TH_SERVER = os.getenv('EN2TH_SERVER', '10.0.3.125:9026')
-    EN2HI_SERVER = os.getenv('EN2HI_SERVER', '10.0.3.125:9010')
+    TH2EN_SERVER = os.getenv('TH2EN_SERVER', '10.0.3.125:9027')
+    EN2TN_SERVER = os.getenv('EN2TN_SERVER', '10.0.3.125:9028')
+    TN2EN_SERVER = os.getenv('TN2EN_SERVER', '10.0.3.125:9029')
+    EN2TR_SERVER = os.getenv('EN2TR_SERVER', '10.0.3.125:9030')
+    TR2EN_SERVER = os.getenv('TR2EN_SERVER', '10.0.3.125:9031')
+    EN2VI_SERVER = os.getenv('EN2VI_SERVER', '10.0.3.125:9032')
+    VI2EN_SERVER = os.getenv('VI2EN_SERVER', '10.0.3.125:9033')
+    EN2AR_SERVER = os.getenv('EN2AR_SERVER', '10.0.3.125:9034')
+    AR2EN_SERVER = os.getenv('AR2EN_SERVER', '10.0.3.125:9035')
 
     MYSQL_HOST = os.getenv('MYSQL_HOST', 'rm-uf67jlfy9n338fqa5.mysql.rds.aliyuncs.com')
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'jUOcnRR6ZoZ5')

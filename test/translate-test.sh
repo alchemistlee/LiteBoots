@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SERVER=127.0.0.1
+SERVER=10.0.3.125
 PORT=5000
 WORD="hello"
 
