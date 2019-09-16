@@ -153,6 +153,12 @@ class Config():
     AR2EN_SERVABLE_NAME = 'transformer_aren'
     AR2EN_PROBLEM = 'translate_aren_wmt32k'
 
+    EN2IT_SERVABLE_NAME = 'transformer_enit'
+    EN2IT_PROBLEM = 'translate_enit_wmt32k'
+
+    IT2EN_SERVABLE_NAME = 'transformer_iten'
+    IT2EN_PROBLEM = 'translate_iten_wmt32k'
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -217,6 +223,8 @@ class ProductionConfig(Config):
     VI2EN_SERVER = os.getenv('VI2EN_SERVER', '10.0.3.125:9033')
     EN2AR_SERVER = os.getenv('EN2AR_SERVER', '10.0.3.125:9034')
     AR2EN_SERVER = os.getenv('AR2EN_SERVER', '10.0.3.125:9035')
+    EN2IT_SERVER = os.getenv('EN2IT_SERVER', '10.0.3.125:9036')
+    IT2EN_SERVER = os.getenv('IT2EN_SERVER', '10.0.3.125:9037')
 
     MYSQL_HOST = os.getenv('MYSQL_HOST', 'rm-uf67jlfy9n338fqa5.mysql.rds.aliyuncs.com')
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'jUOcnRR6ZoZ5')
